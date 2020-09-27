@@ -15,7 +15,8 @@
 	var/facial_hair_style = "Shaved"
 
 	//Eye colour
-	var/eye_color = "000"
+	var/left_eye_color = "000"
+	var/right_eye_color = "000"
 
 	var/wing_color = "fff"		//wings too
 

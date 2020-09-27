@@ -16,7 +16,9 @@
 	facial_hair_style = random_facial_hair_style(gender)
 	hair_color = random_short_color()
 	facial_hair_color = hair_color
-	eye_color = random_eye_color()
+	var/random_eye_color = random_eye_color()
+	left_eye_color = random_eye_color
+	right_eye_color = random_eye_color
 	wing_color = "fff"
 	if(!pref_species)
 		var/rando_race = pick(GLOB.roundstart_races)

@@ -23,7 +23,9 @@
 	H.facial_hair_style = random_facial_hair_style(H.gender)
 	H.hair_color = random_short_color()
 	H.facial_hair_color = H.hair_color
-	H.eye_color = random_eye_color()
+	var/random_eye_color = random_eye_color()
+	H.left_eye_color = random_eye_color
+	H.right_eye_color = random_eye_color
 	H.dna.blood_type = random_blood_type()
 
 	// Mutant randomizing, doesn't affect the mob appearance unless it's the specific mutant.

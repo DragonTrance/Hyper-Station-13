@@ -71,7 +71,7 @@
 	var/icon/eyes
 	if(EYECOLOR in H.dna.species.species_traits)
 		eyes = icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = "eyes")
-		eyes.Blend("#[H.eye_color]", ICON_MULTIPLY)
+		eyes.Blend("#[H.left_eye_color]", ICON_MULTIPLY)
 
 	var/datum/sprite_accessory/S
 	S = GLOB.hair_styles_list[H.hair_style]

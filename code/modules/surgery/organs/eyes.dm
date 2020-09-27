@@ -23,8 +23,10 @@
 	var/see_in_dark = 2
 	var/eye_damage = 0
 	var/tint = 0
-	var/eye_color = "" //set to a hex code to override a mob's eye color
-	var/old_eye_color = "fff"
+	var/left_eye_color = "" //set to a hex code to override a mob's eye color
+	var/right_eye_color = ""
+	var/old_left_eye_color = "fff"
+	var/old_right_eye_color = "fff"
 	var/flash_protect = 0
 	var/see_invisible = SEE_INVISIBLE_LIVING
 	var/lighting_alpha
@@ -35,44 +37,58 @@
 	if(damage == initial(damage))
 		clear_eye_trauma()
 	if(ishuman(owner))
-		var/mob/living/carbon/human/HMN = owner
-		old_eye_color = HMN.eye_color
-		if(eye_color)
-			HMN.eye_color = eye_color
-			HMN.regenerate_icons()
+		var/mob/living/carbon/human/H = owner
+		old_left_eye_color = H.left_eye_color
+		old_right_eye_color = H.right_eye_color
+
+		if(left_eye_color)
+			H.left_eye_color = left_eye_color
 		else
-			eye_color = HMN.eye_color
-		if(HAS_TRAIT(HMN, TRAIT_NIGHT_VISION) && !lighting_alpha)
-			lighting_alpha = LIGHTING_PLANE_ALPHA_NV_TRAIT
-			see_in_dark = 8
+			left_eye_color = H.left_eye_color
+
+		if(right_eye_color)
+			H.right_eye_color = right_eye_color
+		else
+			right_eye_color = H.right_eye_color
+
+		if(!special)
+			H.dna?.species?.handle_body(H) //regenerate eyeballs overlays.
 	M.update_tint()
 	owner.update_sight()
 
+/obj/item/organ/eyes/Remove(special = FALSE)
+	. = ..()
+	var/mob/living/carbon/C = .
+	if(QDELETED(C))
+		return
+	switch(eye_damaged)
+		if(BLURRY_VISION_ONE, BLURRY_VISION_TWO)
+			C.clear_fullscreen("eye_damage")
+		if(BLIND_VISION_THREE)
+			C.cure_blind(EYE_DAMAGE)
+	if(ishuman(C) && left_eye_color && right_eye_color)
+		var/mob/living/carbon/human/H = C
+		H.left_eye_color = old_left_eye_color
+		H.right_eye_color = old_right_eye_color
+		if(!special)
+			H.dna.species.handle_body(H)
+	if(!special)
+		C.update_tint()
+		C.update_sight()
 
-/obj/item/organ/eyes/Remove(mob/living/carbon/M, special = 0)
-	clear_eye_trauma()
-	..()
-	if(ishuman(M) && eye_color)
-		var/mob/living/carbon/human/HMN = M
-		HMN.eye_color = old_eye_color
-		HMN.regenerate_icons()
-	M.update_tint()
-	M.update_sight()
 
-/obj/item/organ/eyes/on_life()
-	..()
-	var/mob/living/carbon/C = owner
-	//since we can repair fully damaged eyes, check if healing has occurred
-	if((organ_flags & ORGAN_FAILING) && (damage < maxHealth))
-		organ_flags &= ~ORGAN_FAILING
-		C.cure_blind(EYE_DAMAGE)
-	//various degrees of "oh fuck my eyes", from "point a laser at your eye" to "staring at the Sun" intensities
-	if(damage > 20)
-		damaged = TRUE
-		if(organ_flags & ORGAN_FAILING)
-			C.become_blind(EYE_DAMAGE)
-		else if(damage > 30)
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 2)
+/obj/item/organ/eyes/applyOrganDamage(d, maximum = maxHealth)
+	. = ..()
+	if(!.)
+		return
+	var/old_damaged = eye_damaged
+	switch(damage)
+		if(INFINITY to maxHealth)
+			eye_damaged = BLIND_VISION_THREE
+		if(maxHealth to high_threshold)
+			eye_damaged = BLURRY_VISION_TWO
+		if(high_threshold to low_threshold)
+			eye_damaged = BLURRY_VISION_ONE
 		else
 			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 1)
 	//called once since we don't want to keep clearing the screen of eye damage for people who are below 20 damage
@@ -150,14 +166,16 @@
 /obj/item/organ/eyes/robotic/xray
 	name = "\improper X-ray eyes"
 	desc = "These cybernetic eyes will give you X-ray vision. Blinking is futile."
-	eye_color = "000"
+	left_eye_color = "000"
+	right_eye_color = "000"
 	see_in_dark = 8
 	sight_flags = SEE_MOBS | SEE_OBJS | SEE_TURFS
 
 /obj/item/organ/eyes/robotic/thermals
 	name = "thermal eyes"
 	desc = "These cybernetic eye implants will give you thermal vision. Vertical slit pupil included."
-	eye_color = "FC0"
+	left_eye_color = "FC0"
+	right_eye_color = "FC0"
 	sight_flags = SEE_MOBS
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	flash_protect = -1
@@ -166,7 +184,8 @@
 /obj/item/organ/eyes/robotic/flashlight
 	name = "flashlight eyes"
 	desc = "It's two flashlights rigged together with some wire. Why would you put these in someone's head?"
-	eye_color ="fee5a3"
+	left_eye_color ="fee5a3"
+	right_eye_color ="fee5a3"
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "flashlight_eyes"
 	flash_protect = 2
@@ -207,7 +226,8 @@
 /obj/item/organ/eyes/robotic/glow
 	name = "High Luminosity Eyes"
 	desc = "Special glowing eyes, used by snowflakes who want to be special."
-	eye_color = "000"
+	left_eye_color = "000"
+	right_eye_color = "000"
 	actions_types = list(/datum/action/item_action/organ_action/use, /datum/action/item_action/organ_action/toggle)
 	var/current_color_string = "#ffffff"
 	var/active = FALSE
@@ -260,8 +280,14 @@
 	assume_rgb(C)
 
 /obj/item/organ/eyes/robotic/glow/proc/assume_rgb(newcolor)
-	current_color_string = newcolor
-	eye_color = RGB2EYECOLORSTRING(current_color_string)
+	var/current_color = RGB2EYECOLORSTRING(newcolor)
+	left_eye_color = current_color
+	right_eye_color = current_color
+	var/list/hsv = ReadHSV(RGBtoHSV(newcolor))
+	hsv[2] = clamp(hsv[2], 0, MAX_SATURATION)
+	hsv[3] = clamp(hsv[3], 0, MAX_LIGHTNESS)
+	var/new_hsv = hsv(hsv[1], hsv[2], hsv[3])
+	current_color_string = HSVtoRGB(new_hsv)
 	sync_light_effects()
 	cycle_mob_overlay()
 	if(!QDELETED(owner) && ishuman(owner))		//Other carbon mobs don't have eye color.

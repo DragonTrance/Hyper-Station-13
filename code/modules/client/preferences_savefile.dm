@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	23
+#define SAVEFILE_VERSION_MAX	24
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -61,6 +61,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(current_version < 23)
 		if(be_special)
 			WRITE_FILE(S["special_roles"], be_special)
+	if(current_version < 24)
+		left_eye_color = S["eye_color"]
+		right_eye_color = S["eye_color"]
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -302,30 +305,33 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		WRITE_FILE(S["features["wing_color"]"]	, "#FFF")
 
 	//Character
-	S["real_name"]			>> real_name
-	S["nameless"]			>> nameless
-	S["custom_species"]		>> custom_species
-	S["name_is_always_random"] >> be_random_name
-	S["body_is_always_random"] >> be_random_body
-	S["gender"]				>> gender
-	S["age"]				>> age
-	S["body_size"]			>> body_size
-	S["hair_color"]			>> hair_color
-	S["facial_hair_color"]	>> facial_hair_color
-	S["eye_color"]			>> eye_color
-	S["skin_tone"]			>> skin_tone
-	S["hair_style_name"]	>> hair_style
-	S["facial_style_name"]	>> facial_hair_style
-	S["underwear"]			>> underwear
-	S["undie_color"]		>> undie_color
-	S["undershirt"]			>> undershirt
-	S["shirt_color"]		>> shirt_color
-	S["socks"]				>> socks
-	S["socks_color"]		>> socks_color
-	S["wing_color"]			>> wing_color
-	S["backbag"]			>> backbag
-	S["jumpsuit_style"]		>> jumpsuit_style
-	S["uplink_loc"]			>> uplink_spawn_loc
+	S["real_name"]				>> real_name
+	S["nameless"]				>> nameless
+	S["custom_species"]			>> custom_species
+	S["name_is_always_random"]	>> be_random_name
+	S["body_is_always_random"]	>> be_random_body
+	S["gender"]					>> gender
+	S["body_model"]				>> features["body_model"]
+	S["body_size"]				>> features["body_size"]
+	S["age"]					>> age
+	S["hair_color"]				>> hair_color
+	S["facial_hair_color"]		>> facial_hair_color
+	S["left_eye_color"]			>> left_eye_color
+	S["right_eye_color"]		>> left_eye_color
+	S["use_custom_skin_tone"]	>> use_custom_skin_tone
+	S["skin_tone"]				>> skin_tone
+	S["hair_style_name"]		>> hair_style
+	S["facial_style_name"]		>> facial_hair_style
+	S["underwear"]				>> underwear
+	S["undie_color"]			>> undie_color
+	S["undershirt"]				>> undershirt
+	S["shirt_color"]			>> shirt_color
+	S["socks"]					>> socks
+	S["socks_color"]			>> socks_color
+	S["wing_color"]				>> wing_color
+	S["backbag"]				>> backbag
+	S["jumpsuit_style"]			>> jumpsuit_style
+	S["uplink_loc"]				>> uplink_spawn_loc
 	S["custom_speech_verb"]		>> custom_speech_verb
 	S["custom_tongue"]			>> custom_tongue
 	S["feature_mcolor"]					>> features["mcolor"]
@@ -557,35 +563,36 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["version"]			, SAVEFILE_VERSION_MAX)	//load_character will sanitize any bad data, so assume up-to-date.)
 
 	//Character
-	WRITE_FILE(S["real_name"]			, real_name)
-	WRITE_FILE(S["nameless"]			, nameless)
-	WRITE_FILE(S["custom_species"]		, custom_species)
-	WRITE_FILE(S["name_is_always_random"] , be_random_name)
-	WRITE_FILE(S["body_is_always_random"] , be_random_body)
-	WRITE_FILE(S["gender"]				, gender)
-	WRITE_FILE(S["age"]				, age)
-	WRITE_FILE(S["hair_color"]			, hair_color)
-	WRITE_FILE(S["facial_hair_color"]	, facial_hair_color)
-	WRITE_FILE(S["eye_color"]			, eye_color)
-	WRITE_FILE(S["skin_tone"]			, skin_tone)
-	WRITE_FILE(S["hair_style_name"]	, hair_style)
-	WRITE_FILE(S["facial_style_name"]	, facial_hair_style)
-	WRITE_FILE(S["underwear"]			, underwear)
-	WRITE_FILE(S["body_size"]			, body_size)
-	WRITE_FILE(S["undie_color"]			, undie_color)
-	WRITE_FILE(S["undershirt"]			, undershirt)
-	WRITE_FILE(S["shirt_color"]			, shirt_color)
-	WRITE_FILE(S["socks"]				, socks)
-	WRITE_FILE(S["socks_color"]			, socks_color)
+	WRITE_FILE(S["real_name"]				, real_name)
+	WRITE_FILE(S["nameless"]				, nameless)
+	WRITE_FILE(S["custom_species"]			, custom_species)
+	WRITE_FILE(S["name_is_always_random"]	, be_random_name)
+	WRITE_FILE(S["body_is_always_random"]	, be_random_body)
+	WRITE_FILE(S["gender"]					, gender)
+	WRITE_FILE(S["age"]						, age)
+	WRITE_FILE(S["hair_color"]				, hair_color)
+	WRITE_FILE(S["facial_hair_color"]		, facial_hair_color)
+	WRITE_FILE(S["left_eye_color"]			, left_eye_color)
+	WRITE_FILE(S["right_eye_color"]			, right_eye_color)
+	WRITE_FILE(S["skin_tone"]				, skin_tone)
+	WRITE_FILE(S["hair_style_name"]			, hair_style)
+	WRITE_FILE(S["facial_style_name"]		, facial_hair_style)
+	WRITE_FILE(S["underwear"]				, underwear)
+	WRITE_FILE(S["body_size"]				, body_size)
+	WRITE_FILE(S["undie_color"]				, undie_color)
+	WRITE_FILE(S["undershirt"]				, undershirt)
+	WRITE_FILE(S["shirt_color"]				, shirt_color)
+	WRITE_FILE(S["socks"]					, socks)
+	WRITE_FILE(S["socks_color"]				, socks_color)
 	WRITE_FILE(S["wing_color"]				, wing_color)
-	WRITE_FILE(S["backbag"]				, backbag)
-	WRITE_FILE(S["jumpsuit_style"]		, jumpsuit_style)
-	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
-	WRITE_FILE(S["species"]			, pref_species.id)
+	WRITE_FILE(S["backbag"]					, backbag)
+	WRITE_FILE(S["jumpsuit_style"]			, jumpsuit_style)
+	WRITE_FILE(S["uplink_loc"]				, uplink_spawn_loc)
+	WRITE_FILE(S["species"]					, pref_species.id)
 	WRITE_FILE(S["custom_speech_verb"]		, custom_speech_verb)
 	WRITE_FILE(S["custom_tongue"]			, custom_tongue)
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
-	WRITE_FILE(S["feature_lizard_tail"]			, features["tail_lizard"])
+	WRITE_FILE(S["feature_lizard_tail"]				, features["tail_lizard"])
 	WRITE_FILE(S["feature_human_tail"]				, features["tail_human"])
 	WRITE_FILE(S["feature_lizard_snout"]			, features["snout"])
 	WRITE_FILE(S["feature_lizard_horns"]			, features["horns"])
@@ -593,10 +600,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["feature_lizard_frills"]			, features["frills"])
 	WRITE_FILE(S["feature_lizard_spines"]			, features["spines"])
 	WRITE_FILE(S["feature_lizard_body_markings"]	, features["body_markings"])
-	WRITE_FILE(S["feature_lizard_legs"]			, features["legs"])
-	WRITE_FILE(S["feature_moth_wings"]			, features["moth_wings"])
-	WRITE_FILE(S["feature_moth_fluff"]			, features["moth_fluff"])
-	WRITE_FILE(S["feature_moth_markings"]		, features["moth_markings"])
+	WRITE_FILE(S["feature_lizard_legs"]				, features["legs"])
+	WRITE_FILE(S["feature_moth_wings"]				, features["moth_wings"])
+	WRITE_FILE(S["feature_moth_fluff"]				, features["moth_fluff"])
+	WRITE_FILE(S["feature_moth_markings"]			, features["moth_markings"])
 	WRITE_FILE(S["feature_deco_wings"]				, features["deco_wings"])
 
 	//Custom names
