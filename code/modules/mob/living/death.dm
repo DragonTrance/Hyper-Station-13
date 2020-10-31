@@ -19,8 +19,12 @@
 /mob/living/proc/gib_animation()
 	return
 
-/mob/living/proc/spawn_gibs()
-	new /obj/effect/gibspawner/generic(drop_location(), null, get_static_viruses())
+/mob/living/proc/spawn_gibs(with_bodyparts, atom/loc_override)
+	var/location = loc_override ? loc_override.drop_location() : drop_location()
+	if(MOB_ROBOTIC in mob_biotypes)
+		new /obj/effect/gibspawner/robot(location, src, get_static_viruses())
+	else
+		new /obj/effect/gibspawner/generic(location, src, get_static_viruses())
 
 /mob/living/proc/spill_organs()
 	return
@@ -84,6 +88,7 @@
 
 	if (client)
 		client.move_delay = initial(client.move_delay)
+		client.lastrespawn = world.time + 1800 SECONDS //on death, 30 min respawn time.
 
 	for(var/s in ownedSoullinks)
 		var/datum/soullink/S = s

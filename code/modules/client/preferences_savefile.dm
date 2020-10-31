@@ -5,7 +5,7 @@
 //	You do not need to raise this if you are adding new values that have sane defaults.
 //	Only raise this value when changing the meaning/format/name/layout of an existing value
 //	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	20
+#define SAVEFILE_VERSION_MAX	21
 
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
@@ -42,6 +42,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 //if your savefile is 3 months out of date, then 'tough shit'.
 
 /datum/preferences/proc/update_preferences(current_version, savefile/S)
+	if(current_version < 21)
+		clientfps = 60
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -101,6 +103,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["uses_glasses_colour"]>> uses_glasses_colour
 	S["clientfps"]			>> clientfps
 	S["chat_on_map"]		>> chat_on_map
+	S["radiosounds"]		>> radiosounds
 	S["max_chat_length"]	>> max_chat_length
 	S["see_chat_non_mob"] 	>> see_chat_non_mob
 
@@ -137,6 +140,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	UI_style		= sanitize_inlist(UI_style, GLOB.available_ui_styles, GLOB.available_ui_styles[1])
 	hotkeys			= sanitize_integer(hotkeys, 0, 1, initial(hotkeys))
 	chat_on_map		= sanitize_integer(chat_on_map, 0, 1, initial(chat_on_map))
+	radiosounds		= sanitize_integer(radiosounds, 0, 1, initial(radiosounds))
 	max_chat_length = sanitize_integer(max_chat_length, 1, CHAT_MESSAGE_MAX_LENGTH, initial(max_chat_length))
 	see_chat_non_mob	= sanitize_integer(see_chat_non_mob, 0, 1, initial(see_chat_non_mob))
 	tgui_fancy		= sanitize_integer(tgui_fancy, 0, 1, initial(tgui_fancy))
@@ -192,6 +196,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["UI_style"], UI_style)
 	WRITE_FILE(S["hotkeys"], hotkeys)
 	WRITE_FILE(S["chat_on_map"], chat_on_map)
+	WRITE_FILE(S["radiosounds"], radiosounds)
 	WRITE_FILE(S["max_chat_length"], max_chat_length)
 	WRITE_FILE(S["see_chat_non_mob"], see_chat_non_mob)
 	WRITE_FILE(S["tgui_fancy"], tgui_fancy)
@@ -348,6 +353,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["negative_quirks"]	>> negative_quirks
 	S["neutral_quirks"]		>> neutral_quirks
 
+	//Records
+	S["security_records"]			>>			security_records
+	S["medical_records"]			>>			medical_records
+
 	//Citadel code
 	S["feature_genitals_use_skintone"]	>> features["genitals_use_skintone"]
 	S["feature_exhibitionist"]			>> features["exhibitionist"]
@@ -479,7 +488,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	job_engsec_high = sanitize_integer(job_engsec_high, 0, 65535, initial(job_engsec_high))
 	job_engsec_med = sanitize_integer(job_engsec_med, 0, 65535, initial(job_engsec_med))
 	job_engsec_low = sanitize_integer(job_engsec_low, 0, 65535, initial(job_engsec_low))
-
+	security_records				= copytext(security_records, 1, MAX_FLAVOR_LEN)
+	medical_records					= copytext(medical_records, 1, MAX_FLAVOR_LEN)
 	all_quirks = SANITIZE_LIST(all_quirks)
 	positive_quirks = SANITIZE_LIST(positive_quirks)
 	negative_quirks = SANITIZE_LIST(negative_quirks)
@@ -566,7 +576,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["job_engsec_high"]	, job_engsec_high)
 	WRITE_FILE(S["job_engsec_med"]		, job_engsec_med)
 	WRITE_FILE(S["job_engsec_low"]		, job_engsec_low)
-
+	//Record Flavor Text
+	WRITE_FILE(S["security_records"]		, security_records)
+	WRITE_FILE(S["medical_records"]			, medical_records)
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
 	WRITE_FILE(S["positive_quirks"]		, positive_quirks)

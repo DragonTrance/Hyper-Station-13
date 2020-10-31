@@ -2,7 +2,7 @@
 /datum/game_mode
 	var/list/datum/mind/lewd = list()
 
-#define ROLE_LEWD_TRAITOR			"lewd traitor"
+
 
 /datum/mind/
 	var/sexed = FALSE //General flag for completion check
@@ -190,7 +190,7 @@ GLOBAL_LIST_INIT(hyper_special_roles, list(
 			if(should_equip)
 				equip(silent)
 				for(var/obj/I in owner.current.GetAllContents())
-					GET_COMPONENT_FROM(hidden_uplink, /datum/component/uplink, I)
+					var/datum/component/uplink/hidden_uplink = I.GetComponent(/datum/component/uplink)
 					if(hidden_uplink)
 						lewd_uplink_list = get_custom_uplink_items(lewd_uplink_list_raw, /datum/game_mode/traitor/lewd, TRUE, FALSE)
 						hidden_uplink.uplink_items = lewd_uplink_list
@@ -199,9 +199,6 @@ GLOBAL_LIST_INIT(hyper_special_roles, list(
 
 			owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/tatoralert.ogg', 100, FALSE, pressure_affected = FALSE)
 	greet()
-
-/datum/objective/noncon
-	..()
 
 /datum/objective/noncon/New(var/datum/mind/_owner)
 	GLOB.objectives += src // CITADEL EDIT FOR CRYOPODS

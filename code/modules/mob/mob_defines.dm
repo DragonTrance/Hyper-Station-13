@@ -119,3 +119,11 @@
 	var/registered_z
 
 	var/mob/audiovisual_redirect //Mob to redirect messages, speech, and sounds to
+
+	var/time_initialized = null
+
+	var/mirrorcanloadappearance = FALSE
+
+
+	///Whether the mob is updating glide size when movespeed updates or not
+	var/updating_glide_size = TRUE

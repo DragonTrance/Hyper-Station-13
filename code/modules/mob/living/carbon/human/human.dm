@@ -3,12 +3,13 @@
 	real_name = "Unknown"
 	icon = 'icons/mob/human.dmi'
 	icon_state = "caucasian_m"
-	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE
+	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
 
 /mob/living/carbon/human/Initialize()
 	verbs += /mob/living/proc/mob_sleep
 	verbs += /mob/living/proc/lay_down
 	verbs += /mob/living/carbon/human/proc/underwear_toggle //fwee
+	time_initialized = world.time
 
 	//initialize limbs first
 	create_bodyparts()
@@ -32,13 +33,14 @@
 	if(CONFIG_GET(flag/disable_stambuffer))
 		togglesprint()
 
-	AddComponent(/datum/component/redirect, list(COMSIG_COMPONENT_CLEAN_ACT = CALLBACK(src, .proc/clean_blood)))
+	AddComponent(/datum/component/redirect, list(COMSIG_COMPONENT_CLEAN_ACT = CALLBACK(src, /mob/living/carbon/human/clean_blood)))
 
 
 /mob/living/carbon/human/ComponentInitialize()
 	. = ..()
 	if(!CONFIG_GET(flag/disable_human_mood))
 		AddComponent(/datum/component/mood)
+	AddElement(/datum/element/mob_holder/micro, "micro")
 
 /mob/living/carbon/human/Destroy()
 	QDEL_NULL(physiology)
@@ -697,16 +699,17 @@
 		if(..())
 			dropItemToGround(I)
 
-/mob/living/carbon/human/proc/clean_blood(datum/source, strength)
-	if(strength < CLEAN_STRENGTH_BLOOD)
-		return
-	if(gloves)
-		if(SEND_SIGNAL(gloves, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD))
-			update_inv_gloves()
+/mob/living/carbon/human/clean_blood()
+	var/mob/living/carbon/human/H = src
+	if(H.gloves)
+		if(H.gloves.clean_blood())
+			H.update_inv_gloves()
 	else
-		if(bloody_hands)
-			bloody_hands = 0
-			update_inv_gloves()
+		..() // Clear the Blood_DNA list
+		if(H.bloody_hands)
+			H.bloody_hands = 0
+			H.update_inv_gloves()
+	update_icons()	//apply the now updated overlays to the mob
 
 /mob/living/carbon/human/wash_cream()
 	if(creamed) //clean both to prevent a rare bug
@@ -1108,8 +1111,23 @@
 /mob/living/carbon/human/species/zombie/krokodil_addict
 	race = /datum/species/krokodil_addict
 
+/mob/living/carbon/human/species/mammal
+	race = /datum/species/mammal
+
+/mob/living/carbon/human/species/insect
+	race = /datum/species/insect
+
+/mob/living/carbon/human/species/xeno
+	race = /datum/species/xeno
+
+/mob/living/carbon/human/species/ipc
+	race = /datum/species/ipc
+
+/mob/living/carbon/human/species/roundstartslime
+	race = /datum/species/jelly/roundstartslime
 //define holder_type on nerds we wanna commit scoop to
-/mob/living/carbon/human
+/* /mob/living/carbon/human
 	var/holder_type = /obj/item/clothing/head/mob_holder/micro
 	can_be_held = "micro"
+*/
 

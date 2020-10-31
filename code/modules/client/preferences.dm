@@ -46,6 +46,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/buttons_locked = FALSE
 	var/hotkeys = FALSE
 	var/chat_on_map = TRUE
+	var/radiosounds = TRUE
 	var/max_chat_length = CHAT_MESSAGE_MAX_LENGTH
 	var/see_chat_non_mob = TRUE
 	var/tgui_fancy = TRUE
@@ -176,6 +177,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"flavor_text" = ""
 		)
 
+	/// Security record note section
+	var/security_records
+	/// Medical record note section
+	var/medical_records
+
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
 	var/prefered_security_department = SEC_DEPT_RANDOM
@@ -212,7 +218,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	var/list/ignoring = list()
 
-	var/clientfps = 0
+	var/clientfps = 60
 
 
 	var/parallax
@@ -343,6 +349,24 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Custom job preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=ai_core_icon;task=input'><b>Preferred AI Core Display:</b> [preferred_ai_core_display]</a><br>"
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security Department:</b> [prefered_security_department]</a><BR></td>"
+			dat += "<br>Records</b><br>"
+			dat += "<br><a href='?_src_=prefs;preference=security_records;task=input'><b>Security Records</b></a><br>"
+			if(length_char(security_records) <= 40)
+				if(!length(security_records))
+					dat += "\[...\]"
+				else
+					dat += "[security_records]"
+			else
+				dat += "[TextPreview(security_records)]...<BR>"
+
+			dat += "<br><a href='?_src_=prefs;preference=medical_records;task=input'><b>Medical Records</b></a><br>"
+			if(length_char(medical_records) <= 40)
+				if(!length(medical_records))
+					dat += "\[...\]<br>"
+				else
+					dat += "[medical_records]"
+			else
+				dat += "[TextPreview(medical_records)]...<BR>"
 			dat += "</tr></table>"
 
 		//Character Appearance
@@ -838,9 +862,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
 			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
-			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
-			dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
-			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Chat Bubbles message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
+			dat += "<b>Chat Bubbles for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[see_chat_non_mob ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<br>"
+			dat += "<b>Radio Sounds:</b> <a href='?_src_=prefs;preference=radiosounds'>[radiosounds ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<br>"
 			dat += "<b>Action Buttons:</b> <a href='?_src_=prefs;preference=action_buttons'>[(buttons_locked) ? "Locked In Place" : "Unlocked"]</a><br>"
 			dat += "<b>Keybindings:</b> <a href='?_src_=prefs;preference=hotkeys'>[(hotkeys) ? "Hotkeys" : "Default"]</a><br>"
@@ -915,8 +941,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<b>Be [capitalize(i)]:</b> <font color=red> \[IN [days_remaining] DAYS]</font><br>"
 					else
 						dat += "<b>Be [capitalize(i)]:</b> <a href='?_src_=prefs;preference=be_special;be_special_type=[i]'>[(i in be_special) ? "Enabled" : "Disabled"]</a><br>"
-			
-			
 			dat += "<br>"
 			dat += "</td>"
 			dat += "</tr></table>"
@@ -1491,6 +1515,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				var/quirk = href_list["trait"]
 				if(!SSquirks.quirks[quirk])
 					return
+				for(var/V in SSquirks.quirk_blacklist) //V is a list
+					var/list/L = V
+					for(var/Q in all_quirks)
+						if((quirk in L) && (Q in L) && !(Q == quirk)) //two quirks have lined up in the list of the list of quirks that conflict with each other, so return (see quirks.dm for more details)
+							to_chat(user, "<span class='danger'>[quirk] is incompatible with [Q].</span>")
+							return
 				var/value = SSquirks.quirk_points[quirk]
 				if(value == 0)
 					if(quirk in neutral_quirks)
@@ -1619,6 +1649,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/new_age = input(user, "Choose your character's age:\n([AGE_MIN]-[AGE_MAX])", "Character Preference") as num|null
 					if(new_age)
 						age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
+
+				if("security_records")
+					var/rec = stripped_multiline_input(usr, "Set your security record note section. This should be IC!", "Security Records", html_decode(security_records), MAX_FLAVOR_LEN, TRUE)
+					if(!isnull(rec))
+						security_records = rec
+
+				if("medical_records")
+					var/rec = stripped_multiline_input(usr, "Set your medical record note section. This should be IC!", "Security Records", html_decode(medical_records), MAX_FLAVOR_LEN, TRUE)
+					if(!isnull(rec))
+						medical_records = rec
 
 				if("flavor_text")
 					var/msg = stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", html_decode(features["flavor_text"]), MAX_MESSAGE_LEN*2, TRUE)
@@ -2349,6 +2389,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					buttons_locked = !buttons_locked
 				if("chat_on_map")
 					chat_on_map = !chat_on_map
+				if("radiosounds")
+					radiosounds = !radiosounds
 				if("see_chat_non_mob")
 					see_chat_non_mob = !see_chat_non_mob
 				if("tgui_fancy")
