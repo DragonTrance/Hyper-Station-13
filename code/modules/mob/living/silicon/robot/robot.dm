@@ -1247,7 +1247,7 @@
 
 /mob/living/silicon/robot/proc/removeVTecStats()
 	if (speed["enabled"])
-		speed["enabled"] = false
+		speed["enabled"] = FALSE
 		deltimer(speed["timer"])
 		RemoveAbility (speed["ref"])
 		speed["ref"] = null
