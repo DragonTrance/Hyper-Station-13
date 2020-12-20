@@ -13,6 +13,10 @@
 	if(!no_bodyparts)
 		spread_bodyparts(no_brain, no_organs)
 
+	for(var/X in implants)
+		var/obj/item/implant/I = X
+		qdel(I)
+
 	spawn_gibs(no_bodyparts)
 	qdel(src)
 
@@ -80,6 +84,7 @@
 	update_canmove()
 	med_hud_set_health()
 	med_hud_set_status()
+	clear_typing_indicator()
 	if(!gibbed && !QDELETED(src))
 		addtimer(CALLBACK(src, .proc/med_hud_set_status), (DEFIB_TIME_LIMIT * 10) + 1)
 	stop_pulling()

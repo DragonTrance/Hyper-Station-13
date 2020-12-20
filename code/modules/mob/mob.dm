@@ -452,12 +452,12 @@
 		qdel(M)
 		return
 
-	to_chat(usr, "<span class='boldnotice'>Please roleplay correctly, do not meta-game, and use information from a different character or characters, to influence your actions!</span>")
 	usr.client.lastrespawn = world.time + 1800 SECONDS
 	usr.client.respawn_observing = 0
-
 	message_admins("[client.ckey] respawned.")
-	M.key = key
+	M.ckey = ckey //shamelessly copied to
+	to_chat(M, "<span class='danger'>Please roleplay correctly, do not meta-game, and use information from a different character or characters, to influence your actions!</span>")
+	qdel(usr)
 //	M.Login()	//wat
 	return
 
@@ -806,26 +806,6 @@
 /mob/proc/can_interact_with(atom/A)
 	return IsAdminGhost(src) || Adjacent(A)
 
-//Can the mob see reagents inside of containers?
-/mob/proc/can_see_reagents()
-	if(stat == DEAD) //Ghosts and such can always see reagents
-		return 1
-	if(has_unlimited_silicon_privilege) //Silicons can automatically view reagents
-		return 1
-	if(ishuman(src))
-		var/mob/living/carbon/human/H = src
-		if(H.head && istype(H.head, /obj/item/clothing))
-			var/obj/item/clothing/CL = H.head
-			if(CL.scan_reagents)
-				return 1
-		if(H.wear_mask && H.wear_mask.scan_reagents)
-			return 1
-		if(H.glasses && istype(H.glasses, /obj/item/clothing))
-			var/obj/item/clothing/CL = H.glasses
-			if(CL.scan_reagents)
-				return 1
-	return 0
-
 //Can the mob use Topic to interact with machines
 /mob/proc/canUseTopic(atom/movable/M, be_close=FALSE, no_dextery=FALSE, no_tk=FALSE)
 	return
@@ -941,10 +921,6 @@
 
 /mob/proc/can_hold_items()
 	return FALSE
-
-/mob/proc/get_idcard()
-	return
-
 
 /mob/vv_get_dropdown()
 	. = ..()
