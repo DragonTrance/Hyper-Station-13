@@ -44,6 +44,7 @@
 	var/rad_insulation = RAD_NO_INSULATION
 
 	var/icon/blood_splatter_icon
+	var/icon/cum_splatter_icon
 	var/list/fingerprints
 	var/list/fingerprintshidden
 	var/list/blood_DNA
@@ -313,7 +314,7 @@
 
 /atom/proc/examine(mob/user)
 	. = list("[get_examine_string(user, TRUE)].")
-	
+
 	if(desc)
 		. += desc
 
@@ -866,4 +867,4 @@ Proc for attack log creation, because really why not
 		return TRUE
 
 /atom/proc/intercept_zImpact(atom/movable/AM, levels = 1)
-	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, AM, levels) 
+	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, AM, levels)

@@ -314,7 +314,7 @@
 	medical_record_text = "Patient suffers from acute Reality Dissociation Syndrome and experiences vivid hallucinations."
 
 /datum/quirk/insanity/on_process()
-	if(quirk_holder.reagents.has_reagent("mindbreaker"))
+	if(quirk_holder.reagents.has_reagent(/datum/reagent/toxin/mindbreaker))
 		quirk_holder.hallucination = 0
 		return
 	if(prob(2)) //we'll all be mad soon enough
@@ -384,10 +384,14 @@
 	medical_record_text = "Patient has an extreme or irrational fear and aversion to an undefined stimuli."
 	var/datum/brain_trauma/mild/phobia/phobia
 
-/datum/quirk/phobia/add()
+/datum/quirk/phobia/post_add()
 	var/mob/living/carbon/human/H = quirk_holder
 	phobia = new
-	H.gain_trauma(phobia, TRAUMA_RESILIENCE_SURGERY)
+	H.gain_trauma(phobia, TRAUMA_RESILIENCE_ABSOLUTE)
+
+/datum/quirk/phobia/remove()
+	var/mob/living/carbon/human/H = quirk_holder
+	H?.cure_trauma_type(phobia, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/quirk/mute
 	name = "Mute"
