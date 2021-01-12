@@ -47,7 +47,6 @@
 	//Add a "exclude" string to do the opposite, making it only only species listed that can't wear it.
 	//You append this to clothing objects.
 	//Hyper change// - Variables for HS13 checks
-	var/roomy = 0  //0 For false
 
 
 /obj/item/clothing/Initialize()
@@ -95,6 +94,7 @@
 		to_chat(user, "<span class='notice'>You fix the damage on [src] with [C].</span>")
 		return 1
 	//Hyper Change//
+	/*
 	if(istype(W, /obj/item/bluespace_thread))
 		var/obj/item/bluespace_thread/B = W
 		if ((istype(src, /obj/item/clothing/under) || istype(src, /obj/item/clothing/suit)) && roomy != 1) //Make sure the thread is used on an item that could be ripped off in the first place
@@ -106,6 +106,7 @@
 				qdel(B)
 		else
 			user.show_message("<span class='notice'>You probably don't need any more room in that.</span>", 1)
+	*/ //Long live roomy = TRUE
 	return ..()
 
 /obj/item/clothing/Destroy()
@@ -269,16 +270,14 @@ BLIND     // can't see anything
 			H.update_suit_sensors()
 
 /obj/item/clothing/under/AltClick(mob/user)
-	if(..())
-		return 1
-
+	. = ..()
 	if(!istype(user) || !user.canUseTopic(src, BE_CLOSE, ismonkey(user)))
 		return
+	if(attached_accessory)
+		remove_accessory(user)
 	else
-		if(attached_accessory)
-			remove_accessory(user)
-		else
-			rolldown()
+		rolldown()
+	return TRUE
 
 /obj/item/clothing/under/verb/jumpsuit_adjust()
 	set name = "Adjust Jumpsuit Style"

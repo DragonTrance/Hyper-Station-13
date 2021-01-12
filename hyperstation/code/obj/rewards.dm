@@ -34,7 +34,6 @@
 	icon_state = "luwethtrench"
 	item_state = "luwethtrench"
 	mutantrace_variation = NO_MUTANTRACE_VARIATION
-	roomy = TRUE
 
 /obj/item/clothing/gloves/ring/luweth
 	name = "Luweth’s Wedding Band"
@@ -74,3 +73,25 @@
 /obj/item/storage/pill_bottle/heat/PopulateContents()
 	for(var/i in 1 to 7)
 		new /obj/item/reagent_containers/pill/heat(src)
+
+/obj/item/storage/pill_bottle/betablock
+	name = "anaphrodisiacs pill bottle"
+	desc = "a bottle of anaphrodisiacs."
+
+/obj/item/reagent_containers/pill/betablock
+	name = "anaphrodisiac pill"
+	desc = "Prescribed to races that have trouble keeping their urges in check."
+	icon_state = "pill5"
+	list_reagents = list(/datum/reagent/drug/anaphrodisiac = 10)
+	roundstart = 1
+
+/obj/item/storage/pill_bottle/betablock/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/reagent_containers/pill/betablock(src)
+
+/obj/item/clothing/head/crystalline
+	name = "crystalline shards"
+	icon = 'hyperstation/icons/obj/rewards.dmi'
+	desc = "A handful of blue crystals. They look like they came from some sort of cave."
+	alternate_worn_icon = 'hyperstation/icons/mobs/rewards.dmi'
+	icon_state = "crystalline"

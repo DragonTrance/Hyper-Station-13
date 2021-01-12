@@ -60,7 +60,7 @@
 		B = new(T)
 	if(data["blood_DNA"])
 		B.blood_DNA[data["blood_DNA"]] = data["blood_type"]
-	if(!B.reagents)
+	if(B.reagents)
 		B.reagents.add_reagent(type, reac_volume)
 	B.update_icon()
 
@@ -553,9 +553,13 @@
 
 			if(MUTCOLORS in N.dna.species.species_traits) //take current alien color and darken it slightly
 				var/newcolor = ""
-				var/len = length(N.dna.features["mcolor"])
-				for(var/i=1, i<=len, i+=1)
-					var/ascii = text2ascii(N.dna.features["mcolor"],i)
+				var/string = N.dna.features["mcolor"]
+				var/len = length(string)
+				var/char = ""
+				var/ascii = 0
+				for(var/i=1, i<=len, i += length(char))
+					char = string[i]
+					ascii = text2ascii(char)
 					switch(ascii)
 						if(48)
 							newcolor += "0"
@@ -566,7 +570,7 @@
 						if(98 to 102)
 							newcolor += ascii2text(ascii-1)	//letters b to f lowercase
 						if(65)
-							newcolor +="9"
+							newcolor += "9"
 						if(66 to 70)
 							newcolor += ascii2text(ascii+31)	//letters B to F - translates to lowercase
 						else
@@ -605,7 +609,7 @@
 			else
 				M.visible_message("<b>[M]</b> flexes [M.p_their()] arms.")
 	if(prob(10))
-		M.say(pick("Shit was SO cash.", "You are everything bad in the world.", "What sports do you play, other than 'jack off to naked drawn Japanese people?'", "Don’t be a stranger. Just hit me with your best shot.", "My name is John and I hate every single one of you."), forced = "spraytan")
+		M.say(pick("Shit was SO cash.", "You are everything bad in the world.", "What sports do you play, other than 'jack off to naked drawn Japanese people?'", "Don’t be a stranger. Just hit me with your best shot.", "My name is John and I hate every single one of you.", "I was captain of the football team, and starter on my basketball team.", "What the fuck did you just fucking say about me, you little bitch?", "I am trained in monkey warfare."), forced = "spraytan")
 	..()
 	return
 
@@ -1350,7 +1354,7 @@
 	description = "A perfluoronated sulfonic acid that forms a foam when mixed with water."
 	color = "#9E6B38" // rgb: 158, 107, 56
 	taste_description = "metal"
-	pH = 13
+	pH = 11
 
 /datum/reagent/foaming_agent// Metal foaming agent. This is lithium hydride. Add other recipes (e.g. LiH + H2O -> LiOH + H2) eventually.
 	name = "Foaming agent"
@@ -1358,7 +1362,7 @@
 	reagent_state = SOLID
 	color = "#664B63" // rgb: 102, 75, 99
 	taste_description = "metal"
-	pH = 12.5
+	pH = 11.5
 
 /datum/reagent/smart_foaming_agent //Smart foaming agent. Functions similarly to metal foam, but conforms to walls.
 	name = "Smart foaming agent"
@@ -1762,7 +1766,7 @@
 	reagent_state = LIQUID
 	color = "#FFFFD6" // very very light yellow
 	taste_description = "alkali" //who put ACID for NaOH ????
-	pH = 13
+	pH = 11.9
 
 /datum/reagent/drying_agent
 	name = "Drying agent"
@@ -2196,18 +2200,32 @@
 	color = "#BCC740" //RGB: 188, 199, 64
 	taste_description = "plant dust"
 
-/datum/reagent/pax/catnip
+/datum/reagent/catnip
 	name = "catnip"
 	taste_description = "grass"
 	description = "A colorless liquid that makes people more peaceful and felines more happy."
-	metabolization_rate = 1.75 * REAGENTS_METABOLISM
 
-/datum/reagent/pax/catnip/on_mob_life(mob/living/carbon/M)
-	if(prob(20))
-		M.emote("nya")
+/datum/reagent/catnip/on_mob_metabolize(mob/living/carbon/L)
+	..()
+	if(iscatperson(L))
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "catnip", /datum/mood_event/catnip)
+		ADD_TRAIT(L, TRAIT_PACIFISM, type)	//Just like pax, except it only works for felinids
+	else
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "catnip", /datum/mood_event/gross_food)
+
+/datum/reagent/catnip/on_mob_end_metabolize(mob/living/carbon/L)
+	..()
+	if(iscatperson(L))
+		SEND_SIGNAL(L, COMSIG_CLEAR_MOOD_EVENT, "catnip")
+		REMOVE_TRAIT(L, TRAIT_PACIFISM, type)
+
+/datum/reagent/catnip/on_mob_life(mob/living/carbon/M)
 	if(prob(20))
 		to_chat(M, "<span class = 'notice'>[pick("Headpats feel nice.", "The feeling of a hairball...", "Backrubs would be nice.", "Whats behind those doors?")]</span>")
-	M.adjustArousalLoss(2)
+		if(iscatperson(M))
+			M.emote("nya")
+			if(prob(80))
+				M.adjustArousalLoss(3)
 	..()
 
 // Adding new mutation toxin stuff from /code/modules/reagent/chemistry/recipes/slime_extracts.dm
