@@ -1715,6 +1715,28 @@ datum/sprite_accessory/mam_tails/insect
 	name = "Synthetic Lizard - Pecs Light"
 	icon_state = "synthlizpecslight"
 
+//Hyperstation Edit - moves lizzy sprites to here for mismatched markings
+/datum/sprite_accessory/mam_body_markings/lizard
+	recommended_species = list("lizard")
+	icon = 'icons/mob/mutant_bodyparts.dmi'
+	name = "Lizard Body"
+	icon_state = "none"
+
+/datum/sprite_accessory/mam_body_markings/lizard/dtiger
+	name = "Dark Tiger Body"
+	icon_state = "dtiger"
+	gender_specific = TRUE
+
+/datum/sprite_accessory/mam_body_markings/lizard/ltiger
+	name = "Light Tiger Body"
+	icon_state = "ltiger"
+	gender_specific = FALSE
+
+/datum/sprite_accessory/mam_body_markings/lizard/lbelly
+	name = "Light Belly"
+	icon_state = "lbelly"
+	gender_specific = TRUE
+
 /******************************************
 ************ Taur Bodies ******************
 *******************************************/

@@ -2033,7 +2033,6 @@
 #include "code\modules\mob\dead\new_player\poll.dm"
 #include "code\modules\mob\dead\new_player\preferences_setup.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessories\_sprite_accessories.dm"
-#include "code\modules\mob\dead\new_player\sprite_accessories\body_markings.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessories\caps.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessories\ears.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessories\frills.dm"
