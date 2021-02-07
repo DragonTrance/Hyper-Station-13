@@ -876,6 +876,10 @@ datum/sprite_accessory/ears/human/gret
 	name = "Otie"
 	icon_state = "otie"
 
+/datum/sprite_accessory/mam_snouts/orca
+	name = "Orca"
+	icon_state = "orca"
+
 /datum/sprite_accessory/mam_snouts/pede
 	name = "Scolipede"
 	icon_state = "pede"
@@ -1166,7 +1170,6 @@ datum/sprite_accessory/ears/human/gret
 	icon_state = "gret"
 	color_src = MUTCOLORS3
 
-
 /datum/sprite_accessory/mam_ears/elephant
 	name = "Elephant"
 	icon_state = "elephant"
@@ -1182,6 +1185,10 @@ datum/sprite_accessory/ears/human/gret
 /datum/sprite_accessory/mam_ears/fox
 	name = "Fox"
 	icon_state = "fox"
+
+/datum/sprite_accessory/mam_ears/goathorns
+	name = "Goat Horns"
+	icon_state = "goathorns"
 
 /datum/sprite_accessory/mam_ears/husky
 	name = "Husky"
@@ -1536,6 +1543,18 @@ datum/sprite_accessory/mam_tails/insect
 /datum/sprite_accessory/mam_body_markings/redpanda
 	name = "Redpanda"
 	icon_state = "redpanda"
+
+/datum/sprite_accessory/mam_body_markings/abs
+	name = "Abdominals"
+	icon_state = "abs"
+
+/datum/sprite_accessory/mam_body_markings/abstwo
+	name = "Abdominals Two-Tones"
+	icon_state = "absbelly"
+
+/datum/sprite_accessory/mam_body_markings/absthree
+	name = "Abdominals Three-Tones"
+	icon_state = "absarms"
 
 /datum/sprite_accessory/mam_body_markings/bee
 	name = "Bee"
@@ -2217,6 +2236,48 @@ datum/sprite_accessory/mam_tails/insect
 	name = "Sabresune"
 	icon_state = "sabresune"
 	ckeys_allowed = list("poojawa")
+
+//doged was here
+/datum/sprite_accessory/mam_body_markings/chemlight
+	name = "chemlight"
+	icon_state = "chemlight"
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/mam_tails/chemlight
+	name = "chemlight"
+	icon_state = "chemlight"
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/mam_tails_animated/chemlight
+	name = "chemlight"
+	icon_state = "chemlight"
+
+/datum/sprite_accessory/mam_ears/chemlight
+	name = "chemlight"
+	icon_state = "chemlight"
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/mam_snouts/fchemlight
+	name = "chemlight (Top)"
+	icon_state = "fchemlight"
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/mam_snouts/chemlight
+	name = "chemlight"
+	icon_state = "chemlight"
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/taur/chemnaga
+	name = "Naga Chemlight"
+	icon_state = "chemnaga"
+	taur_mode = SNEK_TAURIC
+	ckeys_allowed = list("chemlight")
+
+/datum/sprite_accessory/taur/chemlight
+	name = "Chem taur"
+	icon_state = "chemlight"
+	taur_mode = PAW_TAURIC
+	ckeys_allowed = list("chemlight")
 
 
 //Lunasune

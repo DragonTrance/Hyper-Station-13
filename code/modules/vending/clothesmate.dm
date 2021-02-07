@@ -117,7 +117,13 @@
 					/obj/item/clothing/head/christmashatg = 3,
 					/obj/item/clothing/shoes/winterboots/christmasbootsr = 3,
 					/obj/item/clothing/shoes/winterboots/christmasbootsg = 3,
-					/obj/item/clothing/shoes/winterboots/santaboots = 3)
+					/obj/item/clothing/shoes/winterboots/santaboots = 3,
+					/obj/item/clothing/head/cowboyhat = 3,
+					/obj/item/clothing/head/cowboyhat/black = 3,
+					/obj/item/clothing/head/cowboyhat/white = 3,
+					/obj/item/clothing/head/cowboyhat/pink = 3,
+					/obj/item/clothing/shoes/cowboyboots = 3,
+					/obj/item/clothing/shoes/cowboyboots/black = 3)
 	contraband = list(/obj/item/clothing/under/syndicate/tacticool = 3,
 					  /obj/item/clothing/under/syndicate/tacticool/skirt = 3,
 		              /obj/item/clothing/mask/balaclava = 3,
@@ -140,6 +146,7 @@
 				   /obj/item/bluespace_thread = 3,
 				   /obj/item/clothing/under/lawyer/galaxy_blue = 3)
 	refill_canister = /obj/item/vending_refill/clothing
+	baseprice = 2
 
 /obj/item/vending_refill/clothing
 	machine_name = "ClothesMate"

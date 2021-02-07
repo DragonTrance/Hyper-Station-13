@@ -99,3 +99,15 @@
 	path = /obj/item/clothing/head/crystalline
 	ckeywhitelist = list("dragontrance")
 
+/datum/gear/lyricalpawsplush
+	name = "Winter Dawn Plushie"
+	category = SLOT_IN_BACKPACK
+	path = /obj/item/toy/plush/mammal/lyricalpaws
+	ckeywhitelist = list("lyricalpaws")
+
+/datum/gear/cherostavikmask
+	name = "Keaton Mask"
+	category = SLOT_IN_BACKPACK
+	path = /obj/item/clothing/mask/keaton
+	ckeywhitelist = list("cherostavik")
+

@@ -53,31 +53,38 @@
 				/obj/item/reagent_containers/pill/breast_enlargement = 3,
 				/obj/item/clothing/gloves/latexsleeves = 3,
 				/obj/item/clothing/shoes/highheels = 3,
+				/obj/item/clothing/neck/stole = 2,
+				/obj/item/clothing/neck/stole/black = 2,
 				/obj/item/clothing/under/polychromic/stripper = 3,
 				/obj/item/clothing/under/polychromic/bikini = 3,
 				/obj/item/clothing/under/polychromic/shortpants/pantsu = 3,
 				/obj/item/clothing/under/polychromic/bulge = 3,
 				/obj/item/clothing/suit/maidapron = 3,
 				/obj/item/clothing/under/corset = 3,
-				/obj/item/clothing/under/jabroni = 3
+				/obj/item/clothing/under/jabroni = 3,
+				/obj/item/electropack/vibrator/small = 2,
+				/obj/item/electropack/vibrator = 2,
 				)
-	contraband = list(/obj/item/restraints/handcuffs/fake/kinky = 5,
+	contraband = list(
+				/obj/item/restraints/handcuffs/fake/kinky = 5,
 				/obj/item/clothing/neck/petcollar = 5,
 				/obj/item/clothing/under/mankini = 1,
-				/obj/item/dildo/flared/huge = 1,
-				/obj/item/clothing/head/dominatrixcap = 1,
-				/obj/item/mesmetron = 1,
-				/obj/item/bdsm_whip = 1,
-				/obj/item/clothing/mask/muzzle = 1
+				/obj/item/dildo/flared/huge = 3,
+				/obj/item/clothing/head/dominatrixcap = 3,
+				/obj/item/mesmetron = 3,
+				/obj/item/bdsm_whip = 3,
+				/obj/item/clothing/mask/muzzle = 3
 				)
 	premium = list(
 				/obj/item/electropack/shockcollar = 3,
-				/obj/item/clothing/neck/petcollar/locked = 1,
-				/obj/item/restraints/handcuffs/rope = 1,
-				/obj/item/leash = 1,
+				/obj/item/clothing/neck/petcollar/locked = 3,
+				/obj/item/restraints/handcuffs/rope = 3,
+				/obj/item/leash = 3,
 				/obj/item/clothing/mask/muzzle/ballgag = 3
 				)
 	refill_canister = /obj/item/vending_refill/kink
+	baseprice = 2
+
 /*
 /obj/machinery/vending/nazivend
 	name = "Nazivend"

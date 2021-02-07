@@ -49,6 +49,7 @@
 	path = /obj/item/clothing/under/lawyer/galaxy_blue
 	cost = 3
 
+
 /datum/gear/galaxy_r
 	name = "Pulsar Gonne"
 	category = SLOT_W_UNIFORM
@@ -193,7 +194,7 @@
 // Pantsless Sweaters
 
 /datum/gear/turtleneck
-	name = "Tactitool Turtleneck"
+	name = "Tactifool Turtleneck"
 	category = SLOT_W_UNIFORM
 	path = /obj/item/clothing/under/syndicate/cosmetic
 
@@ -479,3 +480,10 @@
 	category = SLOT_W_UNIFORM
 	path = /obj/item/clothing/under/roman
 	cost = 1
+
+/datum/gear/greenplaidshirt
+	name = "plaid green shirt"
+	category = SLOT_W_UNIFORM
+	path = /obj/item/clothing/under/greenplaidshirt
+	cost = 1
+	ckeywhitelist = list("chemlight")
