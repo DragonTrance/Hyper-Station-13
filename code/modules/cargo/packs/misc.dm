@@ -267,7 +267,7 @@
 
 /datum/supply_pack/misc/lewd
 	name = "Lewd Crate" // OwO
-	desc = "Psss want to have a good time with your sluts? Well I got what you want! Maid clothing, dildos, collars and more!"
+	desc = "Psst, want to have a good time with your sluts? Well I got what you want! Maid clothing, dildos, collars and more!"
 	cost = 5000
 	contraband = TRUE
 	contains = list(/obj/item/dildo/custom,
@@ -349,6 +349,19 @@
 					/obj/item/toner,
 					/obj/item/toner)
 	crate_name = "toner crate"
+
+/datum/supply_pack/misc/wedding
+	name = "Wedding Crate"
+	desc = "Almost everything you need to host a wedding! Don't forget a ring!"
+	cost = 1500
+	contains = list(/obj/item/clothing/under/wedding_dress,
+					/obj/item/clothing/under/tuxedo,
+					/obj/item/storage/belt/cummerbund,
+					/obj/item/bouquet,
+					/obj/item/bouquet/sunflower,
+					/obj/item/bouquet/poppy,
+					/obj/item/reagent_containers/food/drinks/bottle/champagne)
+	crate_name = "wedding crate"
 
 /datum/supply_pack/misc/diamondring
 	name = "Diamond Ring"

@@ -21,6 +21,7 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
 	dog_fashion = /datum/dog_fashion/head
+	grind_results = list(/datum/reagent/cellulose = 2)
 
 	var/info		//What's actually written on the paper.
 	var/info_links	//A different version of the paper which includes html links at fields and EOF
@@ -92,7 +93,7 @@
 /obj/item/paper/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>Alt-click to fold it.</span>"
-	if(oui_canview(user))
+	if((in_range(user, src)))
 		ui.render(user)
 	else
 		. += "<span class='warning'>You're too far away to read it!</span>"

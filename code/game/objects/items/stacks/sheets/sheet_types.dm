@@ -50,9 +50,6 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	//END OF CIT CHANGES
 	new/datum/stack_recipe("bed", /obj/structure/bed, 2, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
-	//add this when I can find a way to make them easily constructible > new/datum/stack_recipe("sink", /obj/structure/sink, 2, one_per_turf = TRUE, on_floor = TRUE),
-	new/datum/stack_recipe("shower", /obj/machinery/shower/crafted, 2, one_per_turf = TRUE, on_floor = TRUE), \
-	null, \
 	new/datum/stack_recipe("rack parts", /obj/item/rack_parts), \
 	new/datum/stack_recipe("closet", /obj/structure/closet, 2, time = 15, one_per_turf = TRUE, on_floor = TRUE), \
 	null, \
@@ -247,7 +244,7 @@ GLOBAL_LIST_INIT(wood_recipes, list ( \
 	resistance_flags = FLAMMABLE
 	merge_type = /obj/item/stack/sheet/mineral/wood
 	novariants = TRUE
-	grind_results = list(/datum/reagent/carbon = 20)
+	grind_results = list(/datum/reagent/cellulose = 10)
 
 /obj/item/stack/sheet/mineral/wood/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.wood_recipes
@@ -277,7 +274,7 @@ GLOBAL_LIST_INIT(bamboo_recipes, list ( \
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 0)
 	resistance_flags = FLAMMABLE
 	merge_type = /obj/item/stack/sheet/mineral/bamboo
-	grind_results = list(/datum/reagent/carbon = 5)
+	grind_results = list(/datum/reagent/cellulose = 10)
 
 /obj/item/stack/sheet/mineral/wood/attackby(obj/item/W, mob/user, params) // NOTE: sheet_types.dm is where the WOOD stack lives. Maybe move this over there.
 	// Taken from /obj/item/stack/rods/attackby in [rods.dm]
@@ -340,6 +337,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	new/datum/stack_recipe("black gloves", /obj/item/clothing/gloves/color/black, 3), \
 	null, \
 	new/datum/stack_recipe("blindfold", /obj/item/clothing/glasses/sunglasses/blindfold, 2), \
+	new/datum/stack_recipe("eyepatch", /obj/item/clothing/glasses/eyepatch, 2), \
 	))
 
 /obj/item/stack/sheet/cloth
@@ -355,6 +353,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	is_fabric = TRUE
 	loom_result = /obj/item/stack/sheet/silk
 	merge_type = /obj/item/stack/sheet/cloth
+	grind_results = list(/datum/reagent/cellulose = 4)
 
 /obj/item/stack/sheet/cloth/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.cloth_recipes
@@ -374,6 +373,7 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	item_state = "sheet-cloth"
 	novariants = TRUE
 	merge_type = /obj/item/stack/sheet/silk
+	grind_results = list(/datum/reagent/cellulose = 2)
 
 //obj/item/stack/sheet/silk/Initialize(mapload, new_amount, merge = TRUE)
 //	recipes = GLOB.silk_recipes
@@ -398,6 +398,7 @@ GLOBAL_LIST_INIT(durathread_recipes, list ( \
 	force = 0
 	throwforce = 0
 	merge_type = /obj/item/stack/sheet/durathread
+	grind_results = list(/datum/reagent/cellulose = 10)
 
 /obj/item/stack/sheet/durathread/Initialize(mapload, new_amount, merge = TRUE)
 	recipes = GLOB.durathread_recipes
