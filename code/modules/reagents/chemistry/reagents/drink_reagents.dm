@@ -3,9 +3,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////// DRINKS BELOW, Beer is up there though, along with cola. Cap'n Pete's Cuban Spiced Rum////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-/datum/reagent/water/
-	hydration = 10 * REAGENTS_METABOLISM
-
 /datum/reagent/consumable/orangejuice
 	name = "Orange Juice"
 	description = "Both delicious AND rich in Vitamin C, what more do you need?"
@@ -942,7 +939,7 @@
 	glass_icon_state = "glass_yellow"
 	glass_name = "glass of bungo juice"
 	glass_desc = "Exotic! You feel like you are on vacation already."
-  hydration = 1 * REAGENTS_METABOLISM
+	hydration = 1 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/aloejuice
 	name = "Aloe Juice"
@@ -952,7 +949,7 @@
 	glass_icon_state = "glass_yellow"
 	glass_name = "glass of aloe juice"
 	glass_desc = "A healthy and refreshing juice."
-  hydration = 2 * REAGENTS_METABOLISM
+	hydration = 2 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/aloejuice/on_mob_life(mob/living/M)
 	if(prob(30))
