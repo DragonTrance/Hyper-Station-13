@@ -44,6 +44,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/update_preferences(current_version, savefile/S)
 	if(current_version < 21)
 		clientfps = 60
+	if(current_version < 23)
+		S["be_special"]	>> be_special
 	return
 
 /datum/preferences/proc/update_character(current_version, savefile/S)
@@ -57,9 +59,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(features["breasts_fluid"])
 			features["breasts_fluid"] = /datum/reagent/consumable/milk
 	if(current_version < 23)
-		if(features["body_markings"])
-			if(features["body_markings"] == "None")
-				features["body_markings"] = "Lizard Body"
+		if(be_special)
+			WRITE_FILE(S["special_roles"], be_special)
 
 /datum/preferences/proc/load_path(ckey,filename="preferences.sav")
 	if(!ckey)
@@ -95,7 +96,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["tgui_lock"]			>> tgui_lock
 	S["buttons_locked"]		>> buttons_locked
 	S["windowflash"]		>> windowflashing
-	S["be_special"] 		>> be_special
 
 
 	S["default_slot"]		>> default_slot
@@ -218,7 +218,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["tgui_lock"], tgui_lock)
 	WRITE_FILE(S["buttons_locked"], buttons_locked)
 	WRITE_FILE(S["windowflash"], windowflashing)
-	WRITE_FILE(S["be_special"], be_special)
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["toggles"], toggles)
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
@@ -365,6 +364,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_engsec_high"]	>> job_engsec_high
 	S["job_engsec_med"]		>> job_engsec_med
 	S["job_engsec_low"]		>> job_engsec_low
+
+	//Antags
+	S["special_roles"]		>> be_special
 
 	//Quirks
 	S["all_quirks"]			>> all_quirks
@@ -589,22 +591,23 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["prefered_security_department"] , prefered_security_department)
 
 	//Jobs
-	WRITE_FILE(S["joblessrole"]		, joblessrole)
+	WRITE_FILE(S["joblessrole"]			, joblessrole)
 	WRITE_FILE(S["job_civilian_high"]	, job_civilian_high)
 	WRITE_FILE(S["job_civilian_med"]	, job_civilian_med)
 	WRITE_FILE(S["job_civilian_low"]	, job_civilian_low)
-	WRITE_FILE(S["job_medsci_high"]	, job_medsci_high)
+	WRITE_FILE(S["job_medsci_high"]		, job_medsci_high)
 	WRITE_FILE(S["job_medsci_med"]		, job_medsci_med)
 	WRITE_FILE(S["job_medsci_low"]		, job_medsci_low)
-	WRITE_FILE(S["job_engsec_high"]	, job_engsec_high)
+	WRITE_FILE(S["job_engsec_high"]		, job_engsec_high)
 	WRITE_FILE(S["job_engsec_med"]		, job_engsec_med)
 	WRITE_FILE(S["job_engsec_low"]		, job_engsec_low)
 	//Record Flavor Text
-	WRITE_FILE(S["security_records"]		, security_records)
-	WRITE_FILE(S["medical_records"]			, medical_records)
-	//hide c-key
-	WRITE_FILE(S["hide_ckey"]		, hide_ckey)
-	//Quirks
+	WRITE_FILE(S["security_records"]	, security_records)
+	WRITE_FILE(S["medical_records"]		, medical_records)
+
+	//Misc.
+	WRITE_FILE(S["special_roles"]		, be_special)		//Preferences don't load every character change
+	WRITE_FILE(S["hide_ckey"]			, hide_ckey)
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
 
 	cit_character_pref_save(S)
