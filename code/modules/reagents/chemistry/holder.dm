@@ -1086,6 +1086,12 @@
 		for(var/datum/reagent/R in reagent_list)
 			if(!R.taste_mult)
 				continue
+			
+			if(istype(R, /datum/reagent/taste))
+				var/datum/reagent/taste/T = R
+				if(T.take_over_taste >= 0 && T.volume >= T.take_over_taste)
+					tastes = list(T.taste_desc = T.take_over_taste)
+					break
 
 			if(istype(R, /datum/reagent/consumable/nutriment))
 				var/list/taste_data = R.data
@@ -1111,15 +1117,13 @@
 				var/percent = tastes[taste_desc]/total_taste * 100
 				if(percent < minimum_percent)
 					continue
-				var/intensity_desc = "a hint of"
+				var/intensity_desc = "a hint of "
 				if(ISINRANGE(percent, minimum_percent * 2, minimum_percent * 3)|| percent == 100)
 					intensity_desc = ""
 				else if(percent > minimum_percent * 3)
-					intensity_desc = "the strong flavor of"
-				if(intensity_desc != "")
-					out += "[intensity_desc] [taste_desc]"
-				else
-					out += "[taste_desc]"
+					intensity_desc = "the strong flavor of "
+				
+				out += "[intensity_desc][taste_desc]"
 
 	return english_list(out, "something indescribable")
 
