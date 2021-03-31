@@ -42,6 +42,12 @@
 	color_src = MATRIXED
 	icon = 'modular_citadel/icons/mob/markings_notmammals.dmi'
 
+/datum/sprite_accessory/body_markings/gecko
+	name = "Gecko"
+	icon_state = "gecko"
+	color_src = MATRIXED
+	icon = 'modular_citadel/icons/mob/markings_notmammals.dmi'
+
 /datum/sprite_accessory/tails/lizard/guilmon
 	name = "Guilmon"
 	icon_state = "guilmon"
@@ -51,6 +57,18 @@
 /datum/sprite_accessory/tails_animated/lizard/guilmon
 	name = "Guilmon"
 	icon_state = "guilmon"
+	color_src = MATRIXED
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
+
+/datum/sprite_accessory/tails/lizard/gecko
+	name = "Gecko"
+	icon_state = "gecko"
+	color_src = MATRIXED
+	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
+
+/datum/sprite_accessory/tails_animated/lizard/gecko
+	name = "Gecko"
+	icon_state = "gecko"
 	color_src = MATRIXED
 	icon = 'modular_citadel/icons/mob/mam_tails.dmi'
 
@@ -1020,7 +1038,7 @@ datum/sprite_accessory/ears/human/gret
 
 /datum/sprite_accessory/mam_snouts/synthliz/synthlizvenom
 	color_src = MATRIXED
-	name = "Synthetic Lizard - VE/NM"
+	name = "Synthetic Lizard - V3/NM"
 	icon_state = "synthlizvenom"
 
 /******************************************
@@ -1768,28 +1786,6 @@ datum/sprite_accessory/mam_tails/insect
 /datum/sprite_accessory/mam_body_markings/synthliz/synthliz_pecslight
 	name = "Synthetic Lizard - Pecs Light"
 	icon_state = "synthlizpecslight"
-
-//Hyperstation Edit - moves lizzy sprites to here for mismatched markings
-/datum/sprite_accessory/mam_body_markings/lizard
-	recommended_species = list("lizard")
-	icon = 'icons/mob/mutant_bodyparts.dmi'
-	name = "Lizard Body"
-	icon_state = "none"
-
-/datum/sprite_accessory/mam_body_markings/lizard/dtiger
-	name = "Dark Tiger Body"
-	icon_state = "dtiger"
-	gender_specific = TRUE
-
-/datum/sprite_accessory/mam_body_markings/lizard/ltiger
-	name = "Light Tiger Body"
-	icon_state = "ltiger"
-	gender_specific = FALSE
-
-/datum/sprite_accessory/mam_body_markings/lizard/lbelly
-	name = "Light Belly"
-	icon_state = "lbelly"
-	gender_specific = TRUE
 
 /******************************************
 ************ Taur Bodies ******************
