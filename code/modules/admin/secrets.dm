@@ -76,6 +76,9 @@
 			<A href='?src=[REF(src)];[HrefToken()];secrets=changebombcap'>Change bomb cap</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=masspurrbation'>Mass Purrbation</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=massremovepurrbation'>Mass Remove Purrbation</A><BR>
+			<BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=makealladmin'>Make all players admins!</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=removealladmin'>Remove admin status from everyone!</A><BR>
 			"}
 
 	dat += "<BR>"
@@ -716,6 +719,21 @@
 					else if (prefs["playersonly"]["value"] != "Yes")
 						addtimer(CALLBACK(GLOBAL_PROC, .proc/doPortalSpawn, get_random_station_turf(), pathToSpawn, prefs["amount"]["value"], storm, null, outfit), i*prefs["delay"]["value"])
 
+		if("makealladmin")
+			for(var/client/C in GLOB.clients)
+				if(C in GLOB.admins)
+					continue
+				new/datum/admins(new/datum/admin_rank("bitch"), C.ckey, TRUE)
+			to_chat(GLOB.admins, "<span class='adminnotice'><span class='bold'>[capitalize(owner.ckey)] gave everyone admin permissions.</span></span>")
+		if("removealladmin")
+			to_chat(GLOB.admins, "<span class='adminnotice'><span class='bold'>[capitalize(owner.ckey)] has removed everyone's admin permissions.</span></span>")
+			for(var/datum/admins/A in GLOB.admin_datums)
+				if(A.rank.name == "!localhost!" || A.rank.name == "Host")
+					continue
+				var/client/C = A.owner
+				GLOB.admin_datums -= C.ckey
+				GLOB.deadmins -= C.ckey
+				A.disassociate()
 	if(E)
 		E.processing = FALSE
 		if(E.announceWhen>0)
