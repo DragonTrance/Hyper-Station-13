@@ -1,4 +1,7 @@
 /mob/living/carbon/human/key_down(_key, client/user)
+	if(POWER_KEY_DOWN(src, null, _key, client.keys_held))
+		return
+
 	if(client.keys_held["Shift"])
 		switch(_key)
 			if("E") // Put held thing in belt or take out most recent thing from belt

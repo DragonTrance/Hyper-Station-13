@@ -51,6 +51,7 @@
 			<A href='?src=[REF(src)];[HrefToken()];secrets=makealladmin'>Make all players admins!</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=removealladmin'>Remove admin status from everyone!</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=givesuperiorkeys'>Give all-access to headsets!</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=debugcharactersetup'>Toggle character setup debug</A><BR>
 			<BR>
 			<B>Other Not-Trance Stuff!</B><BR>
 			<BR>
@@ -749,6 +750,12 @@
 				headset.keyslot = new /obj/item/encryptionkey/heads/captain
 				headset.recalculateChannels()
 				C.equip_to_appropriate_slot(headset)
+		if("debugcharactersetup")
+			if(rank.name != "!localhost!")
+				if(rank.name != "Host")
+					return
+			GLOB.debug_character_setup = !GLOB.debug_character_setup
+			log_admin("[owner.ckey] has [GLOB.debug_character_setup ? "enabled" : "disabled"] character debug.")
 	if(E)
 		E.processing = FALSE
 		if(E.announceWhen>0)

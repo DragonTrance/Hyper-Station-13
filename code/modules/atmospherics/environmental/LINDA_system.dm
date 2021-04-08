@@ -68,14 +68,13 @@
 //alldir includes adjacent diagonal tiles that can share
 //	air with both of the related adjacent cardinal tiles
 /turf/proc/GetAtmosAdjacentTurfs(alldir = 0)
-	var/adjacent_turfs
 	if (atmos_adjacent_turfs)
-		adjacent_turfs = atmos_adjacent_turfs.Copy()
+		. = atmos_adjacent_turfs.Copy()
 	else
-		adjacent_turfs = list()
+		. = list()
 
 	if (!alldir)
-		return adjacent_turfs
+		return
 
 	var/turf/curloc = src
 
@@ -90,14 +89,12 @@
 			if(!S.atmos_adjacent_turfs || !S.atmos_adjacent_turfs[checkTurf])
 				continue
 
-			if (adjacent_turfs[checkTurf])
+			if (.[checkTurf])
 				matchingDirections++
 
 			if (matchingDirections >= 2)
-				adjacent_turfs += S
+				. += S
 				break
-
-	return adjacent_turfs
 
 /atom/proc/air_update_turf(command = 0)
 	if(!isturf(loc) && command)

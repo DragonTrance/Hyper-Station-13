@@ -47,7 +47,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	var/damage_overlay_type = "human" //what kind of damage overlays (if any) appear on our species when wounded?
 	var/fixed_mut_color = "" //to use MUTCOLOR with a fixed color that's independent of dna.feature["mcolor"]
 	var/inert_mutation = DWARFISM //special mutation that can be found in the genepool. Dont leave empty or changing species will be a headache
-	var/list/special_step_sounds //Sounds to override barefeet walkng
+	var/list/special_step_sounds = list() //Sounds to override barefeet walkng
 	var/grab_sound //Special sound for grabbing
 
 	// species-only traits. Can be found in DNA.dm
@@ -2174,16 +2174,16 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 		for(var/X in burning_items)
 			var/obj/item/I = X
 			if(!(I.resistance_flags & FIRE_PROOF))
-				I.take_damage(H.fire_stacks, BURN, "fire", 0)
+				I.take_damage(H.fire_stacks*H.physiology.fire_mod, BURN, "fire", 0)
 
 		var/thermal_protection = H.easy_thermal_protection()
 
 		if(thermal_protection >= FIRE_IMMUNITY_MAX_TEMP_PROTECT && !no_protection)
 			return
 		if(thermal_protection >= FIRE_SUIT_MAX_TEMP_PROTECT && !no_protection)
-			H.adjust_bodytemperature(11)
+			H.adjust_bodytemperature(11*H.physiology.fire_mod)
 		else
-			H.adjust_bodytemperature(BODYTEMP_HEATING_MAX + (H.fire_stacks * 12))
+			H.adjust_bodytemperature((BODYTEMP_HEATING_MAX + (H.fire_stacks * 12))*H.physiology.fire_mod)
 			SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "on_fire", /datum/mood_event/on_fire)
 
 /datum/species/proc/CanIgniteMob(mob/living/carbon/human/H)

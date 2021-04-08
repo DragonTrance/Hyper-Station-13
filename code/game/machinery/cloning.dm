@@ -201,6 +201,12 @@
 		H.give_genitals(TRUE)
 
 		H.suiciding = FALSE
+
+		if((GLOB.character_power_authentication[H.client.ckey].Find(H.real_name)) || GLOB.debug_character_setup || (GLOB.character_power_superiors.Find(H.client.ckey)))
+			var/datum/power/p = GLOB.power_character_names[H.real_name]
+			if(p)
+				H.power = new p(H)
+
 	attempting = FALSE
 
 	return TRUE

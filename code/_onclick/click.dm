@@ -79,6 +79,8 @@
 		return
 
 	var/list/modifiers = params2list(params)
+	if(POWER_CLICKON(src, modifiers, A, client.keys_held, null))
+		return
 	if(modifiers["shift"] && modifiers["middle"])
 		ShiftMiddleClickOn(A)
 		return

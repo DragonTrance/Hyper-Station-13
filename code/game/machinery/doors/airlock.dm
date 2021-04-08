@@ -797,12 +797,27 @@
 	return attack_hand(user)
 
 /obj/machinery/door/airlock/attack_hand(mob/user)
+	if(POWER_ASSUME(user, POWERID_FORCE_DOORS) && user.a_intent == INTENT_GRAB)
+		if(isElectrified()) {shock(user,100); return}
+		if(locked) {to_chat(user, "<span class='warning'>The bolts are down, it won't budge!</span>"); return}
+		if(welded) {to_chat(user, "<span class='warning'>It's welded, it won't budge!</span>"); return}
+		if(!allowed(user))
+			if(hasPower() && !prying_so_hard)
+				playsound(src, 'sound/machines/airlock_alien_prying.ogg',100,1)
+				prying_so_hard = TRUE
+				var/result = do_after(user, 50,target = src)
+				prying_so_hard = FALSE
+				if(result)
+					open(2)
+					if(density && !open(2))
+						to_chat(user, "<span class='warning'>Despite your attempts, [src] refuses to open.</span>")
+			return	
 	. = ..()
 	if(.)
 		return
 	if(!(issilicon(user) || IsAdminGhost(user)))
-		if(src.isElectrified())
-			if(src.shock(user, 100))
+		if(isElectrified())
+			if(shock(user, 100))
 				return
 
 	if(ishuman(user) && prob(40) && src.density)
@@ -819,7 +834,7 @@
 
 /obj/machinery/door/airlock/attempt_wire_interaction(mob/user)
 	if(security_level)
-		to_chat(user, "<span class='warning'>Wires are protected!</span>")
+		to_chat(user, "<span class='warning'>The wires are protected!</span>")
 		return WIRE_INTERACTION_FAIL
 	return ..()
 
@@ -1105,7 +1120,7 @@
 
 	if(istype(I, /obj/item/crowbar/power))
 		if(isElectrified())
-			shock(user,100)//it's like sticking a forck in a power socket
+			shock(user,100)//it's like sticking a fork in a power socket
 			return
 
 		if(!density)//already open

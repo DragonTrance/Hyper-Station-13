@@ -55,6 +55,8 @@
 
 	var/mob_size = MOB_SIZE_HUMAN
 
+	var/datum/power/power
+
 //H13 custom body size and impregnation
 	var/custom_body_size = 100
 	var/breedable = 0

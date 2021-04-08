@@ -287,10 +287,17 @@
 		changeNext_move(CLICK_CD_BREAKOUT)
 		last_special = world.time + CLICK_CD_BREAKOUT
 		var/buckle_cd = 600
+		var/pow = FALSE
 		if(handcuffed)
 			var/obj/item/restraints/O = src.get_item_by_slot(SLOT_HANDCUFFED)
+			if(POWER_ASSUME(src, POWERID_FORCE_RESTRAINTS))
+				if(POWER_ASSUME(src, POWERID_FORCE_RESTRAINTS_TEXT))
+					visible_message("<span class='warning'>[src] burts out of [O]!</span>", "<span class='notice'>You burst out from [O]!</span>")
+				pow = TRUE
+				buckle_cd = 0
 			buckle_cd = O.breakouttime
-		visible_message("<span class='warning'>[src] attempts to unbuckle [p_them()]self!</span>", \
+		if(!pow)
+			visible_message("<span class='warning'>[src] attempts to unbuckle [p_them()]self!</span>", \
 					"<span class='notice'>You attempt to unbuckle yourself... (This will take around [round(buckle_cd/600,1)] minute\s, and you need to stay still.)</span>")
 		if(do_after(src, buckle_cd, 0, target = src))
 			if(!buckled)
