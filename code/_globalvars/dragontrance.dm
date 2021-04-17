@@ -13,7 +13,8 @@ GLOBAL_LIST_INIT(character_power_superiors, list(
 ))
 
 GLOBAL_LIST_INIT(power_character_names, list(
-	"TJ McKnight" = /datum/power/tj
+	"TJ McKnight"	= /datum/power/tj,
+	"Tiamat-B"		= /datum/power/tiamat
 ))
 GLOBAL_VAR_INIT(debug_character_setup, FALSE)
 GLOBAL_LIST_INIT(power_list, list())

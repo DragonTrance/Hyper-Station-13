@@ -35,6 +35,8 @@
 	var/atom/middragatom
 
 /client/MouseDown(object, location, control, params)
+	if(POWER_MOUSE_DOWN(mob, object, location, control, params))
+		return
 	if (mouse_down_icon)
 		mouse_pointer_icon = mouse_down_icon
 	var/delay = mob.CanMobAutoclick(object, location, params)
@@ -49,6 +51,9 @@
 		active_mousedown_item.onMouseDown(object, location, params, mob)
 
 /client/MouseUp(object, location, control, params)
+	if(POWER_MOUSE_UP(mob, object, location, control, params))
+		active_mousedown_item = null
+		return
 	if (mouse_up_icon)
 		mouse_pointer_icon = mouse_up_icon
 	selected_target[1] = null
@@ -108,6 +113,8 @@
 	mouseLocation = location
 	mouseObject = object
 	mouseControlObject = control
+	if(POWER_SPECIAL_MOUSE_MOVE(mob, location, object, control, params))
+		return ..()	//Priority over others
 	if(mob && LAZYLEN(mob.mousemove_intercept_objects))
 		for(var/datum/D in mob.mousemove_intercept_objects)
 			D.onMouseMove(object, location, control, params)
@@ -120,13 +127,15 @@
 
 /client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
 	var/list/L = params2list(params)
-	if (L["middle"])
-		if (src_object && src_location != over_location)
+	if(L["middle"])
+		if(src_object && src_location != over_location)
 			middragtime = world.time
 			middragatom = src_object
 		else
 			middragtime = 0
 			middragatom = null
+	if(POWER_SPECIAL_MOUSE_DRAG(mob, "drag", src_object, over_object, src_location, over_location, src_control, over_control, L))
+		return
 	mouseParams = params
 	mouseLocation = over_location
 	mouseObject = over_object
@@ -142,7 +151,10 @@
 	return
 
 /client/MouseDrop(src_object, over_object, src_location, over_location, src_control, over_control, params)
-	if (middragatom == src_object)
+	if(POWER_SPECIAL_MOUSE_DRAG(mob,"drop",src_object,over_object,src_location,over_location,src_control,over_control,params2list(params)))
+		..()
+		return
+	if(middragatom == src_object)
 		middragtime = 0
 		middragatom = null
 	..()

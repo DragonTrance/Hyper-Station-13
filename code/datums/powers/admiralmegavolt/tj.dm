@@ -1,6 +1,5 @@
 /datum/power/tj
 	name = "TJ McKnight"
-	action_list = list(/datum/action/power/tj_flame)
 	power_args = POWERSET_TJ
 	var/datum/action/power/tj_flight/flight
 	var/datum/action/power/tj_hulk/hulk
@@ -94,8 +93,9 @@
 					return TRUE
 			if("2")
 				if(flight)
-					flight.Trigger()
-					return TRUE
+					if(flight.IsAvailable())
+						flight.Trigger()
+						return TRUE
 
 /datum/power/tj/special_clickon(params, atom/A, hotkeys, argument)
 	set waitfor = FALSE
