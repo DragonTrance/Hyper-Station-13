@@ -445,6 +445,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 	return locate(x,y,A.z)
 
 #if DM_VERSION < 513
+#warn what the fuck are you doing? Compile on 513+ not below.
 /proc/arctan(x)
 	var/y=arcsin(x/sqrt(1+x*x))
 	return y
