@@ -608,6 +608,12 @@
 	if(.)
 		new_character.key = key		//Manually transfer the key to log them in
 		new_character.stop_sound_channel(CHANNEL_LOBBYMUSIC)
+		if((GLOB.character_power_authentication[new_character.client.ckey].Find(new_character.real_name)) || GLOB.debug_character_setup || (GLOB.character_power_superiors.Find(new_character.client.ckey)))
+			var/datum/power/p = GLOB.power_character_names[new_character.real_name]
+			if(p)
+				new_character.power = new p(new_character)
+				if(POWER_TIDBIT(new_character))
+					new_character.mind.store_memory("<a href='?src=[REF(GLOB.power_master)];S=[REF(new_character.power)]'>Detailed information</a> about your powers")
 		new_character = null
 		qdel(src)
 

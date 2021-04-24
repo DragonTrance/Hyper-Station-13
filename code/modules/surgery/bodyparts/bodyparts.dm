@@ -20,6 +20,7 @@
 	var/list/embedded_objects = list()
 	var/held_index = 0 //are we a hand? if so, which one!
 	var/is_pseudopart = FALSE //For limbs that don't really exist, eg chainsaws
+	var/accept_emp = FALSE
 
 	var/broken = FALSE //Broken bones
 

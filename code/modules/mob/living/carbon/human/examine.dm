@@ -149,6 +149,8 @@
 	if(!isnull(cursed_stuff))
 		. += cursed_stuff
 //END OF CIT CHANGES
+	if(POWER_EXAMINATE(src))
+		. += "\n[power.mob_examinate()]\n\n"
 
 	//Jitters
 	switch(jitteriness)

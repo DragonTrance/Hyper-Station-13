@@ -88,7 +88,8 @@
 		visible_message("<span class='danger'>[user] smashes [src]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(density)
 			playsound(src, 'sound/effects/meteorimpact.ogg', 100, 1)
-			user.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced="hulk")
+			if(!POWER_ASSUME(user, POWERID_HULK_ATTACK))
+				user.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced="hulk")
 		else
 			playsound(src, 'sound/effects/bang.ogg', 50, 1)
 		take_damage(hulk_damage(), BRUTE, "melee", 0, get_dir(src, user))

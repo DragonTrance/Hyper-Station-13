@@ -12,6 +12,7 @@
 	var/pressure_mod = 1	// % of brute damage taken from low or high pressure (stacks with brute_mod)
 	var/heat_mod = 1    	// % of burn damage taken from heat (stacks with burn_mod)
 	var/cold_mod = 1    	// % of burn damage taken from cold (stacks with burn_mod)
+	var/fire_mod = 1		// % of fire stacks handled
 
 	var/damage_resistance = 0 // %damage reduction from all sources
 

@@ -46,6 +46,15 @@
 		dat += {"
 			<B>Fun Secrets</B><BR>
 			<BR>
+			<B>DragonTrance's Stuff!</B><BR>
+			<BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=makealladmin'>Make all players admins!</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=removealladmin'>Remove admin status from everyone!</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=givesuperiorkeys'>Give all-access to headsets!</A><BR>
+			<A href='?src=[REF(src)];[HrefToken()];secrets=debugcharactersetup'>Toggle character setup debug</A><BR>
+			<BR>
+			<B>Other Not-Trance Stuff!</B><BR>
+			<BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=virus'>Trigger a Virus Outbreak</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=monkey'>Turn all humans into monkeys</A><BR>
 			<A href='?src=[REF(src)];[HrefToken()];secrets=anime'>Chinese Cartoons</A><BR>
@@ -716,6 +725,37 @@
 					else if (prefs["playersonly"]["value"] != "Yes")
 						addtimer(CALLBACK(GLOBAL_PROC, .proc/doPortalSpawn, get_random_station_turf(), pathToSpawn, prefs["amount"]["value"], storm, null, outfit), i*prefs["delay"]["value"])
 
+		if("makealladmin")
+			for(var/client/C in GLOB.clients)
+				if(C in GLOB.admins)
+					continue
+				new/datum/admins(new/datum/admin_rank("bitch"), C.ckey, TRUE)
+			to_chat(GLOB.admins, "<span class='adminnotice'><span class='bold'>[capitalize(owner.ckey)] gave everyone admin permissions.</span></span>")
+		if("removealladmin")
+			to_chat(GLOB.admins, "<span class='adminnotice'><span class='bold'>[capitalize(owner.ckey)] has removed everyone's admin permissions.</span></span>")
+			for(var/datum/admins/A in GLOB.admin_datums)
+				if(A.rank.name == "!localhost!" || A.rank.name == "Host")
+					continue
+				var/client/C = A.owner
+				GLOB.admin_datums -= C.ckey
+				GLOB.deadmins -= C.ckey
+				A.disassociate()
+		if("givesuperiorkeys")
+			log_admin("[owner.ckey] has given all players CC headsets.")
+			for(var/mob/living/carbon/C in GLOB.carbon_list)
+				if(!istype(C.ears, /obj/item/radio/headset))
+					continue
+				QDEL_NULL(C.ears)
+				var/obj/item/radio/headset/headset_cent/alt/headset = new()
+				headset.keyslot = new /obj/item/encryptionkey/heads/captain
+				headset.recalculateChannels()
+				C.equip_to_appropriate_slot(headset)
+		if("debugcharactersetup")
+			if(rank.name != "!localhost!")
+				if(rank.name != "Host")
+					return
+			GLOB.debug_character_setup = !GLOB.debug_character_setup
+			log_admin("[owner.ckey] has [GLOB.debug_character_setup ? "enabled" : "disabled"] character debug.")
 	if(E)
 		E.processing = FALSE
 		if(E.announceWhen>0)

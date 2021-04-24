@@ -251,6 +251,21 @@
 		var/mob/living/L = AM
 		L.fire_act(temperature, volume)
 
+/obj/effect/hotspot/pseudo/var/mob/owner
+/obj/effect/hotspot/pseudo/Crossed(atom/movable/AM, oldloc)	//Like above, but only applies when mob is standing. For TJ's powers
+	if(isliving(AM))
+		var/mob/living/L = AM
+		if(L.resting || L.lying || L == owner)
+			SEND_SIGNAL(src, COMSIG_MOVABLE_CROSSED, L)
+		else
+			..()
+
+/obj/effect/hotspot/pseudo/New(loc, mob/living/L, ...)
+	. = ..()
+	if(L)
+		owner=L
+
+
 /obj/effect/hotspot/singularity_pull()
 	return
 

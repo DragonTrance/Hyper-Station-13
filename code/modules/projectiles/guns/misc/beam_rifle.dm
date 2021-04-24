@@ -44,7 +44,7 @@
 	var/lastangle = 0
 	var/aiming_lastangle = 0
 	var/mob/current_user = null
-	var/list/obj/effect/projectile/tracer/current_tracers
+	var/list/obj/effect/projectile/tracer/current_tracers = list()
 	
 	var/structure_piercing = 1
 	var/structure_bleed_coeff = 0.7
@@ -164,7 +164,6 @@
 /obj/item/gun/energy/beam_rifle/Initialize()
 	. = ..()
 	fire_delay = delay
-	current_tracers = list()
 	START_PROCESSING(SSfastprocess, src)
 	zoom_lock_action = new(src)
 
@@ -198,7 +197,7 @@
 		P.color = rgb(255 * percent,255 * ((100 - percent) / 100),0)
 	else
 		P.color = rgb(0, 255, 0)
-	var/turf/curloc = get_turf(src)
+	var/turf/curloc = get_turf(current_user)
 	var/turf/targloc = get_turf(current_user.client.mouseObject)
 	if(!istype(targloc))
 		if(!istype(curloc))

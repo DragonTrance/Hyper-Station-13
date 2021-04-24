@@ -26,7 +26,10 @@
 		return
 
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A)
-	A.attack_hand(src)
+	if(POWER_ASSUME(src, POWERID_HULK_ATTACK) && a_intent == INTENT_HARM)
+		A.attack_hulk(src)
+	else
+		A.attack_hand(src)
 
 //Return TRUE to cancel other attack hand effects that respect it.
 /atom/proc/attack_hand(mob/user)
@@ -37,7 +40,7 @@
 		. = TRUE
 	if(interaction_flags_atom & INTERACT_ATOM_ATTACK_HAND)
 		. = _try_interact(user)
-
+			
 //Return a non FALSE value to cancel whatever called this from propagating, if it respects it.
 /atom/proc/_try_interact(mob/user)
 	if(IsAdminGhost(user))		//admin abuse

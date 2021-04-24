@@ -522,9 +522,6 @@
 		used_key_list[input_key] = 1
 	return input_key
 
-#if DM_VERSION < 513
-#error For the love of god do not compile the server below 513
-#endif
 //Flattens a keyed list into a list of it's contents
 /proc/flatten_list(list/key_list)
 	if(!islist(key_list))

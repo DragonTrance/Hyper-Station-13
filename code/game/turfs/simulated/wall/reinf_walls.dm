@@ -228,6 +228,14 @@
 	if(the_rcd.canRturf)
 		return ..()
 
+/turf/close/wall/r_wall/attack_hulk(mob/living/carbon/human/user)
+	if(!POWER_ASSUME(user, POWERID_HULK_ATTACK))
+		return ..(user, 1)
+	else
+		playsound(src, 'sound/effects/bang.ogg', 50, 1)
+		to_chat(user, text("<span class='notice'>You punch the wall.</span>"))
+	return TRUE
+
 /turf/closed/wall/r_wall/syndicate
 	name = "hull"
 	desc = "The armored hull of an ominous looking ship."

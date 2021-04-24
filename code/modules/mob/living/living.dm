@@ -739,15 +739,18 @@
 	if(throwing)
 		return
 	var/fixed = 0
+	var/X = POWER_ASSUME(src, POWERID_FAST_FLYING_FLAVOR) ? 2 : 1
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
 	if(on && !floating && !fixed)
-		animate(src, pixel_y = pixel_y + 2, time = 10, loop = -1)
+		/*if(POWER_ASSUME(src, POWERID_FLYING_WING_NOISES))
+			playsound(src, '', 87, 1)*/	//TODO: add sound lol
+		animate(src, pixel_y = pixel_y + 2, time = 10/X, loop = -1)
 		sleep(10)
-		animate(src, pixel_y = pixel_y - 2, time = 10, loop = -1)
+		animate(src, pixel_y = pixel_y - 2, time = 10/X, loop = -1)
 		floating = TRUE
 	else if(((!on || fixed) && floating))
-		animate(src, pixel_y = get_standard_pixel_y_offset(lying), time = 10)
+		animate(src, pixel_y = get_standard_pixel_y_offset(lying), time = 10/X)
 		floating = FALSE
 
 // The src mob is trying to strip an item from someone

@@ -47,7 +47,8 @@ mob/living/get_effective_size()
 	src.update_mobsize() 
 	//Going to change the health and speed values too
 	src.remove_movespeed_modifier(MOVESPEED_ID_SIZE)
-	src.add_movespeed_modifier(MOVESPEED_ID_SIZE, multiplicative_slowdown = (abs(size_multiplier - 1) * 0.8 ))
+	if(!POWER_ASSUME(src, POWERID_SIZE_SPEED))
+		add_movespeed_modifier(MOVESPEED_ID_SIZE, multiplicative_slowdown = (abs(size_multiplier - 1) * 0.8 ))
 	var/healthmod_old = ((previous_size * 75) - 75) //Get the old value to see what we must change.
 	var/healthmod_new = ((size_multiplier * 75) - 75) //A size of one would be zero. Big boys get health, small ones lose health.
 	var/healthchange = healthmod_new - healthmod_old //Get ready to apply the new value, and subtract the old one. (Negative values become positive)
