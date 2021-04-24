@@ -510,7 +510,6 @@
 #include "code\datums\powers\admiralmegavolt\tj.dm"
 #include "code\datums\powers\admiralmegavolt\tiamat\beam_rifle.dm"
 #include "code\datums\powers\admiralmegavolt\tiamat\species.dm"
-#include "code\datums\powers\admiralmegavolt\tiamat\tiamat.dm"
 #include "code\datums\ruins\lavaland.dm"
 #include "code\datums\ruins\space.dm"
 #include "code\datums\ruins\station.dm"

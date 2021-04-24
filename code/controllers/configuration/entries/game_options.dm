@@ -384,3 +384,5 @@
 	min_val = 0
 
 /datum/config_entry/flag/dynamic_mode
+
+/datum/config_entry/flag/ignore_req_players_for_antags
