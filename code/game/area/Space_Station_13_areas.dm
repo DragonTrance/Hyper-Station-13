@@ -1375,8 +1375,3 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 /area/crew_quarters/fitness/pool
 	name = "Pool Area"
 	icon_state = "pool"
-
-/area/xenoarch/nothinghere
-	name = "Nothing Here"
-	icon_state = "yellow"
-	ambientsounds = SPOOKY

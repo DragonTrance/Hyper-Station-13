@@ -240,11 +240,10 @@ mob/visible_message(message, self_message, blind_message, vision_distance = DEFA
 		return FALSE
 	if(!W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(store && istype(src, /mob/living/carbon/human))
-			equip_to_slot(W, SLOT_IN_BACKPACK, FALSE)
-			return TRUE
-		else if(store && !qdel_on_fail)
-			W.forceMove(get_turf(src))
-
+			var/mob/living/carbon/human/H = src
+			var/obj/item/storage/backpack/BP = H.back
+			if(BP)
+				return SEND_SIGNAL(BP, COMSIG_TRY_STORAGE_INSERT, W, null, TRUE, TRUE)
 		if(qdel_on_fail)
 			qdel(W)
 		else if(!disable_warning)

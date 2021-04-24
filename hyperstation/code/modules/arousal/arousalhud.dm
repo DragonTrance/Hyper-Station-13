@@ -54,7 +54,7 @@
 			dat	+= "<a href='byond://?src=[REF(src)];removesound=1'>Remove sounding rod (penis)</A><BR>"
 	for(var/obj/item/organ/genital/G in U.internal_organs)
 		if(G.equipment) //they have equipment
-			dat	+= "<a href='byond://?src=[REF(src)];removeequipment[G.name]=1;'>Remove [G.equipment.name] ([G.name])</A><BR>"
+			dat	+= "<a href='byond://?src=[REF(src)];removeequipment[G.name]=1;'>Remove [G.equipment.name] ([G.name]).</A><BR>"
 
 	dat	+=	{"<HR>"}//Newline for the objects
 	//bottom options
@@ -201,9 +201,6 @@
 		var/obj/item/organ/genital/vagina/O = usr.getorganslot("vagina")
 		var/obj/item/I = O.equipment
 		usr.put_in_hands(I)
-		if(istype(I, /obj/item/portalpanties))
-			var/obj/item/portalpanties/P = I
-			P.remove()
 		O.equipment = null
 
 	if(href_list["removeequipmentbelly"])
@@ -308,6 +305,8 @@ obj/screen/arousal/proc/kiss()
 			src.visible_message("<span class='notice'>[src] is about to kiss [L]!</span>", \
 								"<span class='notice'>You're attempting to kiss [L]!</span>", \
 								"<span class='notice'>You're attempting to kiss with something!</span>")
+			if(!do_mob(src, L, 2 SECONDS))	//I think two seconds is enough time to pull away if its unwanted.
+				return
 			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "kissed", /datum/mood_event/kiss) //how cute, affection is nice.
 	//Well done you kissed it/them!
 	src.visible_message("<span class='notice'>[src] kisses [L]!</span>", \

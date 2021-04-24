@@ -321,7 +321,7 @@
 				setArousalLoss(min_arousal)
 
 
-/mob/living/carbon/human/proc/mob_climax_partner(obj/item/organ/genital/G, mob/living/L, spillage = TRUE, impreg = FALSE,cover = FALSE,remote = FALSE, mb_time = 30) //Used for climaxing with any living thing
+/mob/living/carbon/human/proc/mob_climax_partner(obj/item/organ/genital/G, mob/living/L, spillage = TRUE, impreg = FALSE,cover = FALSE, mb_time = 30) //Used for climaxing with any living thing
 	var/total_fluids = 0
 	var/datum/reagents/fluid_source = null
 
@@ -369,9 +369,7 @@
 			setArousalLoss(min_arousal)
 
 	if(spillage && !cover)
-		if(do_after(src, mb_time, target = src))
-			if(!in_range(src, L) && !remote)
-				return
+		if(do_after(src, mb_time, target = src) && in_range(src, L))
 			fluid_source.trans_to(L, total_fluids*G.fluid_transfer_factor)
 			total_fluids -= total_fluids*G.fluid_transfer_factor
 			if(total_fluids > 5)
@@ -410,7 +408,6 @@
 			if (L.mind == obj.target)
 				L.mind.sexed = TRUE //sexed
 				to_chat(src, "<span class='userlove'>You feel deep satisfaction with yourself.</span>")
-	//Hyper - remote
 
 	if(impreg)
 		//Role them odds, only people with the dicks can send the chance to the person with the settings enabled at the momment.
@@ -461,10 +458,9 @@
 	if(do_after(src, mb_time, target = src) && in_range(src, container))
 		fluid_source.trans_to(container, total_fluids)
 		src.visible_message("<span class='love'>[src] uses [p_their()] [G.name] to fill [container]!</span>", \
-							"<span class='userlove'>You used your [G.name] and fill [container] with a total of [total_fluids]u's.</span>", \
+							"<span class='userlove'>You used your [G.name] to fill [container].</span>", \
 							"<span class='userlove'>You have relieved some pressure.</span>")
 		SEND_SIGNAL(src, COMSIG_ADD_MOOD_EVENT, "orgasm", /datum/mood_event/orgasm)
-		container.add_cum_overlay() //your aim is bad...
 		if(G.can_climax)
 			setArousalLoss(min_arousal)
 
@@ -495,7 +491,7 @@
 				if(!G.dontlist)
 					genitals_list += G
 	if(genitals_list.len)
-		ret_organ = input(src, "", "Genitals", null)  as null|obj in genitals_list
+		ret_organ = input(src, "", "Gentials", null)  as null|obj in genitals_list
 		return ret_organ
 	return null //error stuff
 

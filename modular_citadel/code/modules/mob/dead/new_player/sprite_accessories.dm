@@ -1558,14 +1558,6 @@ datum/sprite_accessory/mam_tails/insect
 	name = "Wolf"
 	icon_state = "wolf"
 
-/datum/sprite_accessory/mam_tails/spade
-	name = "Demon Spade"
-	icon_state = "spade"
-
-/datum/sprite_accessory/mam_tails_animated/spade
-	name = "Demon Spade"
-	icon_state = "spade"
-
 /datum/sprite_accessory/mam_tails/synthliz
 	recommended_species = list("synthliz")
 	color_src = MUTCOLORS
