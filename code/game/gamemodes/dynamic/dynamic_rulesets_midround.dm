@@ -209,15 +209,16 @@
 	antag_flag = ROLE_TRAITOR
 	restricted_roles = list("AI", "Cyborg", "Positronic Brain")
 	protected_roles = list("Rookie", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
 	required_candidates = 1
 	weight = 4
 	cost = 10
-	requirements = list(101,101,30,25,20,20,15,15,15,10)
+	//requirements = list(101,101,30,25,20,20,15,15,15,10)
 	repeatable = TRUE
-	high_population_requirement = 10
+	//high_population_requirement = 10
 	flags = TRAITOR_RULESET
-	chaos_min = 3.0
-	chaos_max = 4.9
+	chaos_min = 1.5
+	chaos_max = 3.5
 
 /datum/dynamic_ruleset/midround/autotraitor/thief
 	name = "Syndicate Sleeper Agent"
@@ -225,15 +226,16 @@
 	antag_flag = ROLE_TRAITOR
 	restricted_roles = list("AI", "Cyborg", "Positronic Brain")
 	protected_roles = list("Rookie", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
 	required_candidates = 1
 	weight = 4
 	cost = 5
-	requirements = list(101,30,25,20,15,10,10,5,5,5)
+	//requirements = list(101,30,25,20,15,10,10,5,5,5)
 	repeatable = TRUE
 	high_population_requirement = 10
 	flags = TRAITOR_RULESET
-	chaos_min = 2.0
-	chaos_max = 3.5
+	chaos_min = 1.5
+	chaos_max = 2.5
 
 /datum/dynamic_ruleset/midround/autotraitor/acceptable(population = 0, threat = 0)
 	var/player_count = mode.current_players[CURRENT_LIVING_PLAYERS].len
@@ -276,7 +278,7 @@
 //                                      //
 //////////////////////////////////////////
 
-/datum/dynamic_ruleset/midround/autotraitor/lewd
+/*/datum/dynamic_ruleset/midround/autotraitor/lewd
 	name = "Horny Traitor"
 	persistent = TRUE
 	antag_flag = ROLE_LEWD_TRAITOR
@@ -374,7 +376,7 @@
 	assigned += M.mind
 	var/datum/antagonist/traitor/lewd/newTraitor = new
 	M.mind.add_antag_datum(newTraitor)
-	return TRUE
+	return TRUE*/
 
 //////////////////////////////////////////////
 //                                          //
@@ -388,16 +390,17 @@
 	antag_flag = ROLE_MALF
 	enemy_roles = list("Security Officer", "Warden","Detective","Head of Security", "Captain", "Scientist", "Research Director", "Chief Engineer", "Engineer", "Shaft Miner")
 	exclusive_roles = list("AI")
-	required_enemies = list(4,4,4,4,4,4,2,2,2,0)
+	//required_enemies = list(4,4,4,4,4,4,2,2,2,0)
 	required_candidates = 1
-	weight = 3
-	cost = 20
-	requirements = list(101,101,101,45,40,35,30,25,20,15)
-	high_population_requirement = 35
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph)
+	//requirements = list(101,101,101,45,40,35,30,25,20,15)
+	//high_population_requirement = 35
 	required_type = /mob/living/silicon/ai
 	var/ion_announce = 33
 	var/removeDontImproveChance = 10
-	chaos_min = 3.0
+	chaos_min = 1.25
 
 /datum/dynamic_ruleset/midround/malf/trim_candidates()
 	..()
@@ -435,19 +438,20 @@
 //                                          //
 //////////////////////////////////////////////
 
-/datum/dynamic_ruleset/midround/from_ghosts/wizard
+//Use roundstart instead, that's more fun
+/*/datum/dynamic_ruleset/midround/from_ghosts/wizard
 	name = "Wizard"
 	antag_datum = /datum/antagonist/wizard
 	antag_flag = ROLE_WIZARD
 	enemy_roles = list("Security Officer","Detective","Head of Security", "Captain")
-	required_enemies = list(2,2,1,1,1,1,1,1,1,0)
+	//required_enemies = list(2,2,1,1,1,1,1,1,1,0)
 	required_candidates = 1
 	weight = 1
 	cost = 20
-	requirements = list(101,101,60,55,50,40,30,30,20,20)
-	high_population_requirement = 50
+	//requirements = list(101,101,60,55,50,40,30,30,20,20)
+	//high_population_requirement = 50
 	repeatable = FALSE //WE DON'T NEED MORE THAN ONE WIZARD
-	chaos_min = 4
+	chaos_min = 2.9
 	admin_required = TRUE
 
 /datum/dynamic_ruleset/midround/from_ghosts/wizard/ready(forced = FALSE)
@@ -461,7 +465,7 @@
 
 /datum/dynamic_ruleset/midround/from_ghosts/wizard/finish_setup(mob/new_character, index)
 	..()
-	new_character.forceMove(pick(GLOB.wizardstart))
+	new_character.forceMove(pick(GLOB.wizardstart))*/
 
 //////////////////////////////////////////////
 //                                          //
@@ -469,21 +473,21 @@
 //                                          //
 //////////////////////////////////////////////
 
-/datum/dynamic_ruleset/midround/from_ghosts/nuclear
+/*/datum/dynamic_ruleset/midround/from_ghosts/nuclear
 	name = "Nuclear Assault"
 	antag_flag = ROLE_OPERATIVE
 	antag_datum = /datum/antagonist/nukeop
 	enemy_roles = list("AI", "Cyborg", "Security Officer", "Warden","Detective","Head of Security", "Captain")
-	required_enemies = list(3,3,3,3,3,2,2,2,2,1)
+	//required_enemies = list(3,3,3,3,3,2,2,2,2,1)
 	required_candidates = 5
 	weight = 5
 	cost = 20
-	requirements = list(101,100,95,85,70,60,50,40,30,20)
-	high_population_requirement = 10
+	//requirements = list(101,100,95,85,70,60,50,40,30,20)
+	//high_population_requirement = 10
 	var/operative_cap = list(1,1,1,2,2,3,3,4,4,5)
 	var/datum/team/nuclear/nuke_team
 	flags = HIGHLANDER_RULESET
-	chaos_min = 4.0
+	chaos_min = 3.0
 
 /datum/dynamic_ruleset/midround/from_ghosts/nuclear/acceptable(population=0, threat=0)
 	if (locate(/datum/dynamic_ruleset/roundstart/nuclear) in mode.executed_rules)
@@ -505,7 +509,7 @@
 		nuke_team = new_role.nuke_team
 		new_character.mind.add_antag_datum(new_role)
 	else
-		return ..()
+		return ..()*/
 
 //////////////////////////////////////////////
 //                                          //
@@ -518,15 +522,16 @@
 	antag_datum = /datum/antagonist/blob
 	antag_flag = ROLE_BLOB
 	enemy_roles = list("Security Officer", "Detective", "Head of Security", "Captain", "Station Engineer")
-	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
+	required_enemies = list(0,0,0,0,0,0,0,0,0,0)
 	required_candidates = 1
-	weight = 3
-	cost = 20
-	requirements = list(101,101,101,60,50,40,40,40,30,20)
-	//requirements = list(0,0,0,0,0,0,0,0,0,0)
-	high_population_requirement = 50
-	repeatable = TRUE
-	chaos_min = 4.0
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,101,60,50,40,40,40,30,20)
+	requirements = list(0,0,0,0,0,0,0,0,0,0)
+	//high_population_requirement = 50
+	repeatable = FALSE	//As much as I would enjoy 2+ blobs, this would get chaotic on a small server like this
+	chaos_min = 3.0
 	controller = /datum/round_event_control/blob
 
 /datum/dynamic_ruleset/midround/from_ghosts/blob/generate_ruleset_body(mob/applicant)
@@ -539,7 +544,7 @@
 //                                          //
 //////////////////////////////////////////////
 
-/datum/dynamic_ruleset/midround/bloodcult
+/*/datum/dynamic_ruleset/midround/bloodcult
 	name = "Blood Cult"
 	antag_flag = ROLE_CULTIST
 	antag_datum = /datum/antagonist/cult
@@ -549,13 +554,13 @@
 	required_candidates = 1
 	weight = 5
 	cost = 20
-	requirements = list(101,101,101,95,70,60,60,60,50,50)
-	high_population_requirement = 10
+	//requirements = list(101,101,101,95,70,60,60,60,50,50)
+	//high_population_requirement = 10
 	pop_per_requirement = 5
 	flags = HIGHLANDER_RULESET
 	var/cultist_cap = list(2,2,2,3,3,4,4,4,4,4)
 	var/datum/team/cult/main_cult
-	chaos_min = 4.5
+	chaos_min = 4.5	//Keep this up here
 
 /datum/dynamic_ruleset/midround/bloodcult/ready(forced = FALSE)
 	var/indice_pop = min(10,round(living_players.len/5)+1)
@@ -594,7 +599,7 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 		SSticker.news_report = CULT_SUMMON
 	else
 		SSticker.mode_result = "loss - staff stopped the cult"
-		SSticker.news_report = CULT_FAILURE
+		SSticker.news_report = CULT_FAILURE*/
 
 
 //////////////////////////////////////////////
@@ -608,16 +613,17 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 	antag_datum = /datum/antagonist/xeno
 	antag_flag = ROLE_ALIEN
 	enemy_roles = list("Security Officer", "Detective", "Head of Security", "Captain")
-	required_enemies = list(2,2,1,1,1,1,1,0,0,0)
+	required_enemies = list(1,1,1,1,1,0,0,0,0,0)
 	required_candidates = 1
-	weight = 3
-	cost = 15
-	requirements = list(101,101,101,50,40,35,30,30,30,20)
-	//requirements = list(0,0,0,0,0,0,0,0,0,0)
-	high_population_requirement = 50
-	repeatable = TRUE
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,101,50,40,35,30,30,30,20)
+	requirements = list(0,0,0,0,0,0,0,0,0,0)
+	//high_population_requirement = 50
+	repeatable = FALSE
 	var/list/vents = list()
-	chaos_min = 3.5
+	chaos_min = 2.0
 	controller = /datum/round_event_control/alien_infestation
 
 /datum/dynamic_ruleset/midround/from_ghosts/xenomorph/execute()
@@ -652,7 +658,7 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 //                                          //
 //////////////////////////////////////////////
 
-/datum/dynamic_ruleset/midround/from_ghosts/nightmare
+/*/datum/dynamic_ruleset/midround/from_ghosts/nightmare
 	name = "Nightmare"
 	antag_datum = /datum/antagonist/nightmare
 	controller = /datum/round_event_control/nightmare
@@ -664,7 +670,7 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 	weight = 4
 	cost = 10
 	requirements = list(101,50,40,30,20,20,20,20,15,10)
-	high_population_requirement = 50
+	//high_population_requirement = 50
 	repeatable = FALSE
 	var/list/spawn_locs = list()
 	chaos_min = 3
@@ -693,7 +699,7 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 	playsound(S, 'sound/magic/ethereal_exit.ogg', 50, 1, -1)
 	message_admins("[ADMIN_LOOKUPFLW(S)] has been made into a Nightmare by the midround ruleset.")
 	log_game("DYNAMIC: [key_name(S)] was spawned as a Nightmare by the midround ruleset.")
-	return S
+	return S*/
 
 //////////////////////////////////////////////
 //                                          //
@@ -709,16 +715,16 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 	enemy_roles = list("AI", "Cyborg", "Security Officer", "Warden","Detective","Head of Security", "Captain")
 	required_enemies = list(3,3,2,2,2,2,2,2,2,0)
 	required_candidates = 2
-	weight = 3
-	cost = 10
-	requirements = list(101,101,101,101,40,30,30,30,30,30)
-	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear,/datum/dynamic_ruleset/midround/from_ghosts/nuclear)
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,101,101,40,30,30,30,30,30)
 	high_population_requirement = 15
 	var/datum/team/abductor_team/team
 	//property_weights = list("extended" = -2, "valid" = 1, "trust" = -1, "chaos" = 2)
 	repeatable_weight_decrease = 4
 	repeatable = TRUE
-	chaos_min = 4.0
+	chaos_min = 2.5
 
 /datum/dynamic_ruleset/midround/from_ghosts/abductors/ready(forced = FALSE)
 	team = new /datum/team/abductor_team
@@ -751,14 +757,16 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 	enemy_roles = list("Security Officer","Head of Security","Captain","AI","Cyborg")
 	required_enemies = list(3,2,2,2,2,1,1,1,1,0)
 	required_candidates = 1
-	weight = 4
-	cost = 10
-	requirements = list(101,101,101,40,35,30,25,20,20,20)
-	high_population_requirement = 30
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,101,40,35,30,25,20,20,20)
+	//high_population_requirement = 30
 	//property_weights = list("story_potential" = 1, "extended" = -2, "valid" = 2)
 	var/list/spawn_locs = list()
 	var/spawn_loc
-	chaos_min = 3.0
+	chaos_min = 2.5
+	chaos_max = 3.5
 
 /datum/dynamic_ruleset/midround/from_ghosts/ninja/ready(forced = FALSE)
 	if(!spawn_loc)
@@ -818,21 +826,22 @@ datum/dynamic_ruleset/midround/bloodcult/trim_candidates()
 //////////////////////////////////////////////
 
 /datum/dynamic_ruleset/midround/bloodsucker
-  name = "Bloodsucker Infiltrator"
-  //config_tag = "latejoin_bloodsucker"
-  antag_datum = ANTAG_DATUM_BLOODSUCKER
-  antag_flag = ROLE_TRAITOR
-  restricted_roles = list("AI", "Cyborg")
-  protected_roles = list("Rookie", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
-  required_candidates = 1
-  enemy_roles = list("Security Officer","Head of Security","Captain","AI","Cyborg","Chaplain","Curator")
-  required_enemies = list(3,2,2,2,2,2,2,2,2,2)
-  weight = 3
-  cost = 10
-  requirements = list(101,101,101,60,55,50,45,40,35,30)
-  high_population_requirement = 30
-  repeatable = FALSE
-  chaos_min = 4.0
+	name = "Bloodsucker Infiltrator"
+	//config_tag = "latejoin_bloodsucker"
+	antag_datum = ANTAG_DATUM_BLOODSUCKER
+	antag_flag = ROLE_TRAITOR
+	restricted_roles = list("AI", "Cyborg")
+	protected_roles = list("Rookie", "Security Officer", "Warden", "Detective", "Head of Security", "Captain", "Head of Personnel", "Chief Engineer", "Chief Medical Officer", "Research Director", "Quartermaster")
+	required_candidates = 1
+	enemy_roles = list("Security Officer","Head of Security","Captain","AI","Cyborg","Chaplain","Curator")
+	//required_enemies = list(3,2,2,2,2,2,2,2,2,2)
+	weight = 10
+	cost = 0
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,101,60,55,50,45,40,35,30)
+	//high_population_requirement = 30
+	repeatable = FALSE
+	chaos_min = 3.5
 
 datum/dynamic_ruleset/midround/bloodsucker/trim_candidates()
 	..()

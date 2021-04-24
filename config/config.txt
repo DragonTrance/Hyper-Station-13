@@ -15,7 +15,7 @@ $include donator_groupings.txt
 # There are various options which are hard-locked for security reasons.
 
 ## Server name: This appears at the top of the screen in-game and in the BYOND hub. Uncomment and replace 'tgstation' with the name of your choice.
-# SERVERNAME tgstation
+SERVERNAME wooo
 
 ## Server tagline: This will appear right below the server's title.
 # SERVERTAGLINE A generic TG-based server
@@ -30,7 +30,7 @@ STATIONNAME Space Station 13
 #HUB
 
 ## Lobby time: This is the amount of time between rounds that players have to setup their characters and be ready.
-LOBBY_COUNTDOWN 120
+LOBBY_COUNTDOWN 220
 
 ## Round End Time: This is the amount of time after the round ends that players have to murder death kill each other.
 ROUND_END_COUNTDOWN 90
@@ -38,7 +38,7 @@ ROUND_END_COUNTDOWN 90
 ## Comment this out if you want to use the SQL based admin system, the legacy system uses admins.txt.
 ## You need to set up your database to use the SQL based system.
 ## This flag is automatically enabled if SQL_ENABLED isn't
-ADMIN_LEGACY_SYSTEM
+#ADMIN_LEGACY_SYSTEM
 
 ##Uncomment this to stop any admins loaded by the legacy system from having their rank edited by the permissions panel
 #PROTECT_LEGACY_ADMINS
@@ -59,7 +59,7 @@ ENABLE_LOCALHOST_RANK
 ## Comment this out if you want to use the SQL based mentor system, the legacy system uses mentors.txt.
 ## You need to set up your database to use the SQL based system.
 ## This flag is automatically enabled if SQL_ENABLED isn't
-MENTOR_LEGACY_SYSTEM
+#MENTOR_LEGACY_SYSTEM
 
 #Mentors only see ckeys by default. Uncomment to have them only see mob name
 #MENTORS_MOBNAME_ONLY
@@ -303,7 +303,7 @@ TICK_LIMIT_MC_INIT 500
 #TICKLAG 0.1
 
 ##Can also be set as per-second value, the following value is identical to the above.
-FPS 20
+FPS 60
 
 ## Comment this out to disable automuting
 #AUTOMUTE_ON
@@ -417,7 +417,7 @@ CLIENT_ERROR_MESSAGE Your version of byond is not supported. Please upgrade.
 ## Set to 0 or comment out to disable.
 SECOND_TOPIC_LIMIT 10
 
-MINUTE_TOPIC_LIMIT 100
+MINUTE_TOPIC_LIMIT 300
 
 
 ## CLICK RATE LIMITING
@@ -426,9 +426,9 @@ MINUTE_TOPIC_LIMIT 100
 ## Admins are exempt from these limits.
 ## Hitting the minute limit notifies admins.
 ## Set to 0 to disable.
-SECOND_CLICK_LIMIT 15
+SECOND_CLICK_LIMIT 20
 
-MINUTE_CLICK_LIMIT 400
+MINUTE_CLICK_LIMIT 700
 
 ##Error handling related options
 ## The "cooldown" time for each occurence of a unique error
@@ -477,7 +477,9 @@ DISABLE_HIGH_POP_MC_MODE_AMOUNT 60
 ##	By default, this is 15x15, which gets simplified to 7 by BYOND, as it is a 1:1 screen ratio.
 ##	For reference, Goonstation uses a resolution of 21x15 for it's widescreen mode.
 ##	Do note that changing this value will affect the title screen. The title screen will have to be updated manually if this is changed.
-DEFAULT_VIEW 21x15
+DEFAULT_VIEW 20x15
 
 ## Enable Dynamic mode
 DYNAMIC_MODE
+
+USE_ANTAG_PLAYER_REQUIREMENT

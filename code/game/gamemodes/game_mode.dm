@@ -61,7 +61,7 @@
 		if((player.client)&&(player.ready == PLAYER_READY_TO_PLAY))
 			playerC++
 	if(!GLOB.Debug2)
-		if(playerC < required_players || (maximum_players >= 0 && playerC > maximum_players))
+		if((playerC < required_players || (maximum_players >= 0 && playerC > maximum_players)) && CONFIG_GET(flag/use_antag_player_requirement))
 			return 0
 	antag_candidates = get_players_for_role(antag_flag)
 	if(!GLOB.Debug2)

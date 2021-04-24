@@ -28,7 +28,7 @@
 	/// If set, there needs to be a certain amount of players doing those roles (among the players who won't be drafted) for the rule to be drafted IMPORTANT: DOES NOT WORK ON ROUNDSTART RULESETS.
 	var/list/enemy_roles = list()
 	/// If enemy_roles was set, this is the amount of enemy job workers needed per threat_level range (0-10,10-20,etc) IMPORTANT: DOES NOT WORK ON ROUNDSTART RULESETS.
-	var/required_enemies = list(1,1,0,0,0,0,0,0,0,0)
+	var/required_enemies = list(1,0,0,0,0,0,0,0,0,0)
 	/// The rule needs this many candidates (post-trimming) to be executed (example: Cult needs 4 players at round start)
 	var/required_candidates = 0
 	/// 1 -> 9, probability for this rule to be picked against other rules
@@ -40,10 +40,10 @@
 	/// TRAITOR_RULESET and MINOR_RULESET can't end the round and have no difference right now.
 	var/flags = 0
 	/// Pop range per requirement. If zero defaults to mode's pop_per_requirement.
-	var/pop_per_requirement = 0
+	var/pop_per_requirement = 2
 	/// Requirements are the threat level requirements per pop range.
 	/// With the default values, The rule will never get drafted below 10 threat level (aka: "peaceful extended"), and it requires a higher threat level at lower pops.
-	var/list/requirements = list(40,30,20,10,10,10,10,10,10,10)
+	var/list/requirements = list(15,10,10,10,10,10,10,10,10,10)
 	/// An alternative, static requirement used instead when pop is over mode's high_pop_limit.
 	var/high_population_requirement = 10
 	/// Reference to the mode, use this instead of SSticker.mode.

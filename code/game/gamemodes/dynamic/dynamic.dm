@@ -15,9 +15,9 @@ GLOBAL_VAR_INIT(dynamic_latejoin_delay_min, (5 MINUTES))
 GLOBAL_VAR_INIT(dynamic_latejoin_delay_max, (25 MINUTES))
 
 GLOBAL_VAR_INIT(dynamic_midround_delay_min, (15 MINUTES))
-GLOBAL_VAR_INIT(dynamic_midround_delay_max, (35 MINUTES))
+GLOBAL_VAR_INIT(dynamic_midround_delay_max, (25 MINUTES))
 
-GLOBAL_VAR_INIT(dynamic_event_delay_min, (4 MINUTES))
+GLOBAL_VAR_INIT(dynamic_event_delay_min, (1 MINUTES))
 GLOBAL_VAR_INIT(dynamic_event_delay_max, (12 MINUTES))
 
 GLOBAL_VAR_INIT(dynamic_threat_delay, (4 MINUTES))
@@ -35,7 +35,7 @@ GLOBAL_VAR_INIT(dynamic_curve_width, 1.8)
 // If enabled only picks a single starting rule and executes only autotraitor midround ruleset.
 GLOBAL_VAR_INIT(dynamic_classic_secret, FALSE)
 // How many roundstart players required for high population override to take effect.
-GLOBAL_VAR_INIT(dynamic_high_pop_limit, 55)
+GLOBAL_VAR_INIT(dynamic_high_pop_limit, 5)
 // If enabled does not accept or execute any rulesets.
 GLOBAL_VAR_INIT(dynamic_forced_extended, FALSE)
 // How high threat is required for HIGHLANDER_RULESETs stacking.
@@ -44,7 +44,7 @@ GLOBAL_VAR_INIT(dynamic_stacking_limit, 101)
 // List of forced roundstart rulesets.
 GLOBAL_LIST_EMPTY(dynamic_forced_roundstart_ruleset)
 // Forced threat level, setting this to zero or higher forces the roundstart threat to the value.
-GLOBAL_VAR_INIT(dynamic_forced_threat_level, -1)
+GLOBAL_VAR_INIT(dynamic_forced_threat_level, 90)
 // Chaos level
 GLOBAL_VAR_INIT(dynamic_chaos_level, 1.5)
 

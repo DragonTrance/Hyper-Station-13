@@ -1,5 +1,5 @@
-#define DYNAMIC_DEFAULT_CHAOS       1.0 //The default chaos value for low pop low vote rounds
-#define DYNAMIC_VOTE_NORMALIZATION  5   //If there are fewer than this many votes, the average will be skewed towards the default
+#define DYNAMIC_DEFAULT_CHAOS       2.3 //The default chaos value for low pop low vote rounds
+#define DYNAMIC_VOTE_NORMALIZATION  2   //If there are fewer than this many votes, the average will be skewed towards the default
 
 SUBSYSTEM_DEF(vote)
 	name = "Vote"

@@ -73,7 +73,7 @@
 		if (!M.client) // Are they connected?
 			trimmed_list.Remove(M)
 			continue
-		if(!mode.check_age(M.client, minimum_required_age))
+		if(!mode.check_age(M.client, minimum_required_age) && CONFIG_GET(flag/use_antag_player_requirement))
 			trimmed_list.Remove(M)
 			continue
 		if (!(antag_name in M.client.prefs.be_special) || jobban_isbanned(M.ckey, list(antag_name, ROLE_SYNDICATE)))//are they willing and not antag-banned?
@@ -104,15 +104,16 @@
 	antag_flag = ROLE_TRAITOR
 	enemy_roles = list("AI","Security Officer","Head of Security","Captain")
 	required_enemies = list(3,3,2,2,2,1,1,1,1,0)
-	weight = 3
+	weight = 10
 	cost = 0
-	earliest_start = 50 MINUTES
-	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear,/datum/dynamic_ruleset/midround/from_ghosts/nuclear)
-	requirements = list(101,30,25,20,20,20,15,10,10,10)
+	earliest_start = 30 MINUTES
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,30,25,20,20,20,15,10,10,10)
 	//property_weights = list("story_potential" = 1, "trust" = 1, "chaos" = 1)
 	high_population_requirement = 15
 	occurances_max = 1
-	chaos_min = 2.0
+	chaos_min = 1.0
+	chaos_max = 4.0
 
 /datum/dynamic_ruleset/event/pirates/ready(forced = FALSE)
 	if (!SSmapping.empty_space)
@@ -125,7 +126,7 @@
 //                                          //
 //////////////////////////////////////////////
 
-/datum/dynamic_ruleset/event/spiders
+/*/datum/dynamic_ruleset/event/spiders
 	name = "Spider Infestation"
 	//config_tag = "spiders"
 	typepath = /datum/round_event/spider_infestation
@@ -138,7 +139,7 @@
 	//property_weights = list("chaos" = 1, "valid" = 1)
 	earliest_start = 30 MINUTES //Skyrat change.
 	occurances_max = 2
-	chaos_min = 1.5
+	chaos_min = 1.5*/
 
 //////////////////////////////////////////////
 //                                          //
@@ -155,7 +156,7 @@
 	cost = 2
 	weight = 1
 	repeatable_weight_decrease = 1
-	requirements = list(101,101,10,10,5,5,5,5,5,5) // yes, can happen on fake-extended
+	//requirements = list(101,101,10,10,5,5,5,5,5,5) // yes, can happen on fake-extended
 	high_population_requirement = 5
 	repeatable = TRUE
 	//property_weights = list("chaos" = 1, "extended" = 2)
@@ -196,7 +197,7 @@
 	required_enemies = list(1,1,0,0,0,0,0,0,0,0)
 	weight = 3
 	// no repeatable weight decrease. too variable to be unfun multiple times in one round
-	cost = 1
+	cost = -10
 	requirements = list(5,5,5,5,5,5,5,5,5,5)
 	high_population_requirement = 5
 	repeatable = TRUE
@@ -204,6 +205,7 @@
 	//always_max_weight = TRUE
 	occurances_max = 3
 	chaos_min = 1.0
+	chaos_max = 3.5
 
 //////////////////////////////////////////////
 //                                          //
@@ -216,37 +218,37 @@
 	//config_tag = "meteor_wave"
 	typepath = /datum/round_event/meteor_wave
 	enemy_roles = list("Chief Engineer","Station Engineer","Atmospheric Technician","Captain","Cyborg")
-	required_enemies = list(2,2,2,2,2,2,2,2,1,1)
+	required_enemies = list(2,2,1,1,1,1,1,1,1,1)
+	weight = 10
 	cost = 0
-	weight = 2
-	earliest_start = 45 MINUTES
+	earliest_start = 30 MINUTES
 	repeatable_weight_decrease = 2
-	requirements = list(101,101,25,25,20,20,15,15,10,10)
-	high_population_requirement = 30
+	//high_population_requirement = 30
 	//property_weights = list("extended" = -2)
-	occurances_max = 2
+	occurances_max = 1
 	chaos_min = 1.5
+	chaos_max = 3.0
 
 /datum/dynamic_ruleset/event/meteor_wave/ready()
 	if(world.time-SSticker.round_start_time > 35 MINUTES && mode.threat_level > 40 && mode.threat >= 25 && prob(30))
 		name = "Meteor Wave: Threatening"
 		cost = 5
 		typepath = /datum/round_event/meteor_wave/threatening
-		requirements = list(101,101,30,25,20,20,20,20,20,15)
+		//requirements = list(101,101,30,25,20,20,20,20,20,15)
 		chaos_min = 1.8
 	else if(world.time-SSticker.round_start_time > 45 MINUTES && mode.threat_level > 50 && mode.threat >= 40 && prob(30))
 		name = "Meteor Wave: Catastrophic"
 		cost = 10
 		typepath = /datum/round_event/meteor_wave/catastrophic
-		required_enemies = list(3,3,3,3,3,2,2,2,2,2)
-		requirements = list(101,101,40,30,30,30,30,30,30,30)
+		//required_enemies = list(3,3,3,3,3,2,2,2,2,2)
+		//requirements = list(101,101,40,30,30,30,30,30,30,30)
 		chaos_min = 2.0
 	else
 		name = "Meteor Wave: Normal"
 		cost = 5
 		typepath = /datum/round_event/meteor_wave
 		chaos_min = 1.5
-		required_enemies = list(2,2,2,2,1,1,1,1,0,0)
+		//required_enemies = list(2,2,2,2,1,1,1,1,0,0)
 	return ..()
 
 //////////////////////////////////////////////
@@ -265,12 +267,13 @@
 	earliest_start = 20 MINUTES
 	repeatable_weight_decrease = 2
 	cost = 0
-	requirements = list(101,101,10,5,5,5,5,5,5,5)
+	//requirements = list(101,101,10,5,5,5,5,5,5,5)
 	high_population_requirement = 5
 	repeatable = TRUE
 	//property_weights = list("extended" = 1)
 	occurances_max = 2
 	chaos_min = 1.0
+	chaos_max = 2.0
 
 /datum/dynamic_ruleset/event/anomaly_flux
 	name = "Anomaly: Hyper-Energetic Flux"
@@ -282,12 +285,12 @@
 	earliest_start = 20 MINUTES
 	repeatable_weight_decrease = 2
 	cost = 2
-	requirements = list(101,101,10,5,5,5,5,5,5,5)
-	high_population_requirement = 10
-	repeatable = TRUE
+	//requirements = list(101,101,10,5,5,5,5,5,5,5)
+	//high_population_requirement = 10
 	//property_weights = list("extended" = 1)
-	occurances_max = 2
+	occurances_max = 1
 	chaos_min = 1.0
+	chaos_max = 4.0
 
 /datum/dynamic_ruleset/event/anomaly_gravitational
 	name = "Anomaly: Gravitational"
@@ -296,12 +299,13 @@
 	weight = 3
 	repeatable_weight_decrease = 1
 	cost = 0
-	requirements = list(101,4,3,2,1,0,0,0,0,0)
+	//requirements = list(101,4,3,2,1,0,0,0,0,0)
 	high_population_requirement = 5
 	repeatable = TRUE
 	//property_weights = list("extended" = 1)
 	occurances_max = 3
 	chaos_min = 0.5
+	chaos_max = 4.5
 
 /datum/dynamic_ruleset/event/anomaly_pyroclastic
 	name = "Anomaly: Pyroclastic"
@@ -312,30 +316,30 @@
 	repeatable_weight_decrease = 1
 	cost = 0
 	enemy_roles = list("Chief Engineer","Station Engineer","Atmospheric Technician","Research Director","Scientist","Captain","Cyborg")
-	required_enemies = list(2,2,2,2,2,1,1,1,1,0)
-	requirements = list(101,101,10,10,10,10,10,10,10,10)
-	high_population_requirement = 10
-	repeatable = TRUE
+	//required_enemies = list(2,2,2,2,2,1,1,1,1,0)
+	//requirements = list(101,101,10,10,10,10,10,10,10,10)
+	//high_population_requirement = 10
 	//property_weights = list("extended" = 1)
-	occurances_max = 2
+	occurances_max = 1
 	chaos_min = 1.5
+	chaos_max = 3.5
 
 /datum/dynamic_ruleset/event/anomaly_vortex
 	name = "Anomaly: Vortex"
 	//config_tag = "anomaly_vortex"
 	typepath = /datum/round_event/anomaly/anomaly_vortex
 	weight = 2
-	earliest_start = 30 MINUTES
+	earliest_start = 60 MINUTES
 	repeatable_weight_decrease = 1
 	cost = 0
 	enemy_roles = list("Chief Engineer","Station Engineer","Atmospheric Technician","Research Director","Scientist","Captain","Cyborg")
-	required_enemies = list(3,3,3,2,2,2,2,2,2,0)
-	requirements = list(101,101,101,10,10,10,10,10,10,10)
+	//required_enemies = list(3,3,3,2,2,2,2,2,2,0)
+	//requirements = list(101,101,101,10,10,10,10,10,10,10)
 	high_population_requirement = 10
-	repeatable = TRUE
 	//property_weights = list("extended" = 1)
 	occurances_max = 1
 	chaos_min = 1.5
+	chaos_max = 4.5
 
 //////////////////////////////////////////////
 //                                          //
@@ -353,6 +357,7 @@
 	requirements = list(10,10,10,10,10,10,10,10,10,10) //SECURE THAT DISK
 	cost = 50
 	chaos_min = 0.5
+	chaos_max = 4.0
 
 /datum/dynamic_ruleset/event/operative/get_weight()
 	var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
@@ -375,35 +380,33 @@
 	name = "Brand Intelligence"
 	//config_tag = "brand_intelligence"
 	typepath = /datum/round_event/brand_intelligence
-	weight = 1
-	earliest_start = 30 MINUTES
-	repeatable_weight_decrease = 1
-	cost = 0
+	weight = 5
+	earliest_start = 1 MINUTES
+	cost = 20
 	enemy_roles = list("Chief Engineer","Station Engineer","Atmospheric Technician","Research Director","Scientist","Captain","Cyborg")
-	required_enemies = list(3,2,2,2,1,1,1,0,0,0)
-	requirements = list(101,25,20,15,15,15,10,10,10,10)
-	high_population_requirement = 10
-	repeatable = TRUE
+	required_enemies = list(1,1,1,1,1,0,0,0,0,0)
+	//requirements = list(101,25,20,15,15,15,10,10,10,10)
 	//property_weights = list("extended" = -1, "chaos" = 1)
 	occurances_max = 1
-	chaos_min = 1.5
+	chaos_min = 2.5
+	chaos_max=  3.5
 
-/datum/dynamic_ruleset/event/carp_migration
+/*/datum/dynamic_ruleset/event/carp_migration
 	name = "Carp Migration"
 	//config_tag = "carp_migration"
 	typepath = /datum/round_event/carp_migration
-	weight = 4
+	weight = 5
 	repeatable_weight_decrease = 2
-	cost = 4
-	requirements = list(101,5,5,5,5,1,1,1,1,1)
+	cost = 3
+	//requirements = list(101,5,5,5,5,1,1,1,1,1)
 	high_population_requirement = 10
-	earliest_start = 10 MINUTES
+	earliest_start = 30 MINUTES
 	repeatable = TRUE
 	//property_weights = list("extended" = 1)
 	occurances_max = 3
-	chaos_min = 0.5
+	chaos_min = 0.5*/
 
-/datum/dynamic_ruleset/event/communications_blackout
+/*/datum/dynamic_ruleset/event/communications_blackout
 	name = "Communications Blackout"
 	//config_tag = "communications_blackout"
 	typepath = /datum/round_event/communications_blackout
@@ -412,13 +415,13 @@
 	repeatable_weight_decrease = 2
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(1,1,1,0,0,0,0,0,0,0)
-	requirements = list(0,0,0,0,5,5,5,5,5,5)
+	//requirements = list(0,0,0,0,5,5,5,5,5,5)
 	high_population_requirement = 5
 	repeatable = TRUE
 	//property_weights = list("extended" = 1, "chaos" = 1)
-	occurances_max = 5
+	occurances_max = 5*/
 
-/datum/dynamic_ruleset/event/processor_overload
+/*/datum/dynamic_ruleset/event/processor_overload
 	name = "Processor Overload"
 	//config_tag = "processor_overload"
 	typepath = /datum/round_event/processor_overload
@@ -427,23 +430,23 @@
 	repeatable_weight_decrease = 3
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(2,2,2,2,1,1,1,1,1,1)
-	requirements = list(101,101,5,5,5,5,5,5,5,5)
+	//requirements = list(101,101,5,5,5,5,5,5,5,5)
 	high_population_requirement = 5
 	repeatable = TRUE
 	//property_weights = list("extended" = 1, "chaos" = 1)
 	//always_max_weight = TRUE
-	occurances_max = 2
+	occurances_max = 2*/
 
 /datum/dynamic_ruleset/event/space_dust
 	name = "Minor Space Dust"
 	//config_tag = "space_dust"
 	typepath = /datum/round_event/space_dust
-	cost = 2
-	weight = 10
+	cost = -2
+	weight = 15
 	repeatable_weight_decrease = 2
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(1,1,1,0,0,0,0,0,0,0)
-	requirements = list(5,5,5,5,5,5,5,0,0,0)
+	//requirements = list(5,5,5,5,5,5,5,0,0,0)
 	high_population_requirement = 5
 	repeatable = TRUE
 	earliest_start = 0 MINUTES
@@ -451,7 +454,7 @@
 	//always_max_weight = TRUE
 	occurances_max = 0
 
-/datum/dynamic_ruleset/event/major_dust
+/*/datum/dynamic_ruleset/event/major_dust
 	name = "Major Space Dust"
 	//config_tag = "major_dust"
 	typepath = /datum/round_event/meteor_wave/major_dust
@@ -460,13 +463,13 @@
 	repeatable_weight_decrease = 1
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(2,2,1,1,1,1,1,1,1,1)
-	requirements = list(15,10,9,8,7,6,5,4,3,2)
+	//requirements = list(15,10,9,8,7,6,5,4,3,2)
 	high_population_requirement = 10
 	repeatable = TRUE
 	//property_weights = list("extended" = 1)
-	occurances_max = 3
+	occurances_max = 3*/
 
-/datum/dynamic_ruleset/event/electrical_storm
+/*/datum/dynamic_ruleset/event/electrical_storm
 	name = "Electrical Storm"
 	typepath = /datum/round_event/electrical_storm
 	cost = 1
@@ -474,12 +477,12 @@
 	repeatable_weight_decrease = 2
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(1,1,1,0,0,0,0,0,0,0)
-	requirements = list(3,3,2,2,1,1,0,0,0,0)
+	//requirements = list(3,3,2,2,1,1,0,0,0,0)
 	high_population_requirement = 5
 	repeatable = TRUE
-	occurances_max = 10
+	occurances_max = 10*/
 
-/datum/dynamic_ruleset/event/heart_attack
+/*/datum/dynamic_ruleset/event/heart_attack
 	name = "Random Heart Attack"
 	typepath = /datum/round_event/heart_attack
 	cost = 0
@@ -492,9 +495,9 @@
 	high_population_requirement = 5
 	repeatable = TRUE
 	occurances_max = 2
-	chaos_min = 1.0
+	chaos_min = 1.0	*/
 
-/datum/dynamic_ruleset/event/radiation_storm
+/*/datum/dynamic_ruleset/event/radiation_storm
 	name = "Radiation Storm"
 	//config_tag = "radiation_storm"
 	typepath = /datum/round_event/radiation_storm
@@ -506,7 +509,7 @@
 	requirements = list(5,5,5,5,5,5,5,5,5,5)
 	high_population_requirement = 5
 	//property_weights = list("extended" = 1,"chaos" = 1)
-	occurances_max = 2
+	occurances_max = 2*/
 
 /datum/dynamic_ruleset/event/portal_storm_syndicate
 	name = "Portal Storm"
@@ -515,8 +518,8 @@
 	cost = 0
 	weight = 1
 	enemy_roles = list("Head of Security","Security Officer","AI","Captain","Shaft Miner")
-	required_enemies = list(2,2,2,2,2,2,2,2,2,2)
-	requirements = list(101,101,40,35,30,30,30,30,25,20)
+	//required_enemies = list(2,2,2,2,2,2,2,2,2,2)
+	//requirements = list(101,101,40,35,30,30,30,30,25,20)
 	high_population_requirement =  30
 	earliest_start = 40 MINUTES
 	//property_weights = list("teamwork" = 1,"chaos" = 1, "extended" = -1)
@@ -524,7 +527,7 @@
 	chaos_min = 1.3
 
 
-/datum/dynamic_ruleset/event/wormholes
+/*/datum/dynamic_ruleset/event/wormholes
 	name = "Wormholes"
 	//config_tag = "wormhole"
 	typepath = /datum/round_event/wormholes
@@ -533,28 +536,30 @@
 	repeatable_weight_decrease = 1
 	enemy_roles = list("AI","Medical Doctor","Station Engineer","Head of Personnel","Captain")
 	required_enemies = list(2,2,2,2,2,2,2,2,2,0)
-	requirements = list(5,5,5,5,5,5,5,5,5,5)
+	//requirements = list(5,5,5,5,5,5,5,5,5,5)
 	high_population_requirement =  5
 	//property_weights = list("extended" = 1)
 	occurances_max = 2
-	chaos_min = 1.0
+	chaos_min = 1.0*/
 
 /datum/dynamic_ruleset/event/swarmers
 	name = "Swarmers"
 	//config_tag = "swarmer"
 	typepath = /datum/round_event/spawn_swarmer
+	weight = 10
 	cost = 0
-	weight = 1
-	earliest_start = 40 MINUTES
+	earliest_start = 30 MINUTES
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
 	enemy_roles = list("AI","Security Officer","Head of Security","Captain","Station Engineer","Atmos Technician","Chief Engineer")
-	required_enemies = list(4,4,4,4,3,3,3,3,2,2)
-	requirements = list(101,101,50,40,40,40,40,35,30,30)
+	//required_enemies = list(4,4,4,4,3,3,3,3,2,2)
+	//requirements = list(101,101,50,40,40,40,40,35,30,30)
 	high_population_requirement =  5
 	//property_weights = list("extended" = -2)
 	occurances_max = 1
-	chaos_min = 1.5
+	chaos_min = 1.0
+	chaos_max = 4.0
 
-/datum/dynamic_ruleset/event/sentient_disease
+/*/datum/dynamic_ruleset/event/sentient_disease
 	name = "Sentient Disease"
 	//config_tag = "sentient_disease"
 	typepath = /datum/round_event/ghost_role/sentient_disease
@@ -563,26 +568,29 @@
 	required_candidates = 1
 	weight = 4
 	cost = -5
-	requirements = list(101,101,20,20,15,10,10,10,10,5) // yes, it can even happen in "extended"!
+	//requirements = list(101,101,20,20,15,10,10,10,10,5) // yes, it can even happen in "extended"!
 	//property_weights = list("story_potential" = 1, "extended" = 1, "valid" = -2)
 	high_population_requirement = 5
 	occurances_max = 1
-	chaos_min = 1.5
+	chaos_min = 1.5*/
 
 /datum/dynamic_ruleset/event/revenant
 	name = "Revenant"
 	//config_tag = "revenant"
 	typepath = /datum/round_event/ghost_role/revenant
 	enemy_roles = list("Chief Engineer","Station Engineer","Captain","Chaplain","AI")
-	required_enemies = list(2,1,1,1,1,1,1,1,0,0)
+	//required_enemies = list(2,1,1,1,1,1,1,1,0,0)
 	required_candidates = 1
-	weight = 4
-	cost = 5
-	requirements = list(101,101,23,21,18,18,15,15,10,10)
+	weight = 10
+	cost = 0
+	earliest_start = 30 MINUTES
+	blocking_rules = list(/datum/dynamic_ruleset/roundstart/nuclear, /datum/dynamic_ruleset/event/swarmers, /datum/dynamic_ruleset/midround/from_ghosts/abductors, /datum/dynamic_ruleset/event/pirates, /datum/dynamic_ruleset/midround/from_ghosts/ninja, /datum/dynamic_ruleset/midround/bloodsucker, /datum/dynamic_ruleset/roundstart/traitorbro, /datum/dynamic_ruleset/roundstart/changeling, /datum/dynamic_ruleset/roundstart/bloodcult, /datum/dynamic_ruleset/roundstart/wizard, /datum/dynamic_ruleset/roundstart/clockcult, /datum/dynamic_ruleset/roundstart/monkey, /datum/dynamic_ruleset/roundstart/bloodsucker, /datum/dynamic_ruleset/midround/from_ghosts/blob, /datum/dynamic_ruleset/midround/from_ghosts/xenomorph, /datum/dynamic_ruleset/midround/malf)
+	//requirements = list(101,101,23,21,18,18,15,15,10,10)
 	high_population_requirement = 15
 	//property_weights = list("story_potential" = -2, "extended" = -1)
 	occurances_max = 1 //Skyrat change.
-	chaos_min = 1.5
+	chaos_min = 2.5
+	chaos_max = 3.5
 
 /datum/dynamic_ruleset/event/immovable_rod
 	name = "Immovable Rod"
@@ -590,13 +598,14 @@
 	typepath = /datum/round_event/immovable_rod
 	enemy_roles = list("Research Director","Chief Engineer","Station Engineer","Captain","Chaplain","AI")
 	required_enemies = list(2,2,2,2,2,2,1,1,1,0)
-	requirements = list(101,101,20,18,16,14,12,10,8,6)
+	//requirements = list(101,101,20,18,16,14,12,10,8,6)
 	high_population_requirement = 15
 	cost = 0
 	occurances_max = 2
 	weight = 3
 	repeatable_weight_decrease = 2
 	chaos_min = 1.5
+	chaos_max = 3.5
 	var/atom/special_target
 
 /*
@@ -620,7 +629,7 @@
 	requirements = list(0,0,0,0,0,0,0,0,0,0)
 	high_population_requirement = 0
 	weight = 5
-	cost = 10
+	cost = -20 //NOW A BAD OMEN
 	repeatable = TRUE
 	occurances_max = 2
 
@@ -660,7 +669,7 @@
 	requirements = list(10,8,5,5,5,5,5,5,5,5)
 	high_population_requirement = 5
 	weight = 2
-	cost = 0
+	cost = -2
 	repeatable = TRUE
 	occurances_max = 2
 
@@ -670,7 +679,7 @@
 	typepath = /datum/round_event/falsealarm
 	requirements = list(5,5,5,5,5,5,5,5,5,5) //Tell me lieeeess
 	high_population_requirement = 0
-	weight = 5
+	weight = 7
 	repeatable = TRUE
 	occurances_max = 5
 
@@ -680,7 +689,7 @@
 	requirements = list(5,5,5,5,5,5,0,0,0,0) //Can actually cause problems
 	high_population_requirement = 0
 	cost = 0
-	weight = 5
+	weight = 10
 	repeatable = TRUE
 	occurances_max = 2
 
@@ -689,12 +698,12 @@
 	typepath = /datum/round_event/mass_hallucination
 	requirements = list(0,0,0,0,0,0,0,0,0,0)
 	high_population_requirement = 0
-	weight = 4
+	weight = 8
 	repeatable_weight_decrease = 5
 	repeatable = TRUE
 	occurances_max = 2
 
-/datum/dynamic_ruleset/event/mice_migration
+/*/datum/dynamic_ruleset/event/mice_migration
 	name = "Mice Migration"
 	typepath = /datum/round_event/mice_migration
 	enemy_roles = list("Chief Engineer","Station Engineer","Captain","Cook","Atmospheric Technician")
@@ -704,9 +713,9 @@
 	weight = 10
 	repeatable_weight_decrease = 3
 	repeatable = TRUE
-	occurances_max = 3
+	occurances_max = 3*/
 
-/datum/dynamic_ruleset/event/grey_tide
+/*/datum/dynamic_ruleset/event/grey_tide
 	name = "Grey Tide"
 	typepath = /datum/round_event/grey_tide
 	enemy_roles = list("Chief Engineer","Station Engineer","Captain","Atmospheric Technician","AI","Cyborg")
@@ -716,15 +725,15 @@
 	repeatable = TRUE
 	weight = 4
 	repeatable_weight_decrease = 3
-	occurances_max = 2
+	occurances_max = 2*/
 
-/datum/dynamic_ruleset/event/sentience
+/*/datum/dynamic_ruleset/event/sentience
 	name = "Random Human-level Intelligence"
 	typepath = /datum/round_event/ghost_role/sentience
 	requirements = list(101,101,0,0,0,0,0,0,0,0)
 	high_population_requirement = 0
 	weight = 5
-	repeatable_weight_decrease = 1
+	repeatable_weight_decrease = 1*/
 
 /datum/dynamic_ruleset/event/shuttle_loan
 	name = "Shuttle Loan"
@@ -742,15 +751,15 @@
 	name = "Spacevine"
 	typepath = /datum/round_event/spacevine
 	enemy_roles = list("Cook","Botanist","Security Officer","Captain","Station Engineer")
-	required_enemies = list(2,2,2,1,1,1,1,1,1,0)
-	requirements = list(101,101,10,9,8,7,5,5,5,0)
-	cost = 2
+	//required_enemies = list(2,2,2,1,1,1,1,1,1,0)
+	//requirements = list(101,101,10,9,8,7,5,5,5,0)
+	cost = 10
 	high_population_requirement = 0
-	weight = 4
-	repeatable_weight_decrease = 2
-	earliest_start = 20 MINUTES
+	weight = 5
+	repeatable_weight_decrease = -5		//LET'S OCCUR MORE OFTEN AS TIME GOES ON
+	earliest_start = 0
 	repeatable = TRUE
-	occurances_max = 3
+	occurances_max = 10
 
 /datum/dynamic_ruleset/event/spontaneous_appendicitis
 	name = "Spontaneous Appendicitis"
@@ -762,4 +771,4 @@
 	weight = 5
 	repeatable = TRUE
 	repeatable_weight_decrease = 3
-	occurances_max = 3
+	occurances_max = 5

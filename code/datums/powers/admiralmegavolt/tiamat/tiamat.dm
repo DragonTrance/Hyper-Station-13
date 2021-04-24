@@ -47,8 +47,8 @@ TODO REEE
 /datum/power/tiamat/apply()
 
 /datum/power/tiamat/grant_actions()
-	powers = new(owner)
-	powers.Grant(owner)
+	//powers = new(owner)
+	//powers.Grant(owner)
 
 //
 //KEY BINDINGS
