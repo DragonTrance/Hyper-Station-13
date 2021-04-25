@@ -89,6 +89,77 @@
 		if(SLOT_S_STORE)
 			. = ITEM_SLOT_SUITSTORE
 
+/proc/slotbit2slotdefine(slotbit)	//Hyperstation edit
+	. = list()
+	if(slotbit | ITEM_SLOT_OCLOTHING)
+		. += SLOT_WEAR_SUIT
+	if(slotbit | ITEM_SLOT_ICLOTHING)
+		. += SLOT_W_UNIFORM
+	if(slotbit | ITEM_SLOT_GLOVES)
+		. += SLOT_GLOVES
+	if(slotbit | ITEM_SLOT_EYES)
+		. += SLOT_GLASSES
+	if(slotbit | ITEM_SLOT_EARS)
+		. += SLOT_EARS
+	if(slotbit | ITEM_SLOT_MASK)
+		. += SLOT_WEAR_MASK
+	if(slotbit | ITEM_SLOT_HEAD)
+		. += SLOT_HEAD
+	if(slotbit | ITEM_SLOT_FEET)
+		. += SLOT_SHOES
+	if(slotbit | ITEM_SLOT_ID)
+		. += SLOT_WEAR_ID
+	if(slotbit | ITEM_SLOT_BELT)
+		. += SLOT_BELT
+	if(slotbit | ITEM_SLOT_BACK)
+		. += SLOT_BACK
+	if(slotbit | ITEM_SLOT_POCKET)
+		. += SLOT_L_STORE
+		. += SLOT_R_STORE
+	if(slotbit | ITEM_SLOT_NECK)
+		. += SLOT_NECK
+	if(slotbit | ITEM_SLOT_SUITSTORE)
+		. += SLOT_S_STORE
+
+/proc/slotdefine2string(slotdefine)	//Hyperstation edit
+	. = ""
+	switch(slotdefine)
+		if(SLOT_BACK)
+			. = "back"
+		if(SLOT_WEAR_MASK)
+			. = "mask"
+		if(SLOT_HANDCUFFED)
+			. = "handcuffed"
+		if(SLOT_HANDS)
+			. = "hands"
+		if(SLOT_BELT)
+			. = "belt"
+		if(SLOT_WEAR_ID)
+			. = "wear_id"
+		if(SLOT_GLOVES)
+			. = "gloves"
+		if(SLOT_NECK)
+			. = "neck"
+		if(SLOT_HEAD)
+			. = "head"
+		if(SLOT_SHOES)
+			. = "shoes"
+		if(SLOT_WEAR_SUIT)
+			. = "wear_suit"
+		if(SLOT_W_UNIFORM)
+			. = "w_uniform"
+		if(SLOT_L_STORE)
+			. = "l_store"
+		if(SLOT_R_STORE)
+			. = "r_store"
+		if(SLOT_S_STORE)
+			. = "s_store"
+		if(SLOT_IN_BACKPACK)
+			. = "in_backpack"
+		if(SLOT_LEGCUFFED)
+			. = "legcuffed"
+		if(SLOT_GENERC_DEXTROUS_STORAGE)
+			. = "generc_dextrous_storage"
 
 //Bit flags for the flags_inv variable, which determine when a piece of clothing hides another. IE a helmet hiding glasses.
 #define HIDEGLOVES		(1<<0)
