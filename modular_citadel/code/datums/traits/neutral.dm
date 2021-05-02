@@ -4,7 +4,6 @@
 	name = "Nymphomania"
 	desc = "You're always feeling a bit in heat. Also, you get aroused faster than usual."
 	value = 0
-	category = CATEGORY_SEXUAL
 	mob_trait = TRAIT_NYMPHO
 	gain_text = "<span class='notice'>You are feeling extra wild.</span>"
 	lose_text = "<span class='notice'>You don't feel that burning sensation anymore.</span>"
@@ -28,7 +27,6 @@
 	name = "Masochism"
 	desc = "You are aroused by pain."
 	value = 0
-	category = CATEGORY_SEXUAL
 	mob_trait = TRAIT_MASO
 	gain_text = "<span class='notice'>You desire to be hurt.</span>"
 	lose_text = "<span class='notice'>Pain has become less exciting for you.</span>"
@@ -37,7 +35,6 @@
 	name = "Choke Slut"
 	desc = "You are aroused by suffocation."
 	value = 0
-	category = CATEGORY_SEXUAL
 	mob_trait = TRAIT_CHOKE_SLUT
 	gain_text = "<span class='notice'>You feel like you want to feel fingers around your neck, choking you until you pass out or make a mess... Maybe both.</span>"
 	lose_text = "<span class='notice'>Seems you don't have a kink for suffocation anymore.</span>"
@@ -46,7 +43,6 @@
 	name = "Acute hepatic pharmacokinesis"
 	desc = "You've a rare genetic disorder that causes Incubus draft and Sucubus milk to be absorbed by your liver instead."
 	value = 0
-	category = CATEGORY_SEXUAL
 	mob_trait = TRAIT_PHARMA
 	lose_text = "<span class='notice'>Your liver feels different.</span>"
 	var/active = FALSE
