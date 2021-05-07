@@ -29,9 +29,6 @@
 
 	. = ..()
 
-	if(CONFIG_GET(flag/disable_stambuffer))
-		togglesprint()
-
 	AddComponent(/datum/component/redirect, list(COMSIG_COMPONENT_CLEAN_ACT = CALLBACK(src, /mob/living/carbon/human/clean_blood)))
 
 
@@ -40,6 +37,8 @@
 	if(!CONFIG_GET(flag/disable_human_mood))
 		AddComponent(/datum/component/mood)
 	AddElement(/datum/element/mob_holder/micro, "micro")
+	AddElement(/datum/element/flavor_text/carbon, "", "Flavor Text", "", MAX_FLAVOR_LEN, FALSE, TRUE, "flavor_text")
+	AddElement(/datum/element/flavor_text, "", "Temporary Flavor Text", "This should be used only for things pertaining to the current round!")
 
 /mob/living/carbon/human/Destroy()
 	QDEL_NULL(physiology)

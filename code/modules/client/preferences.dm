@@ -180,7 +180,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"womb_fluid" = /datum/reagent/consumable/femcum,
 		"ipc_screen" = "Sunburst",
 		"ipc_antenna" = "None",
-		"flavor_text" = ""
+		"flavor_text" = "",
+		"silicon_flavor_text" = "",
+		"ooc_text" = ""
 		)
 
 	/// Security record note section
@@ -197,6 +199,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/custom_species = null
 
 	var/list/all_quirks = list()
+	var/compressed_quirks = FALSE	//Hyperstation edit: Use a smaller font for the quirks list
+	var/old_view = FALSE			//Hyperstation edit: toggle for sorting by category
 
 		//Jobs, uses bitflags
 	var/job_civilian_high = 0
@@ -383,7 +387,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		if(2)
 			update_preview_icon()
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
-			dat += "<h2>Flavor Text</h2>"
+			dat += "<h2>General Examine Text</h2>"
 			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Examine Text</b></a><br>"
 			if(length(features["flavor_text"]) <= 40)
 				if(!length(features["flavor_text"]))
@@ -392,6 +396,25 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "[features["flavor_text"]]"
 			else
 				dat += "[TextPreview(features["flavor_text"])]...<BR>"
+			dat += "<h2>Silicon Flavor Text</h2>"
+			dat += "<a href='?_src_=prefs;preference=silicon_flavor_text;task=input'><b>Set Silicon Examine Text</b></a><br>"
+			if(length(features["silicon_flavor_text"]) <= 40)
+				if(!length(features["silicon_flavor_text"]))
+					dat += "\[...\]"
+				else
+					dat += "[features["silicon_flavor_text"]]"
+			else
+				dat += "[TextPreview(features["silicon_flavor_text"])]...<BR>"
+			dat += "<h2>OOC Text</h2>"
+			dat += "<a href='?_src_=prefs;preference=ooc_text;task=input'><b>Set OOC Text</b></a><br>"
+			if(length(features["ooc_text"]) <= 40)
+				if(!length(features["ooc_text"]))
+					dat += "\[...\]"
+				else
+					dat += "[features["ooc_text"]]"
+			else
+				dat += "[TextPreview(features["ooc_text"])]...<BR>"
+
 			dat += "<h2>Body</h2>"
 			dat += "<b>Gender:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=gender'>[gender == MALE ? "Male" : (gender == FEMALE ? "Female" : (gender == PLURAL ? "Non-binary" : "Object"))]</a><BR>"
 			dat += "<b>Species:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=species;task=input'>[pref_species.id]</a><BR>"
@@ -1420,7 +1443,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		to_chat(user, "<span class='danger'>The quirk subsystem is still initializing! Try again in a minute.</span>")
 		return
 
-	var/list/dat = list()
+	var/dat = ""
 	if(!SSquirks.quirks.len)
 		dat += "The quirk subsystem hasn't finished initializing, please hold..."
 		dat += "<center><a href='?_src_=prefs;preference=trait;task=close'>Done</a></center><br>"
@@ -1429,50 +1452,76 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		dat += "<center><b>Choose quirk setup</b></center><br>"
 		dat += "<div align='center'>Left-click to add or remove quirks. You need negative quirks to have positive ones.<br>\
 		Quirks are applied at roundstart and cannot normally be removed.</div>"
-		dat += "<center><a href='?_src_=prefs;preference=trait;task=close'>Done</a></center>"
+		dat += "<center><a href='?_src_=prefs;preference=trait;task=close'>Done</a><br>\
+			<a href='?_src_=prefs;preference=trait;task=trait_small_text'>[compressed_quirks ? "Normal View" : "Small View"]</a>  \
+			<a href='?_src_=prefs;preference=trait;task=old_view'>[old_view ? "Current View" : "Old View"]</a> </center>" //Hyper edit
 		dat += "<hr>"
 		dat += "<center><b>Current quirks:</b> [all_quirks.len ? all_quirks.Join(", ") : "None"]</center>"
 		dat += "<center>[GetPositiveQuirkCount()] / [MAX_QUIRKS] max positive quirks<br>\
 		<b>Quirk balance remaining:</b> [GetQuirkBalance()]</center><br>"
-		for(var/V in SSquirks.quirks)
-			var/datum/quirk/T = SSquirks.quirks[V]
-			var/quirk_name = initial(T.name)
-			var/has_quirk
-			var/quirk_cost = initial(T.value) * -1
-			var/lock_reason = "This trait is unavailable."
-			var/quirk_conflict = FALSE
-			for(var/_V in all_quirks)
-				if(_V == quirk_name)
-					has_quirk = TRUE
-			if(initial(T.mood_quirk) && CONFIG_GET(flag/disable_human_mood))
-				lock_reason = "Mood is disabled."
-				quirk_conflict = TRUE
-			if(has_quirk)
-				if(quirk_conflict)
-					all_quirks -= quirk_name
-					has_quirk = FALSE
+		var/list/hacky = SSquirks.quirk_categories
+		if(old_view)
+			hacky = list(1)	//Hyperstation edit; super hacky, but it works
+
+				//Hyperstation Edit: Categorize quirks
+		for(var/_cat in hacky)
+			var/list/L = SSquirks.quirks_sorted[_cat]
+			if(!old_view)
+				if(compressed_quirks)
+					dat += "<p style='color:white;margin-bottom:1px;margin-top:6px'><u>[_cat]</u></p>"
 				else
-					quirk_cost *= -1 //invert it back, since we'd be regaining this amount
-			if(quirk_cost > 0)
-				quirk_cost = "+[quirk_cost]"
-			var/font_color = "#AAAAFF"
-			if(initial(T.value) != 0)
-				font_color = initial(T.value) > 0 ? "#AAFFAA" : "#FFAAAA"
-			if(quirk_conflict)
-				dat += "<font color='[font_color]'>[quirk_name]</font> - [initial(T.desc)] \
-				<font color='red'><b>LOCKED: [lock_reason]</b></font><br>"
+					dat += "<p style='color:white;font-size:12px;margin-bottom:2px;margin-top:4px'><u>[_cat]</u></p>"
 			else
+				L = SSquirks.quirks
+
+			for(var/T in L)
+				//End Hyperstation Edit
+				var/datum/quirk/Q = SSquirks.quirks[T]
+				var/quirk_name = initial(Q.name)
+				var/has_quirk
+				var/quirk_cost = initial(Q.value) * -1
+				var/lock_reason = "This trait is unavailable."
+				var/quirk_conflict = FALSE
+				for(var/_V in all_quirks)
+					if(_V == quirk_name)
+						has_quirk = TRUE
+						break
+				if(initial(Q.mood_quirk) && CONFIG_GET(flag/disable_human_mood))
+					lock_reason = "Mood is disabled."
+					quirk_conflict = TRUE
 				if(has_quirk)
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<b><font color='[font_color]'>[quirk_name]</font></b> - [initial(T.desc)]<br>"
-				else
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<font color='[font_color]'>[quirk_name]</font> - [initial(T.desc)]<br>"
+					if(quirk_conflict)
+						all_quirks -= quirk_name
+						has_quirk = FALSE
+					else
+						quirk_cost *= -1 //invert it back, since we'd be regaining this amount
+				if(quirk_cost > 0)
+					quirk_cost = "+[quirk_cost]"
+				var/font_color = "#AAAAFF"
+				if(initial(Q.value) != 0)
+					font_color = initial(Q.value) > 0 ? "#AAFFAA" : "#FFAAAA"
+				
+				if(compressed_quirks)	//Hyperstation Edit: smol text
+					if(quirk_conflict)
+						dat += "<a><font size='1' color='red'>([quirk_cost]) [quirk_name])</font></a>"
+					else
+						dat += "[has_quirk ? "<b><u>" : ""]<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'><font size='1' color='[font_color]'>([quirk_cost]) [quirk_name]</font></a>[has_quirk ? "</u></b>" : ""]"
+				else //if(old_view)
+					if(quirk_conflict)
+						dat += "<font color='[font_color]'>[quirk_name]</font> - \
+						<font color='red'><b>LOCKED: [lock_reason]</b></font>"
+					else
+						dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
+						[has_quirk ? "<b>" : ""]<font color='[font_color]'>[quirk_name]</font>[has_quirk ? "</b>": ""] - [initial(Q.desc)]"
+					dat += "<br>"
+
+			dat += "<br>"
+
 		dat += "<br><center><a href='?_src_=prefs;preference=trait;task=reset'>Reset Quirks</a></center>"
 
 	var/datum/browser/popup = new(user, "mob_occupation", "<div align='center'>Quirk Preferences</div>", 900, 600) //no reason not to reuse the occupation window, as it's cleaner that way
 	popup.set_window_options("can_close=0")
-	popup.set_content(dat.Join())
+	popup.set_content(dat)
 	popup.open(FALSE)
 
 /datum/preferences/proc/GetQuirkBalance()
@@ -1561,8 +1610,16 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	else if(href_list["preference"] == "trait")
 		switch(href_list["task"])
+			if("trait_small_text")
+				compressed_quirks = !compressed_quirks
+				SetQuirks(user)
+			if("old_view")
+				old_view = !old_view
+				SetQuirks(user)
 			if("close")
 				user << browse(null, "window=mob_occupation")
+				compressed_quirks = FALSE
+				//Intentional for old_view to not be reset here. But we don't save the varx
 				ShowChoices(user)
 			if("update")
 				var/quirk = href_list["trait"]
@@ -1695,10 +1752,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						medical_records = rec
 
 				if("flavor_text")
-					var/msg = stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Flavor Text", html_decode(features["flavor_text"]), MAX_MESSAGE_LEN, TRUE)
+					var/msg = stripped_multiline_input(usr, "Set the flavor text in your 'examine' verb. This should be IC, and description people can deduce at a quick glance.", "Flavor Text", html_decode(features["flavor_text"]), MAX_MESSAGE_LEN, TRUE)
 					if(msg)
 						msg = msg
 						features["flavor_text"] = msg
+
+				if("silicon_flavor_text")
+					var/msg = stripped_multiline_input(usr, "Set the silicon flavor text in your 'examine' verb. This can also be used for OOC notes and preferences!", "Silicon Flavor Text", features["silicon_flavor_text"], MAX_FLAVOR_LEN, TRUE)
+					if(msg)
+						msg = msg
+						features["silicon_flavor_text"] = msg
+
+				if("ooc_text")
+					var/msg = stripped_multiline_input(usr, "Set the OOC text in your 'examine' verb. This should be OOC only!", "OOC Text", html_decode(features["ooc_text"]), MAX_MESSAGE_LEN, TRUE)
+					if(msg)
+						msg = msg
+						features["ooc_text"] = msg
+
 
 				if("hide_ckey")
 					hide_ckey = !hide_ckey
@@ -2532,14 +2602,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("allow_midround_antag")
 					toggles ^= MIDROUND_ANTAG
-				
+
 				if("sync_antag_with_chars")
 					toggles ^= ANTAG_SYNC_WITH_CHARS
 					if(!(toggles & ANTAG_SYNC_WITH_CHARS) && path)
 						var/savefile/S = new /savefile(path)
-						if(S)			
+						if(S)
 							S["special_roles"] >> be_special
-				
+
 				if("copy_antag_to_chars")
 					if(path)
 						var/savefile/S = new /savefile(path)
@@ -2553,7 +2623,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 							to_chat(parent, "<span class='notice'>Successfully copied antagonist preferences to all characters.</span>")
 						else
 							to_chat(parent, "<span class='notice'>Could not write to file.</span>")
-				
+
 				if("reset_antag")
 					be_special = list()
 
@@ -2735,6 +2805,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		character.Digitigrade_Leg_Swap(FALSE)
 	else
 		character.Digitigrade_Leg_Swap(TRUE)
+
+	SEND_SIGNAL(character, COMSIG_HUMAN_PREFS_COPIED_TO, src, icon_updates, roundstart_checks)
 
 	//speech stuff
 	if(custom_tongue != "default")

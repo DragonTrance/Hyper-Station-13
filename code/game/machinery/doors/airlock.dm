@@ -79,8 +79,8 @@
 	var/doorOpen = 'sound/machines/airlock.ogg'
 	var/doorClose = 'sound/machines/airlockclose.ogg'
 	var/doorDeni = 'sound/machines/deniedbeep.ogg' // i'm thinkin' Deni's
-	var/boltUp = 'sound/machines/boltsup.ogg'
-	var/boltDown = 'sound/machines/boltsdown.ogg'
+	var/boltUp = 'hyperstation/sound/machines/BoltsUp.ogg'
+	var/boltDown = 'hyperstation/sound/machines/BoltsDown.ogg'
 	var/noPower = 'sound/machines/doorclick.ogg'
 	var/previous_airlock = /obj/structure/door_assembly //what airlock assembly mineral plating was applied to
 	var/airlock_material //material of inner filling; if its an airlock with glass, this should be set to "glass"
@@ -133,6 +133,7 @@
 
 /obj/machinery/door/airlock/LateInitialize()
 	. = ..()
+	autorotation() //auto rotate door
 	if (cyclelinkeddir)
 		cyclelinkairlock()
 	if(abandoned)
@@ -159,11 +160,20 @@
 	update_icon()
 
 
-/obj/machinery/door/airlock/proc/getrotation() //for auto rotating doors, because im sick of doing it
-	for(var/turf/O in get_step(src,SOUTH))
-		log_mapping("[src]: [O]")
-		if(O.density)
-			log_mapping("[src]: [O] is dense")
+/obj/machinery/door/airlock/proc/autorotation() //for auto rotating doors, because im sick of doing it
+	var/turf/N = get_step(src, NORTH)
+	var/turf/S = get_step(src, SOUTH)
+
+	if(istype(N, /turf/closed)) //Wall
+		dir = 4
+	if(istype(S, /turf/closed))
+		dir = 4
+	var/obj/structure/window/W = locate(/obj/structure/window, N) //Window
+	if(W)
+		dir = 4
+	var/obj/structure/window/R = locate(/obj/structure/window, S)
+	if(R)
+		dir = 4
 
 /obj/machinery/door/airlock/ComponentInitialize()
 	. = ..()
@@ -1155,7 +1165,7 @@
 		if(obj_flags & EMAGGED)
 			return FALSE
 		use_power(50)
-		playsound(src, doorOpen, 30, 1)
+		playsound(src, doorOpen, 40, 0)
 		if(src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
 			src.closeOther.close()
 	else
@@ -1202,7 +1212,7 @@
 		if(obj_flags & EMAGGED)
 			return
 		use_power(50)
-		playsound(src.loc, doorClose, 30, 1)
+		playsound(src.loc, doorClose, 40, 0)
 	else
 		playsound(src.loc, 'sound/machines/airlockforced.ogg', 30, 1)
 

@@ -129,8 +129,7 @@
 	///Whether the mob is updating glide size when movespeed updates or not
 	var/updating_glide_size = TRUE
 
-	var/flavor_text = ""
-	var/flavor_text_2 = "" //version of the above that only lasts for the current round.
+	var/ooc_text = ""
 
 	///////TYPING INDICATORS///////
 	/// Set to true if we want to show typing indicators.
@@ -141,3 +140,5 @@
 	var/typing_indicator_timerid
 	/// Current state of our typing indicator. Used for cut overlay, DO NOT RUNTIME ASSIGN OTHER THAN FROM SHOW/CLEAR. Used to absolutely ensure we do not get stuck overlays.
 	var/mutable_appearance/typing_indicator_current
+
+	vis_flags = VIS_INHERIT_PLANE //when this be added to vis_contents of something it inherit something.plane, important for visualisation of mob in openspace.
