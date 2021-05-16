@@ -15,8 +15,8 @@
 				continue
 			if(G.restricted_roles.len && !(M.mind.assigned_role in G.restricted_roles))
 				continue	//If the player can't equip this because they lack the required job
-			if(G.ckeywhitelist.len && !(the_mob.client.ckey in G.ckeywhitelist))
-				continue	//And you may ask yourself, "Well... How did I get here?"
+			//if(G.ckeywhitelist.len && !(the_mob.client.ckey in G.ckeywhitelist))
+			//	continue	//And you may ask yourself, "Well... How did I get here?"
 
 			if(G.category == SLOT_IN_BACKPACK || G.blacklist_join_equip)
 				. += new G.path

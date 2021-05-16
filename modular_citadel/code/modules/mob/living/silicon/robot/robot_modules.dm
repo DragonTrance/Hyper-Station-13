@@ -82,10 +82,9 @@
 			"k9" = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "k9"),
 			"k9V2" = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "valesec")
 		)
-		if(R.client?.ckey == "nezuli")
-			var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-sec")
-			bad_snowflake.pixel_x = -16
-			k9_models["Alina"] = bad_snowflake
+		var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-sec")
+		bad_snowflake.pixel_x = -16
+		k9_models["Alina"] = bad_snowflake
 		k9_models = sortList(k9_models)
 	var/k9_borg_icon = show_radial_menu(R, R , k9_models, custom_check = CALLBACK(src, .proc/check_menu, R), radius = 42, require_near = TRUE, tooltips = TRUE)
 	if(!k9_borg_icon)
@@ -154,10 +153,9 @@
 		"medihound V2" = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "valemed"),
 		"Dark" = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "medihounddark")
 		)
-		if(R.client?.ckey == "nezuli")
-			var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-med")
-			bad_snowflake.pixel_x = -16
-			medihound_models["Alina"] = bad_snowflake
+		var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-med")
+		bad_snowflake.pixel_x = -16
+		medihound_models["Alina"] = bad_snowflake
 		medihound_models = sortList(medihound_models)
 	var/medihound_borg_icon = show_radial_menu(R, R , medihound_models, custom_check = CALLBACK(src, .proc/check_menu, R), radius = 42, require_near = TRUE, tooltips = TRUE)
 	if(!medihound_borg_icon)
@@ -571,10 +569,9 @@
 			var/image/wide = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = L[a])
 			wide.pixel_x = -16
 			eng_models[a] = wide
-		if(R.client?.ckey == "nezuli")
-			var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-sec")
-			bad_snowflake.pixel_x = -16
-			eng_models["Alina"] = bad_snowflake
+		var/image/bad_snowflake = image(icon = 'modular_citadel/icons/mob/widerobot.dmi', icon_state = "alina-sec")
+		bad_snowflake.pixel_x = -16
+		eng_models["Alina"] = bad_snowflake
 		eng_models = sortList(eng_models)
 	var/eng_borg_icon = show_radial_menu(R, R , eng_models, custom_check = CALLBACK(src, .proc/check_menu, R), radius = 42, require_near = TRUE, tooltips = TRUE)
 	if(!eng_borg_icon)
