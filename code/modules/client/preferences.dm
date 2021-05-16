@@ -133,12 +133,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		"has_cock" = FALSE,
 		"cock_shape" = "Human",
 		"cock_length" = 6,
+		"belly_size" = 1,
 		"cock_girth_ratio" = COCK_GIRTH_RATIO_DEF,
 		"cock_color" = "fff",
 		"has_sheath" = FALSE,
 		"sheath_color" = "fff",
 		"has_belly" = FALSE,
 		"hide_belly" = FALSE,
+		"inflatable_belly" = FALSE,
 		"belly_color" = "fff",
 		"has_balls" = FALSE,
 		"balls_internal" = FALSE,
@@ -895,6 +897,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<h3>Belly</h3>"
 				dat += "<a style='display:block;width:50px' href='?_src_=prefs;preference=has_belly'>[features["has_belly"] == TRUE ? "Yes" : "No"]</a>"
 				if(features["has_belly"])
+					dat += "<b>Belly Size:</b> <a style='display:block;width:120px' href='?_src_=prefs;preference=belly_size;task=input'>[features["belly_size"]]</a>"
 					if(pref_species.use_skintones && features["genitals_use_skintone"] == TRUE)
 						dat += "<b>Color:</b></a><BR>"
 						dat += "<span style='border: 1px solid #161616; background-color: #[skintone2hex(skin_tone)];'>&nbsp;&nbsp;&nbsp;</span>(Skin tone overriding)<br>"
@@ -902,6 +905,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						dat += "<b>Color:</b></a><BR>"
 						dat += "<span style='border: 1px solid #161616; background-color: #[features["belly_color"]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=belly_color;task=input'>Change</a><br>"
 					dat += "<b>Hide on Round-Start:</b><a style='display:block;width:50px' href='?_src_=prefs;preference=hide_belly'>[features["hide_belly"] == 1 ? "Yes" : "No"]</a>"
+					dat += "<b>Inflation (Climax With):</b><a style='display:block;width:50px' href='?_src_=prefs;preference=inflatable_belly'>[features["inflatable_belly"] == 1 ? "Yes" : "No"]</a>"
 
 				dat += "</td>"
 			dat += "</td>"
@@ -1474,11 +1478,33 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				<font color='red'><b>LOCKED: [lock_reason]</b></font><br>"
 			else
 				if(has_quirk)
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<b><font color='[font_color]'>[quirk_name]</font></b> - [initial(T.desc)]<br>"
-				else
-					dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
-					<font color='[font_color]'>[quirk_name]</font> - [initial(T.desc)]<br>"
+					if(quirk_conflict)
+						all_quirks -= quirk_name
+						has_quirk = FALSE
+					else
+						quirk_cost *= -1 //invert it back, since we'd be regaining this amount
+				if(quirk_cost > 0)
+					quirk_cost = "+[quirk_cost]"
+				var/font_color = "#AAAAFF"
+				if(initial(Q.value) != 0)
+					font_color = initial(Q.value) > 0 ? "#AAFFAA" : "#FFAAAA"
+
+				if(compressed_quirks)	//Hyperstation Edit: smol text
+					if(quirk_conflict)
+						dat += "<a><font size='1' color='red'>([quirk_cost]) [quirk_name])</font></a>"
+					else
+						dat += "[has_quirk ? "<b><u>" : ""]<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'><font size='1' color='[font_color]'>([quirk_cost]) [quirk_name]</font></a>[has_quirk ? "</u></b>" : ""]"
+				else //if(old_view)
+					if(quirk_conflict)
+						dat += "<font color='[font_color]'>[quirk_name]</font> - \
+						<font color='red'><b>LOCKED: [lock_reason]</b></font>"
+					else
+						dat += "<a href='?_src_=prefs;preference=trait;task=update;trait=[quirk_name]'>[has_quirk ? "Remove" : "Take"] ([quirk_cost] pts.)</a> \
+						[has_quirk ? "<b>" : ""]<font color='[font_color]'>[quirk_name]</font>[has_quirk ? "</b>": ""] - [initial(Q.desc)]"
+					dat += "<br>"
+
+			dat += "<br>"
+
 		dat += "<br><center><a href='?_src_=prefs;preference=trait;task=reset'>Reset Quirks</a></center>"
 
 	var/datum/browser/popup = new(user, "mob_occupation", "<div align='center'>Quirk Preferences</div>", 900, 600) //no reason not to reuse the occupation window, as it's cleaner that way
@@ -2279,6 +2305,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						else
 							to_chat(user,"<span class='danger'>Invalid color. Your color is not bright enough.</span>")
 
+				if("belly_size")
+					var/new_bellysize = input(user, "Belly size :\n(1-3)", "Character Preference") as num|null
+					if(new_bellysize)
+						features["belly_size"] = clamp(new_bellysize, 1, 3)
+
 				if("vag_shape")
 					var/new_shape
 					new_shape = input(user, "Vagina Type", "Character Preference") as null|anything in GLOB.vagina_shapes_list
@@ -2413,6 +2444,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					features["has_belly"] = !features["has_belly"]
 					if(features["has_belly"] == FALSE)
 						features["hide_belly"] = FALSE
+						features["inflatable_belly"] = FALSE
+						features["belly_size"] = 1
+
+				if("inflatable_belly")
+					features["inflatable_belly"] = !features["inflatable_belly"]
 				if("hide_belly")
 					features["hide_belly"] = !features["hide_belly"]
 				if("has_balls")

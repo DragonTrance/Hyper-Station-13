@@ -24,7 +24,7 @@
 					/obj/item/storage/hypospraykit/o2 = 2,
 					/obj/item/storage/hypospraykit/brute = 2,
 					/obj/item/storage/hypospraykit/enlarge = 2,
-					/obj/item/reagent_containers/glass/bottle/vial/small = 5)
+					/obj/item/reagent_containers/glass/bottle/vial/small = 5 )
 
 /obj/machinery/vending/wardrobe/chap_wardrobe
 	premium = list(/obj/item/toy/plush/plushvar = 1,
@@ -60,6 +60,8 @@
 				/obj/item/clothing/under/polychromic/onepeice = 3,
 				/obj/item/clothing/under/polychromic/shortpants/pantsu = 3,
 				/obj/item/clothing/under/polychromic/bulge = 3,
+				/obj/item/clothing/under/latexhalf = 3,
+				/obj/item/clothing/under/latexfull = 3,
 				/obj/item/clothing/suit/maidapron = 3,
 				/obj/item/clothing/under/corset = 3,
 				/obj/item/clothing/under/jabroni = 3,

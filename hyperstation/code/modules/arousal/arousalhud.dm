@@ -33,6 +33,15 @@
 		dat	+= "<a href='byond://?src=[REF(src)];kiss=1'>Kiss [user.pulling]</A>"
 		dat	+=	"(Kiss a partner, or object.)<BR>"
 
+	var/obj/item/organ/genital/belly/Belly = user.getorganslot("belly")
+	if(Belly)
+		if(Belly.inflatable)
+			dat	+= "<a href='byond://?src=[REF(src)];shrink_belly=1'>Deflate belly</A>"
+			dat	+=	"(Shrink your belly down a size)<BR>"
+
+
+
+	if(user.pulling)
 		dat	+= "<a href='byond://?src=[REF(src)];climaxover=1'>Climax over [user.pulling]</A>" //you can cum on objects if you really want...
 		dat	+=	"(Orgasm over a person or object.)<BR>"
 
@@ -177,6 +186,15 @@
 		else
 			to_chat(usr, "<span class='warning'>You cannot do this alone!</span>")
 		return
+
+	if(href_list["shrink_belly"])
+		var/obj/item/organ/genital/belly/E = usr.getorganslot("belly")
+		if(E.size > 0)
+			to_chat(usr, "<span class='userlove'>You feel your belly diminish.</span>")
+			E.size -= 1
+			H.update_genitals()
+		else
+			to_chat(usr, "<span class='warning'>Your belly is already at the minimum size! </span>")
 
 	if(href_list["removecondom"])
 		H.menuremovecondom()

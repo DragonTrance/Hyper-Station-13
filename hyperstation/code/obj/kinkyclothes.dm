@@ -56,3 +56,43 @@ obj/item/clothing/neck/stole/black
 	item_state = ""	//no inhands
 	color = "#3d3d3d"
 	price = 3
+
+/obj/item/clothing/suit/fluffyhalfcrop
+	name = "fluffy half-crop jacket"
+	desc = "A fluffy synthetic fur half-cropped jacket, less about warmth, more about style!"
+	icon_state = "fluffy"
+	item_state = "fluffy"
+	icon = 'hyperstation/icons/obj/clothing/suits.dmi'
+	alternate_worn_icon = 'hyperstation/icons/mobs/suits.dmi'
+	body_parts_covered = CHEST|LEGS|ARMS
+	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
+	mutantrace_variation = NO_MUTANTRACE_VARIATION
+
+/obj/item/clothing/under/latexfull
+	name = "full latex jumpsuit"
+	desc = "A tight fitting jumpsuit made of latex."
+	icon = 'hyperstation/icons/obj/clothing/suits.dmi'
+	icon_state = "latex"
+	alternate_worn_icon = 'hyperstation/icons/mobs/suits.dmi'
+	item_state = "r_suit"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/latexhalf
+	name = "latex bodysuit"
+	desc = "A tight fitting outfit made of latex, that covers the wearers torso."
+	icon = 'hyperstation/icons/obj/clothing/suits.dmi'
+	icon_state = "latexhalf"
+	alternate_worn_icon = 'hyperstation/icons/mobs/suits.dmi'
+	item_state = "r_suit"
+	can_adjust = FALSE
+	mutantrace_variation = NO_MUTANTRACE_VARIATION
+
+/obj/item/clothing/under/sexynursesuit
+	name = "Sexy nurse outfit"
+	desc = "A very revealing nurse's outfit. Not very sanitary. Does it even count as clothing?"
+	icon = 'hyperstation/icons/obj/clothing/suits.dmi'
+	icon_state = "sexynursesuit"
+	alternate_worn_icon = 'hyperstation/icons/mobs/suits.dmi'
+	item_state = "r_suit"
+	can_adjust = FALSE
+	mutantrace_variation = NO_MUTANTRACE_VARIATION
