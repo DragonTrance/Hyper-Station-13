@@ -97,6 +97,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/left_eye_color = "000000"		//Eye color
 	var/right_eye_color = "000000"
 	var/split_eye_colors = FALSE
+	var/wing_color = "fff"				//Wing color
 
 	//H13
 	var/body_size = 100					//Body Size in percent

@@ -758,11 +758,11 @@ generate/load female uniform sprites matching all previously decided variables
 				if((EYECOLOR in dna.species.species_traits) && has_eyes)
 					left_eye.color = "#" + left_eye_color
 					right_eye.color = "#" + right_eye_color
-				if(OFFSET_EYES in dna.species.offset_features)
-					left_eye.pixel_x += dna.species.offset_features[OFFSET_EYES][1]
-					left_eye.pixel_y += dna.species.offset_features[OFFSET_EYES][2]
-					right_eye.pixel_x += dna.species.offset_features[OFFSET_EYES][1]
-					right_eye.pixel_y += dna.species.offset_features[OFFSET_EYES][2]
+				if(OFFSET_FACE in dna.species.offset_features)
+					left_eye.pixel_x += dna.species.offset_features[OFFSET_FACE][1]
+					left_eye.pixel_y += dna.species.offset_features[OFFSET_FACE][2]
+					right_eye.pixel_x += dna.species.offset_features[OFFSET_FACE][1]
+					right_eye.pixel_y += dna.species.offset_features[OFFSET_FACE][2]
 				add_overlay(left_eye)
 				add_overlay(right_eye)
 

@@ -54,48 +54,31 @@
 		if(!special)
 			H.dna?.species?.handle_body(H) //regenerate eyeballs overlays.
 	M.update_tint()
-	owner.update_sight()
+	M.update_sight()
 
-/obj/item/organ/eyes/Remove(special = FALSE)
-	. = ..()
-	var/mob/living/carbon/C = .
-	if(QDELETED(C))
-		return
-	switch(eye_damaged)
-		if(BLURRY_VISION_ONE, BLURRY_VISION_TWO)
-			C.clear_fullscreen("eye_damage")
-		if(BLIND_VISION_THREE)
-			C.cure_blind(EYE_DAMAGE)
-	if(ishuman(C) && left_eye_color && right_eye_color)
-		var/mob/living/carbon/human/H = C
-		H.left_eye_color = old_left_eye_color
-		H.right_eye_color = old_right_eye_color
-		if(!special)
-			H.dna.species.handle_body(H)
-	if(!special)
-		C.update_tint()
-		C.update_sight()
+/obj/item/organ/eyes/Remove(mob/living/carbon/M, special = 0)
+	clear_eye_trauma()
+	..()
+	if(ishuman(M) && left_eye_color || right_eye_color)
+		var/mob/living/carbon/human/HMN = M
+		HMN.left_eye_color = old_left_eye_color
+		HMN.right_eye_color = old_right_eye_color
+		HMN.regenerate_icons()
 
-
-/obj/item/organ/eyes/applyOrganDamage(d, maximum = maxHealth)
-	. = ..()
-	if(!.)
-		return
-	var/old_damaged = eye_damaged
-	switch(damage)
-		if(INFINITY to maxHealth)
-			eye_damaged = BLIND_VISION_THREE
-		if(maxHealth to high_threshold)
-			eye_damaged = BLURRY_VISION_TWO
-		if(high_threshold to low_threshold)
-			eye_damaged = BLURRY_VISION_ONE
-		else
-			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 1)
-	//called once since we don't want to keep clearing the screen of eye damage for people who are below 20 damage
-	else if(damaged)
-		damaged = FALSE
-		C.clear_fullscreen("eye_damage")
-	return
+/obj/item/organ/eyes/on_life()
+	..()
+	var/mob/living/carbon/C = owner
+	//since we can repair fully damaged eyes, check if healing has occurred
+	if((organ_flags & ORGAN_FAILING) && (damage < maxHealth))
+		organ_flags &= ~ORGAN_FAILING
+		C.cure_blind(EYE_DAMAGE)
+	//various degrees of "oh fuck my eyes", from "point a laser at your eye" to "staring at the Sun" intensities
+	if(damage > 20)
+		damaged = TRUE
+		if(organ_flags & ORGAN_FAILING)
+			C.become_blind(EYE_DAMAGE)
+		else if(damage > 30)
+			C.overlay_fullscreen("eye_damage", /obj/screen/fullscreen/impaired, 2)
 
 /obj/item/organ/eyes/proc/clear_eye_trauma()
 	var/mob/living/carbon/C = owner
@@ -280,14 +263,9 @@
 	assume_rgb(C)
 
 /obj/item/organ/eyes/robotic/glow/proc/assume_rgb(newcolor)
-	var/current_color = RGB2EYECOLORSTRING(newcolor)
-	left_eye_color = current_color
-	right_eye_color = current_color
-	var/list/hsv = ReadHSV(RGBtoHSV(newcolor))
-	hsv[2] = clamp(hsv[2], 0, MAX_SATURATION)
-	hsv[3] = clamp(hsv[3], 0, MAX_LIGHTNESS)
-	var/new_hsv = hsv(hsv[1], hsv[2], hsv[3])
-	current_color_string = HSVtoRGB(new_hsv)
+	current_color_string = RGB2EYECOLORSTRING(newcolor)
+	left_eye_color = current_color_string
+	right_eye_color = current_color_string
 	sync_light_effects()
 	cycle_mob_overlay()
 	if(!QDELETED(owner) && ishuman(owner))		//Other carbon mobs don't have eye color.
