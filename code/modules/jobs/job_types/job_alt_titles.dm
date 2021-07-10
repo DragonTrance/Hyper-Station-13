@@ -2,10 +2,10 @@
 
 //Engineering
 /datum/job/chief_engineer
-	alt_titles = list("Head Engineer", "Construction Coordinator", "Project Manager")
+	alt_titles = list("Head Engineer", "Construction Coordinator", "Project Manager", "Power Plant Director")
 
 /datum/job/engineer
-	alt_titles = list("Maintenance Technician", "Engine Technician", "Electrician", "Structural Engineer", "Mechanic",  "Station Architect")
+	alt_titles = list("Maintenance Technician", "Engine Technician", "Electrician", "Structural Engineer", "Mechanic",  "Station Architect", "Nuclear Plant Operator")
 
 /datum/job/atmos
 	alt_titles = list("Firefighter", "Life Support Specialist", "Disposals Technician")
@@ -17,10 +17,10 @@
 	alt_titles = list("Civilian", "Morale Officer", "Stripper", "Off-Duty", "Escort", "Visitor", "Businessman", "Trader", "Entertainer", "Tourist")
 
 /datum/job/cook
-	alt_titles = list("Cook", "Culinary Artist", "Butcher", "Chef de partie")
+	alt_titles = list("Cook", "Culinary Artist", "Butcher", "Chef de partie", "Poissonier")
 
 /datum/job/hydro
-	alt_titles = list("Gardener", "Herbalist", "Botanical Researcher", "Hydroponicist", "Farmer", "Beekeeper")
+	alt_titles = list("Gardener", "Herbalist", "Botanical Researcher", "Hydroponicist", "Farmer", "Beekeeper", "Vintner")
 
 /datum/job/curator
 	alt_titles = list("Journalist", "Librarian", "Keeper")
@@ -41,7 +41,7 @@
 	alt_titles = list("Performer", "Pantomime", "Mimic")
 	
 /datum/job/bartender
-	alt_titles = list("Mixologist", "Bar Owner", "Barmaid")
+	alt_titles = list("Mixologist", "Sommelier", "Bar Owner", "Barmaid", "Expediter")
 
 //Science
 /datum/job/rd

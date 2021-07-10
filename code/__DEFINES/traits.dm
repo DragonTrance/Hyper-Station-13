@@ -55,6 +55,7 @@
 	} while (0)
 #define HAS_TRAIT(target, trait) (target.status_traits ? (target.status_traits[trait] ? TRUE : FALSE) : FALSE)
 #define HAS_TRAIT_FROM(target, trait, source) (target.status_traits ? (target.status_traits[trait] ? (source in target.status_traits[trait]) : FALSE) : FALSE)
+#define HAS_TRAIT_NOT_FROM(target, trait, source) (target.status_traits ? (target.status_traits[trait] ? (length(target.status_traits[trait] - source) > 0) : FALSE) : FALSE)
 
 //mob traits
 #define TRAIT_BLIND 			"blind"
@@ -142,6 +143,7 @@
 #define TRAIT_NORUNNING			"norunning"		// You walk!
 #define TRAIT_NOMARROW			"nomarrow"		// You don't make blood, with chemicals or nanites.
 #define TRAIT_NOPULSE			"nopulse"		// Your heart doesn't beat.
+#define TRAIT_EXEMPT_HEALTH_EVENTS	"exempt-health-events"
 
  //non-mob traits
 #define TRAIT_PARALYSIS			"paralysis" //Used for limb-based paralysis, where replacing the limb will fix it
@@ -193,6 +195,7 @@
 #define TRAIT_VIRILE		"virile" //you have 20% more chance of impreg
 #define TRAIT_MACROPHILE		"macrophile" //likes the big
 #define TRAIT_MICROPHILE		"microphile" //likes the small
+#define TRAIT_APATHETIC			"apathetic" //doesn't care
 
 #define TRAIT_TOUGH		"tough" //you have 10% more maxhealth
 #define TRAIT_AUTO_CATCH_ITEM	"auto_catch_item"
@@ -220,6 +223,7 @@
 #define ABSTRACT_ITEM_TRAIT "abstract-item"
 #define STATUS_EFFECT_TRAIT "status-effect"
 #define ROUNDSTART_TRAIT "roundstart" //cannot be removed without admin intervention
+#define GHOSTROLE_TRAIT "ghostrole"
 
 // unique trait sources, still defines
 #define STATUE_MUTE "statue"

@@ -544,6 +544,20 @@
 				O.setOrganDamage(0)
 	SEND_SIGNAL(src, COMSIG_LIVING_FULLY_HEAL, admin_revive)
 
+//fuck shitcode I hate shitcode
+/mob/living/proc/legion_heal()
+	restore_blood()
+	setStaminaLoss(0, 0)
+	SetUnconscious(0, FALSE)
+	SetStun(0, FALSE)
+	SetKnockdown(0, FALSE)
+	SetSleeping(0, FALSE)
+	bodytemperature = BODYTEMP_NORMAL
+	heal_overall_damage(INFINITY, INFINITY, INFINITY, FALSE, FALSE, TRUE) //heal brute and burn dmg on both organic and robotic limbs, and update health right away.
+	ExtinguishMob()
+	fire_stacks = 0
+	update_canmove()
+	SEND_SIGNAL(src, COMSIG_LIVING_FULLY_HEAL)
 
 //proc called by revive(), to check if we can actually ressuscitate the mob (we don't want to revive him and have him instantly die again)
 /mob/living/proc/can_be_revived()
@@ -858,6 +872,8 @@
 	if(invisibility || alpha == 0)//cloaked
 		return 0
 	if(digitalcamo || digitalinvis)
+		return 0
+	if(ismimic(src)) // Are we a mimic? Mimics should not be tracked to prevent AI camera cheese.
 		return 0
 
 	// Now, are they viewable by a camera? (This is last because it's the most intensive check)

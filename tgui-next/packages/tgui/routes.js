@@ -32,6 +32,7 @@ import { ComputerFabricator } from './interfaces/ComputerFabricator';
 import { Crayon } from './interfaces/Crayon';
 import { CrewConsole } from './interfaces/CrewConsole';
 import { Cryo } from './interfaces/Cryo';
+import { PersonalCrafting } from './interfaces/PersonalCrafting';
 import { DecalPainter } from './interfaces/DecalPainter';
 import { DisposalUnit } from './interfaces/DisposalUnit';
 import { DnaVault } from './interfaces/DnaVault';
@@ -50,6 +51,11 @@ import { LaborClaimConsole } from './interfaces/LaborClaimConsole';
 import { LanguageMenu } from './interfaces/LanguageMenu';
 import { LaunchpadConsole, LaunchpadRemote } from './interfaces/Launchpad';
 import { MechBayPowerConsole } from './interfaces/MechBayPowerConsole';
+import { NaniteChamberControl } from './interfaces/NaniteChamberControl';
+import { NaniteCloudControl } from './interfaces/NaniteCloudControl';
+import { NaniteProgramHub } from './interfaces/NaniteProgramHub';
+import { NaniteProgrammer } from './interfaces/NaniteProgrammer';
+import { NaniteRemote } from './interfaces/NaniteRemote';
 import { Mule } from './interfaces/Mule';
 import { NotificationPreferences } from './interfaces/NotificationPreferences';
 import { NtnetRelay } from './interfaces/NtnetRelay';
@@ -88,6 +94,10 @@ import { SpawnersMenu } from './interfaces/SpawnersMenu';
 import { StationAlertConsole } from './interfaces/StationAlertConsole';
 import { SuitStorageUnit } from './interfaces/SuitStorageUnit';
 import { Tank } from './interfaces/Tank';
+import { TeleLogBrowser } from './interfaces/TelecommsLogBrowser';
+import { Telemonitor } from './interfaces/TelecommsMonitor';
+import { TelePDALog } from './interfaces/TelecommsPDALog';
+import { TeleInteract } from './interfaces/TelecommsInteraction';
 import { TankDispenser } from './interfaces/TankDispenser';
 import { Teleporter } from './interfaces/Teleporter';
 import { ThermoMachine } from './interfaces/ThermoMachine';
@@ -319,6 +329,26 @@ const ROUTES = {
     component: () => MechBayPowerConsole,
     scrollable: false,
   },
+  nanite_chamber_control: {
+    component: () => NaniteChamberControl,
+    scrollable: true,
+  },
+  nanite_cloud_control: {
+    component: () => NaniteCloudControl,
+    scrollable: true,
+  },
+  nanite_program_hub: {
+    component: () => NaniteProgramHub,
+    scrollable: true,
+  },
+  nanite_programmer: {
+    component: () => NaniteProgrammer,
+    scrollable: true,
+  },
+  nanite_remote: {
+    component: () => NaniteRemote,
+    scrollable: true,
+  },
   mulebot: {
     component: () => Mule,
     scrollable: false,
@@ -416,6 +446,10 @@ const ROUTES = {
     component: () => PortableGenerator,
     scrollable: false,
   },
+  personal_crafting: {
+    component: () => PersonalCrafting,
+    scrollable: true,
+  },
   portable_pump: {
     component: () => PortablePump,
     scrollable: false,
@@ -491,6 +525,25 @@ const ROUTES = {
   suit_storage_unit: {
     component: () => SuitStorageUnit,
     scrollable: false,
+  },
+  tcommsserver: {
+    component: () => TeleLogBrowser,
+    scrollable: true,
+    theme: 'ntos',
+  },
+  telemonitor: {
+    component: () => Telemonitor,
+    scrollable: true,
+    theme: 'ntos',
+  },
+  telepdalog: {
+    component: () => TelePDALog,
+    scrollable: true,
+    theme: 'ntos',
+  },
+  teleinteract: {
+    component: () => TeleInteract,
+    scrollable: true,
   },
   tanks: {
     component: () => Tank,

@@ -149,6 +149,25 @@
 
 //////////////////////////////////////////////
 //                                          //
+//                MIMICS                    //
+//                                          //
+//////////////////////////////////////////////
+
+/datum/dynamic_ruleset/event/mimics
+	name = "Mimic Infestation"
+	typepath = /datum/round_event/mimic_infestation
+	enemy_roles = list("AI","Security Officer","Head of Security","Captain")
+	required_enemies = list(3,2,2,2,2,1,1,1,0,0)
+	weight = 2
+	cost = 5
+	requirements = list(101,20,15,10,10,10,10,10,10,10)
+	high_population_requirement = 15
+	earliest_start = 30 MINUTES
+	occurances_max = 2
+	chaos_min = 2
+
+//////////////////////////////////////////////
+//                                          //
 //              CLOGGED VENTS               //
 //                                          //
 //////////////////////////////////////////////
@@ -357,10 +376,11 @@
 	typepath = /datum/round_event/ghost_role/operative
 	required_enemies = list(0,0,0,0,0,0,0,0,0,0)
 	weight = 0 //This is changed in nuclearbomb.dm
-	occurances_max = 1
+	occurances_max = 0 //Turned off. For now.
 	requirements = list(10,10,10,10,10,10,10,10,10,10) //SECURE THAT DISK
 	cost = 50
-	chaos_min = 0.5
+	chaos_min = 3
+	map_blacklist = list("LayeniaStation.dmm")
 
 /datum/dynamic_ruleset/event/operative/get_weight()
 	var/datum/round_event_control/operative/loneop = locate(/datum/round_event_control/operative) in SSevents.control
@@ -433,6 +453,7 @@
 	typepath = /datum/round_event/processor_overload
 	cost = 4
 	weight = 2
+	earliest_start = 30 MINUTES
 	repeatable_weight_decrease = 3
 	enemy_roles = list("Chief Engineer","Station Engineer")
 	required_enemies = list(2,2,2,2,1,1,1,1,1,1)
@@ -459,6 +480,7 @@
 	//property_weights = list("extended" = 1)
 	//always_max_weight = TRUE
 	occurances_max = 0
+	map_blacklist = list("LayeniaStation.dmm")
 
 /datum/dynamic_ruleset/event/major_dust
 	name = "Major Space Dust"
@@ -474,6 +496,7 @@
 	repeatable = TRUE
 	//property_weights = list("extended" = 1)
 	occurances_max = 3
+	map_blacklist = list("LayeniaStation.dmm")
 	
 
 /datum/dynamic_ruleset/event/electrical_storm
@@ -531,7 +554,7 @@
 	earliest_start = 40 MINUTES
 	//property_weights = list("teamwork" = 1,"chaos" = 1, "extended" = -1)
 	occurances_max = 1
-	chaos_min = 1.3
+	chaos_min = 1.5
 
 
 /datum/dynamic_ruleset/event/wormholes
@@ -571,15 +594,16 @@
 	//config_tag = "sentient_disease"
 	typepath = /datum/round_event/ghost_role/sentient_disease
 	enemy_roles = list("Virologist","Chief Medical Officer","Captain","Chemist")
-	required_enemies = list(2,1,1,1,1,1,1,0,0,0)
+	required_enemies = list(2,2,2,1,1,1,1,0,0,0)
 	required_candidates = 1
-	weight = 4
-	cost = -5
+	weight = 2
+	cost = 5
+	earliest_start = 30 MINUTES
 	requirements = list(101,101,20,20,15,10,10,10,10,5) // yes, it can even happen in "extended"!
 	//property_weights = list("story_potential" = 1, "extended" = 1, "valid" = -2)
 	high_population_requirement = 5
 	occurances_max = 1
-	chaos_min = 1.5
+	chaos_min = 1.95
 
 /datum/dynamic_ruleset/event/revenant
 	name = "Revenant"
@@ -611,6 +635,22 @@
 	chaos_min = 1.5
 	var/atom/special_target
 	map_blacklist = list("LayeniaStation.dmm")
+
+/datum/dynamic_ruleset/event/crystalline_reentry
+	name = "Crystalline Asteroid"
+	controller = /datum/round_event_control/crystalline_reentry
+	typepath = /datum/round_event/crystalline_reentry
+	enemy_roles = list("Research Director","Chief Engineer","Station Engineer","Captain","Chaplain","AI")
+	required_enemies = list(2,2,2,2,2,2,1,1,1,0)
+	requirements = list(101,101,20,18,16,14,12,10,8,6)
+	high_population_requirement = 15
+	cost = 0
+	occurances_max = 2
+	weight = 3
+	repeatable_weight_decrease = 2
+	chaos_min = 1.5
+	var/atom/special_target
+	map_whitelist = list("LayeniaStation.dmm")
 
 /*
 /datum/dynamic_ruleset/event/immovable_rod/execute()  //I do not know why this is necessary

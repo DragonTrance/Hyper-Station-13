@@ -1795,6 +1795,11 @@ datum/sprite_accessory/mam_tails/insect
 	name = "Synthetic Lizard - Pecs Light"
 	icon_state = "synthlizpecslight"
 
+/datum/sprite_accessory/mam_body_markings/protogenlight
+	name = "Protogen-light"
+	icon_state = "protogenlight"
+	icon = 'modular_citadel/icons/mob/markings_notmammals.dmi'
+
 /******************************************
 ************ Taur Bodies ******************
 *******************************************/
@@ -2247,6 +2252,11 @@ datum/sprite_accessory/mam_tails/insect
 	color_src = MATRIXED
 	name = "Synthetic Lizard - Narrow Cobra Hood"
 	icon_state = "synth_cobraslim"
+
+/datum/sprite_accessory/antenna/synthliz/synthliz_cobrahood_alt
+	color_src = MATRIXED
+	name = "Synthetic Lizard - Cobra Hood Inner"
+	icon_state = "synth_cobrahood_alt"
 
 // *** Snooooow flaaaaake ***
 
